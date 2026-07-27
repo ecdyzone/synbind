@@ -13,10 +13,12 @@ reacting to:
 
 | Pick this | To see |
 |---|---|
-| **TGF-β1** + synNotch | The blocking failure — a secreted ligand cannot pull, so the receptor never fires. Suggests SNIPR. |
-| **TGF-β1** + SNIPR | A passing result across four binder formats: scFv in both orientations, a nanobody, a natural receptor ectodomain. |
-| **CD3ε** + synNotch | A passing result on the *original* scaffold, where the tool ranks the famous antibody (UCHT1) below a humanized one — because these cells go into a recipient. |
+| **CD3ε** + **Jurkat** | The one to show first. Jurkat is a T-cell line, so it carries CD3ε itself — the binder finds its target at home and the receptor is stuck on. Same construct, different cell, opposite verdict. |
+| **TGF-β1** + synNotch | The other blocking failure — a released signal cannot pull, so the receptor never fires. Suggests SNIPR. |
+| **CD3ε** + pig islet cell | The tool ranks the famous antibody (UCHT1) *below* a humanized one, because these cells go into a recipient. Switch the cell to HEK293 and the reasoning visibly changes. |
+| **TGF-β1** + SNIPR | Four binder formats compared: scFv both ways round, a nanobody, a natural receptor piece. |
 | Type **CD3** | Ambiguity resolved rather than guessed: ε, δ and γ are offered. |
+| Any **Use this** button | Overriding the suggestion. The choice is carried through to the sequence and the exported record. |
 
 VEGF-A, CD3δ, CD3γ and CD47 resolve but have no binders, which is its own state.
 
@@ -49,10 +51,14 @@ P09693, for CD3δ and CD3γ) exist only in the mock, to demonstrate resolving th
 
 ## Guardrails in the page itself
 
+The page says "mock" in exactly three places — the banner, the footer label, and the
+build tag. Repeating it in every panel was noise; the banner does the job.
+
 - A persistent header badge, visible in every screenshot.
-- Copying a sequence, or downloading the FASTA or JSON, prepends a
-  `# MOCK DATA — invented, not a real sequence` line, so a paste into a lab notebook
-  or an order form carries its own warning. Downloaded filenames end in `_MOCK`.
+- Copying or downloading a sequence prepends a
+  `# MOCK DATA — invented, not a real sequence` line, and filenames end in `_MOCK`.
+  This is the one place the warning must be repeated: exported content travels
+  somewhere the banner cannot follow it.
 - A build tag in the footer, so feedback can be tied to the version it was written
   against.
 

@@ -94,7 +94,7 @@ button { font: inherit; color: inherit; }
   html { scroll-behavior: auto; }
 }
 
-.wrap { max-width: 940px; margin: 0 auto; padding: 0 20px 96px; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 96px; }
 
 /* ── Mock badge ───────────────────────────────────────────── */
 
@@ -104,7 +104,6 @@ button { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--mock-line);
   color: var(--mock);
   font-size: 12.5px; font-weight: 600;
-  letter-spacing: .02em;
   padding: 7px 20px;
   display: flex; gap: 8px; align-items: center; justify-content: center;
   text-align: center;
@@ -113,19 +112,16 @@ button { font: inherit; color: inherit; }
 
 /* ── Masthead ─────────────────────────────────────────────── */
 
-header.mast {
-  border-bottom: 1px solid var(--line);
-  background: var(--surface);
-}
+header.mast { border-bottom: 1px solid var(--line); background: var(--surface); }
 .mast-in {
-  max-width: 940px; margin: 0 auto; padding: 22px 20px 20px;
+  max-width: 900px; margin: 0 auto; padding: 22px 20px 20px;
   display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
 }
 .logo { font-size: 21px; font-weight: 650; letter-spacing: -0.02em; }
 .logo b { color: var(--accent); font-weight: 650; }
 .tagline { color: var(--text-2); font-size: 14px; }
 
-/* ── Cards & layout ───────────────────────────────────────── */
+/* ── Cards & steps ────────────────────────────────────────── */
 
 .card {
   background: var(--surface);
@@ -134,11 +130,8 @@ header.mast {
   box-shadow: var(--shadow);
 }
 
-.step { margin-top: 26px; }
-.step-head {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 10px;
-}
+.step { margin-top: 24px; }
+.step-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .step-num {
   width: 21px; height: 21px; flex: none;
   border-radius: 50%;
@@ -147,9 +140,8 @@ header.mast {
   font-size: 11.5px; font-weight: 700;
   display: grid; place-items: center;
 }
-.step-head h2 { font-size: 14px; letter-spacing: .01em; }
-.step-hint { color: var(--text-3); font-size: 13px; margin-left: auto; }
-@media (max-width: 620px) { .step-hint { display: none; } }
+.step-head h2 { font-size: 14px; }
+.step-head .why { margin-left: auto; }
 
 /* ── Target picker ────────────────────────────────────────── */
 
@@ -163,11 +155,7 @@ header.mast {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-.picker input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-bg);
-}
+.picker input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
 .picker input::placeholder { color: var(--text-3); }
 
 .menu {
@@ -211,9 +199,8 @@ header.mast {
 }
 .chip.soluble  { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
 .chip.membrane { background: var(--ok-bg);     color: var(--ok);     border-color: transparent; }
-.chip.warn     { background: var(--warn-bg);   color: var(--warn);   border-color: transparent; }
 
-/* ── Selected target bar ──────────────────────────────────── */
+/* ── Selected bars ────────────────────────────────────────── */
 
 .selected { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 13px 15px; }
 .selected .who { font-weight: 650; font-size: 16px; }
@@ -224,6 +211,18 @@ header.mast {
   cursor: pointer; text-decoration: underline; text-underline-offset: 2px;
 }
 .selected .linkish { margin-left: auto; }
+
+/* ── Host cell select ─────────────────────────────────────── */
+
+.host { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 15px; }
+.host select {
+  font: inherit; font-size: 15px; color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 11px; cursor: pointer; max-width: 100%;
+}
+.host select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+.host .sub { color: var(--text-3); font-size: 13px; }
 
 /* ── Scaffold cards ───────────────────────────────────────── */
 
@@ -240,24 +239,17 @@ header.mast {
   display: flex; flex-direction: column; gap: 7px;
 }
 .scaf:hover { border-color: var(--text-3); }
-.scaf[aria-pressed="true"] {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-bg), var(--shadow);
-}
-.scaf-top { display: flex; align-items: center; gap: 9px; }
+.scaf[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg), var(--shadow); }
 .scaf-name { font-weight: 650; font-size: 15.5px; }
 .scaf-desc { color: var(--text-2); font-size: 13.5px; }
 
-/* ── Verdict panels ───────────────────────────────────────── */
+/* ── Verdict ──────────────────────────────────────────────── */
 
-.verdict { margin-top: 26px; overflow: hidden; }
-.verdict-head {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--line);
-}
-.verdict.blocked .verdict-head { background: var(--fail-bg); border-bottom-color: transparent; }
-.verdict.ok      .verdict-head { background: var(--ok-bg);   border-bottom-color: transparent; }
+.verdict { margin-top: 24px; overflow: hidden; }
+.verdict-head { display: flex; align-items: flex-start; gap: 12px; padding: 18px 20px; }
+.verdict.blocked .verdict-head { background: var(--fail-bg); }
+.verdict.ok      .verdict-head { background: var(--ok-bg); }
+.verdict.none    .verdict-head { background: var(--surface-2); }
 
 .mark {
   width: 26px; height: 26px; flex: none; margin-top: 1px;
@@ -266,15 +258,15 @@ header.mast {
 }
 .blocked .mark { background: var(--fail); }
 .ok .mark      { background: var(--ok); }
+.none .mark    { background: var(--text-3); }
 
 .verdict-head h2 { font-size: 17px; }
 .blocked .verdict-head h2 { color: var(--fail); }
 .ok .verdict-head h2      { color: var(--ok); }
-.verdict-head p { margin-top: 5px; color: var(--text); font-size: 14.5px; max-width: 68ch; }
+.verdict-head p { margin-top: 5px; font-size: 14.5px; max-width: 64ch; }
 
-.because { padding: 16px 20px 18px; border-top: 1px solid var(--line-soft); }
-.because h3 { font-size: 13px; color: var(--text-2); margin-bottom: 7px; }
-.because p { color: var(--text-2); font-size: 14px; max-width: 72ch; }
+.because { padding: 16px 20px 18px; }
+.because p { color: var(--text-2); font-size: 14px; max-width: 68ch; }
 .because p + p { margin-top: 9px; }
 
 .fixbar {
@@ -299,11 +291,9 @@ header.mast {
 /* ── Tabs ─────────────────────────────────────────────────── */
 
 .tabs {
-  display: flex; gap: 2px;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--line);
-  background: var(--surface);
-  overflow-x: auto;
+  display: flex; gap: 2px; padding: 0 20px;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  background: var(--surface); overflow-x: auto;
 }
 .tab {
   padding: 12px 14px 10px;
@@ -313,59 +303,60 @@ header.mast {
 }
 .tab:hover { color: var(--text); }
 .tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
-.tab .n {
-  display: inline-block; margin-left: 6px; padding: 0 6px;
-  border-radius: 999px; background: var(--surface-2);
-  font-size: 11.5px; color: var(--text-3);
-}
 .pane { padding: 20px; }
 
 /* ── Recommendation ───────────────────────────────────────── */
+
+.override {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: -20px -20px 18px; padding: 11px 20px;
+  background: var(--warn-bg); color: var(--warn);
+  font-size: 13.5px; font-weight: 550;
+}
+.override .linkish { color: inherit; margin-left: auto; }
 
 .rec-top { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
 .rec-name { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .rec-meta { color: var(--text-2); font-size: 13.5px; margin-top: 3px; }
 .rec-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
 
-.why {
+.why-box {
   margin-top: 14px; padding: 14px 16px;
   background: var(--accent-bg);
   border-radius: var(--radius);
   font-size: 14.5px; line-height: 1.6;
-  max-width: 74ch;
+  max-width: 68ch;
 }
-.why h3 { font-size: 12.5px; color: var(--accent); margin-bottom: 6px; letter-spacing: .03em; text-transform: uppercase; }
 
-.sub { margin-top: 24px; }
-.sub h3 { font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
+.sub { margin-top: 22px; }
+.sub > h3 { font-size: 12.5px; color: var(--text-3); margin-bottom: 8px; letter-spacing: .04em; text-transform: uppercase; }
 
-.finding {
-  display: grid; grid-template-columns: 22px 1fr; gap: 10px;
-  padding: 11px 0;
-  border-top: 1px solid var(--line-soft);
-}
-.finding:first-of-type { border-top: 0; }
+.finding { display: grid; grid-template-columns: 20px 1fr; gap: 10px; padding: 9px 0; }
+.finding + .finding { border-top: 1px solid var(--line-soft); }
 .dot {
-  width: 17px; height: 17px; margin-top: 2px;
+  width: 16px; height: 16px; margin-top: 3px;
   border-radius: 50%; display: grid; place-items: center;
-  font-size: 11px; font-weight: 800; color: #fff;
+  font-size: 10px; font-weight: 800; color: #fff;
 }
 .dot.pass { background: var(--ok); }
 .dot.warn { background: var(--warn); }
-.dot.fail { background: var(--fail); }
 .f-title { font-weight: 600; font-size: 14.5px; }
-.f-detail { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 76ch; }
-.f-rule { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; color: var(--text-3); margin-top: 4px; }
-.f-caution {
-  margin-top: 7px; padding: 8px 11px;
-  background: var(--warn-bg); color: var(--warn);
-  border-radius: 7px; font-size: 13px; max-width: 76ch;
+.f-detail { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 68ch; }
+
+details.more { margin-top: 6px; }
+details.more > summary {
+  cursor: pointer; list-style: none;
+  color: var(--accent); font-size: 13.5px; font-weight: 550;
+  padding: 8px 0;
 }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::before { content: "▸ "; }
+details.more[open] > summary::before { content: "▾ "; }
 
 .caveats { list-style: none; padding: 0; margin: 0; }
-.caveats li { position: relative; padding: 7px 0 7px 22px; color: var(--text-2); font-size: 14px; max-width: 76ch; }
+.caveats li { position: relative; padding: 6px 0 6px 22px; color: var(--text-2); font-size: 14px; max-width: 68ch; }
 .caveats li::before {
-  content: "!"; position: absolute; left: 0; top: 8px;
+  content: "!"; position: absolute; left: 0; top: 7px;
   width: 15px; height: 15px; border-radius: 50%;
   background: var(--warn-bg); color: var(--warn);
   font-size: 10px; font-weight: 800;
@@ -375,11 +366,12 @@ header.mast {
 /* ── Comparison ───────────────────────────────────────────── */
 
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
-table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 720px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 620px; }
 th, td { text-align: left; padding: 11px 13px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
-th { font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; background: var(--surface-2); }
+th { font-size: 11.5px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; background: var(--surface-2); }
 tr:last-child td { border-bottom: 0; }
 tr.top td { background: var(--accent-bg); }
+tr.chosen td { background: var(--warn-bg); }
 td .nm { font-weight: 600; white-space: nowrap; }
 td .sm { color: var(--text-3); font-size: 12.5px; }
 
@@ -392,36 +384,32 @@ td .sm { color: var(--text-3); font-size: 12.5px; }
 tr.top .rank { background: var(--accent); color: #fff; }
 
 tr.row { cursor: pointer; }
-tr.row:hover td { background: var(--surface-2); }
-tr.row.top:hover td { background: var(--accent-bg); filter: brightness(.98); }
+tr.row:hover td { filter: brightness(.985); }
 .chev { color: var(--text-3); font-size: 10px; display: inline-block; transition: transform .15s; }
 tr.row[aria-expanded="true"] .chev { transform: rotate(90deg); }
 td.detail { padding: 0; background: var(--surface-2); }
-.detail-in { padding: 4px 18px 18px; }
-.detail-in .why { margin-top: 14px; background: var(--surface); }
-.detail-in .why h3 { color: var(--text-2); }
+.detail-in { padding: 2px 18px 18px; }
+.detail-in .why-box { background: var(--surface); }
 
-.rejected { margin-top: 26px; }
+.rejected { margin-top: 24px; }
 .rej {
   display: flex; gap: 12px; align-items: flex-start;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--fail);
-  border-radius: 8px;
-  background: var(--surface);
+  padding: 11px 14px;
+  border: 1px solid var(--line); border-left: 3px solid var(--fail);
+  border-radius: 8px; background: var(--surface);
   margin-bottom: 8px;
 }
 .rej .x {
-  width: 17px; height: 17px; margin-top: 2px; flex: none;
+  width: 16px; height: 16px; margin-top: 3px; flex: none;
   border-radius: 50%; background: var(--fail); color: #fff;
-  font-size: 11px; font-weight: 800; display: grid; place-items: center;
+  font-size: 10px; font-weight: 800; display: grid; place-items: center;
 }
 .rej .nm { font-weight: 600; font-size: 14.5px; }
-.rej .rs { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 76ch; }
+.rej .rs { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 68ch; }
 
-.note { padding: 12px 14px; border-radius: 8px; background: var(--surface-2); color: var(--text-2); font-size: 13.5px; max-width: 78ch; }
+.note { padding: 11px 14px; border-radius: 8px; background: var(--surface-2); color: var(--text-2); font-size: 13.5px; max-width: 70ch; }
 
-/* ── Raw / sequence ───────────────────────────────────────── */
+/* ── Sequence ─────────────────────────────────────────────── */
 
 .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; }
 .leg { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-2); }
@@ -438,8 +426,6 @@ td.detail { padding: 0; background: var(--surface-2); }
 .tmd    { color: var(--seg-tmd); }
 .output { color: var(--seg-output); }
 
-.segtable { margin-top: 16px; }
-
 pre.json {
   margin: 0; padding: 14px 16px;
   border: 1px solid var(--line); border-radius: var(--radius);
@@ -449,26 +435,26 @@ pre.json {
   overflow-x: auto; color: var(--text-2);
 }
 
-details.raw { margin-top: 16px; }
-details.raw > summary { cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--accent); padding: 8px 0; list-style: none; }
-details.raw > summary::-webkit-details-marker { display: none; }
-details.raw > summary::before { content: "▸ "; }
-details.raw[open] > summary::before { content: "▾ "; }
+/* ── Popover ──────────────────────────────────────────────── */
 
-/* ── Provenance popover ───────────────────────────────────── */
-
+.why {
+  background: none; border: 0; padding: 0;
+  color: var(--accent); cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  text-decoration: underline; text-underline-offset: 2px; text-decoration-style: dotted;
+}
+.why::before { content: "ⓘ "; text-decoration: none; }
 .prov {
   background: none; border: 0; padding: 0;
   color: var(--accent); cursor: pointer;
   font-size: inherit; font-weight: 500;
-  text-decoration: underline; text-underline-offset: 2px;
-  text-decoration-style: dotted;
+  text-decoration: underline; text-underline-offset: 2px; text-decoration-style: dotted;
 }
 .prov::before { content: "ⓘ "; text-decoration: none; }
 
 #pop {
   position: absolute; z-index: 60; display: none;
-  width: min(360px, calc(100vw - 32px));
+  width: min(340px, calc(100vw - 32px));
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -478,17 +464,12 @@ details.raw[open] > summary::before { content: "▾ "; }
 #pop h4 { margin: 0 0 8px; font-size: 13px; }
 #pop dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; font-size: 12.5px; }
 #pop dt { color: var(--text-3); }
-#pop dd { margin: 0; color: var(--text); word-break: break-word; }
+#pop dd { margin: 0; word-break: break-word; }
 #pop dd.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-#pop .warnline {
-  margin-top: 10px; padding: 7px 9px; border-radius: 6px;
-  background: var(--mock-bg); color: var(--mock);
-  font-size: 11.5px; font-weight: 600;
-}
+#pop p { font-size: 13px; color: var(--text-2); line-height: 1.55; }
 
 .toast {
-  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%);
-  z-index: 80;
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 80;
   background: var(--text); color: var(--bg);
   padding: 10px 16px; border-radius: 8px;
   font-size: 13.5px; font-weight: 500;
@@ -498,7 +479,7 @@ details.raw[open] > summary::before { content: "▾ "; }
 .toast.on { opacity: 1; }
 
 footer.foot {
-  margin-top: 40px; padding-top: 18px;
+  margin-top: 36px; padding-top: 16px;
   border-top: 1px solid var(--line);
   color: var(--text-3); font-size: 12.5px;
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between;
@@ -508,7 +489,7 @@ footer.foot .build { font-family: ui-monospace, SFMono-Regular, Menlo, monospace
 </head>
 <body>
 
-<div class="mockbar">⚠ MOCK DATA <span>— sequences, identifiers and citations on this page are invented for layout review. Nothing here is real.</span></div>
+<div class="mockbar">⚠ MOCK <span>— a picture of the interface. Every sequence, ID and citation on this page is made up.</span></div>
 
 <header class="mast">
   <div class="mast-in">
@@ -519,500 +500,424 @@ footer.foot .build { font-family: ui-monospace, SFMono-Regular, Menlo, monospace
 
 <div class="wrap">
 
-  <!-- Step 1 ─ target -->
   <section class="step">
     <div class="step-head">
       <span class="step-num">1</span>
       <h2>What should the cell sense?</h2>
-      <span class="step-hint">Type a protein name — no accession needed</span>
     </div>
     <div class="picker">
       <input id="q" type="text" autocomplete="off" spellcheck="false"
-             placeholder="e.g. TGF-beta1, CD3, VEGF…" aria-label="Target protein">
+             placeholder="Type a protein name — CD3, TGF-beta1, VEGF…" aria-label="Target protein">
       <div id="menu" class="menu" hidden></div>
     </div>
     <div id="selected"></div>
   </section>
 
-  <!-- Step 2 ─ scaffold -->
   <section class="step" id="step2" hidden>
     <div class="step-head">
       <span class="step-num">2</span>
+      <h2>Which cell will carry the receptor?</h2>
+      <button class="why" data-pop="why_host">why this matters</button>
+    </div>
+    <div class="card host">
+      <select id="host" aria-label="Host cell"></select>
+      <span class="sub" id="hostSub"></span>
+    </div>
+  </section>
+
+  <section class="step" id="step3" hidden>
+    <div class="step-head">
+      <span class="step-num">3</span>
       <h2>Which receptor scaffold?</h2>
-      <span class="step-hint">The chassis the binder is fused into</span>
     </div>
     <div class="scaffolds" id="scaffolds"></div>
   </section>
 
-  <!-- Result -->
   <div id="result"></div>
 
   <footer class="foot">
-    <span>synbind interface mock · not a working application · all data invented — see <code>MOCK.md</code></span>
+    <span>synbind interface mock</span>
     <span class="build" id="build"></span>
   </footer>
 </div>
 
-<div id="pop" role="dialog" aria-label="Source record"></div>
+<div id="pop" role="dialog" aria-label="Details"></div>
 <div id="toast" class="toast" role="status"></div>
 
 <script>
 "use strict";
 /* ═══════════════════════════════════════════════════════════════
    MOCK DATA — every value below is invented. See ../MOCK.md.
-   Accessions are the ones already recorded in data/targets.yaml
-   (still verified:false there). Everything else is fiction.
    ═══════════════════════════════════════════════════════════════ */
 
-const BUILD = { tag: "mock-2", date: "2026-07-27" };
+const BUILD = { tag: "mock-3", date: "2026-07-27" };
 
-const PROV = {
-  tgfb1_uniprot: {
-    title: "UniProt · P01137",
-    fields: { Source: "UniProt", Accession: "P01137", Record: "TGFB1_HUMAN",
-              Retrieved: "2026-07-21", "Curated by": "m.amaral",
-              Note: "Accession recorded from memory; not yet checked against UniProt." }
-  },
-  cd3e_uniprot: {
-    title: "UniProt · P07766",
-    fields: { Source: "UniProt", Accession: "P07766", Record: "CD3E_HUMAN",
-              Retrieved: "2026-07-21", "Curated by": "m.amaral",
-              Note: "Accession recorded from memory; not yet checked against UniProt." }
-  },
-  tb1_7: {
-    title: "PDB · MOCK-7XQ1",
-    fields: { Source: "PDB (invented)", Identifier: "MOCK-7XQ1",
-              Entry: "Humanized Fab TB1-7 in complex with human TGF-β1",
-              Method: "X-ray, 2.1 Å", Deposited: "2024-03-11", "Curated by": "m.amaral" }
-  },
-  c12: {
-    title: "Literature · MOCK-DOI 10.0000/mock.2023.114",
-    fields: { Source: "literature (invented)", DOI: "10.0000/mock.2023.114",
-              Paper: "Single-domain antibodies against latent TGF-β1",
-              Year: "2023", "Curated by": "m.amaral",
-              Note: "Sequence taken from the supplementary table; no structure deposited." }
-  },
-  tgfbr2: {
-    title: "PDB · MOCK-3KFD",
-    fields: { Source: "PDB (invented)", Identifier: "MOCK-3KFD",
-              Entry: "TGF-β type II receptor ectodomain bound to TGF-β1",
-              Method: "X-ray, 2.6 Å", "Curated by": "m.amaral" }
-  },
-  h9: {
-    title: "PDB · MOCK-8LRC",
-    fields: { Source: "PDB (invented)", Identifier: "MOCK-8LRC",
-              Entry: "Humanized Fab hCD3-9 in complex with human CD3ε",
-              Method: "X-ray, 2.4 Å", Deposited: "2025-01-08", "Curated by": "m.amaral" }
-  },
-  ucht1: {
-    title: "PDB · MOCK-1XIW",
-    fields: { Source: "PDB (invented)", Identifier: "MOCK-1XIW",
-              Entry: "UCHT1 Fab in complex with human CD3ε",
-              Method: "X-ray, 2.1 Å", "Curated by": "m.amaral",
-              Note: "Record present in data/binders_seed.yaml with sequences still TODO." }
-  },
-  snipr: {
-    title: "Literature · SNIPR scaffold",
-    fields: { Source: "literature", Reference: "Zhu et al. (2022) Cell",
-              Parts: "signal peptide, core, TMD, GAL4-VP64 output",
-              File: "data/scaffolds/snipr.yaml",
-              Note: "Part sequences in this mock are invented placeholders." }
-  },
-  synnotch: {
-    title: "Literature · synNotch scaffold",
-    fields: { Source: "literature", Reference: "Morsut et al. (2016) Nature",
-              Parts: "signal peptide, Notch NRR core, TMD, GAL4-VP64 output",
-              File: "data/scaffolds/synnotch.yaml",
-              Note: "Part sequences in this mock are invented placeholders." }
-  },
-  linker: {
-    title: "Linker · (G4S)3",
-    fields: { Source: "curated", Identifier: "g4s_x3", Sequence: "GGGGSGGGGSGGGGS",
-              File: "data/linkers.yaml",
-              Note: "Standard flexible scFv linker. This one is real." }
-  }
+const POP = {
+  why_host: { title: "Why the cell matters",
+    text: "A binder can accidentally grab its own target on the cell it lives in. Then the receptor is switched on all the time, whatever else happens — and the experiment is dead before it starts. Which proteins sit on that surface depends entirely on the cell you use, so synbind needs to know it. It also decides whether the binder's origin matters: a mouse-derived framework is a problem in a transplanted cell and irrelevant in a dish." },
+
+  tgfb1_uniprot: { title: "UniProt · P01137",
+    fields: { Source:"UniProt", Accession:"P01137", Record:"TGFB1_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  cd3e_uniprot: { title: "UniProt · P07766",
+    fields: { Source:"UniProt", Accession:"P07766", Record:"CD3E_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  tb1_7: { title: "PDB · MOCK-7XQ1",
+    fields: { Source:"PDB", Identifier:"MOCK-7XQ1", Entry:"Humanized Fab TB1-7 with human TGF-β1", Method:"X-ray, 2.1 Å", Curated:"m.amaral" } },
+  c12: { title: "Paper · 10.0000/mock.2023.114",
+    fields: { Source:"literature", DOI:"10.0000/mock.2023.114", Paper:"Single-domain antibodies against latent TGF-β1", Curated:"m.amaral" } },
+  tgfbr2: { title: "PDB · MOCK-3KFD",
+    fields: { Source:"PDB", Identifier:"MOCK-3KFD", Entry:"TGFBR2 ectodomain with TGF-β1", Method:"X-ray, 2.6 Å", Curated:"m.amaral" } },
+  h9: { title: "PDB · MOCK-8LRC",
+    fields: { Source:"PDB", Identifier:"MOCK-8LRC", Entry:"Humanized Fab hCD3-9 with human CD3ε", Method:"X-ray, 2.4 Å", Curated:"m.amaral" } },
+  ucht1: { title: "PDB · MOCK-1XIW",
+    fields: { Source:"PDB", Identifier:"MOCK-1XIW", Entry:"UCHT1 Fab with human CD3ε", Method:"X-ray, 2.1 Å", Curated:"m.amaral" } },
+  snipr: { title: "SNIPR scaffold",
+    fields: { Source:"literature", Reference:"Zhu et al. (2022) Cell", File:"data/scaffolds/snipr.yaml" } },
+  synnotch: { title: "synNotch scaffold",
+    fields: { Source:"literature", Reference:"Morsut et al. (2016) Nature", File:"data/scaffolds/synnotch.yaml" } },
+  linker: { title: "Linker · (G4S)₃",
+    fields: { Source:"curated", Sequence:"GGGGSGGGGSGGGGS", File:"data/linkers.yaml" } }
 };
 
 const TARGETS = [
   { id:"tgfb1", name:"TGF-β1", gene:"TGFB1", acc:"P01137", modality:"soluble",
     aliases:["tgfb1","tgf-beta1","tgf beta 1","transforming growth factor beta-1","tgfb"],
-    blurb:"Secreted signalling protein. Relevant to fibrosis and chronic rejection.",
+    blurb:"Released into the space between cells. Linked to fibrosis and chronic rejection.",
     prov:"tgfb1_uniprot", ready:true },
   { id:"cd3e", name:"CD3ε", gene:"CD3E", acc:"P07766", modality:"membrane_bound",
-    aliases:["cd3","cd3e","cd3 epsilon","t-cell surface glycoprotein cd3 epsilon"],
-    blurb:"Part of the T-cell receptor complex. Senses that a T cell is touching this cell.",
+    aliases:["cd3","cd3e","cd3 epsilon"],
+    blurb:"Sits on T cells. Senses that a T cell is touching this cell.",
     prov:"cd3e_uniprot", ready:true },
   { id:"vegfa", name:"VEGF-A", gene:"VEGFA", acc:"P15692", modality:"soluble",
-    aliases:["vegf","vegfa","vegf-a","vascular endothelial growth factor a"],
-    blurb:"Secreted, dimeric. Relevant to graft vascularisation.",
-    prov:null, ready:false },
+    aliases:["vegf","vegfa","vegf-a"], blurb:"Released, and travels. Linked to blood-vessel growth.", ready:false },
   { id:"cd3d", name:"CD3δ", gene:"CD3D", acc:"P04234", modality:"membrane_bound",
-    aliases:["cd3","cd3d","cd3 delta"],
-    blurb:"A different chain of the same complex.", prov:null, ready:false },
+    aliases:["cd3","cd3d","cd3 delta"], blurb:"A different chain of the same T-cell complex.", ready:false },
   { id:"cd3g", name:"CD3γ", gene:"CD3G", acc:"P09693", modality:"membrane_bound",
-    aliases:["cd3","cd3g","cd3 gamma"],
-    blurb:"A different chain of the same complex.", prov:null, ready:false },
+    aliases:["cd3","cd3g","cd3 gamma"], blurb:"A different chain of the same T-cell complex.", ready:false },
   { id:"cd47", name:"CD47", gene:"CD47", acc:"Q08722", modality:"membrane_bound",
-    aliases:["cd47","iap","integrin-associated protein"],
-    blurb:"On nearly every cell — kept as a benchmark, not a useful sensor input.",
-    prov:null, ready:false }
+    aliases:["cd47","iap"], blurb:"On nearly every cell, so it says very little on its own.", ready:false }
+];
+
+/* Which cell carries the receptor. `displays` lists targets that sit on this
+   cell's own surface — the cause of a receptor that is stuck on. */
+const HOSTS = [
+  { id:"pig_islet", name:"Pig islet cell", kind:"primary cell", species:"pig",
+    transplanted:true,  displays:{ cd47:"probably" } },
+  { id:"pig_endo",  name:"Pig endothelial cell", kind:"primary cell", species:"pig",
+    transplanted:true,  displays:{ cd47:"probably" } },
+  { id:"hek293",    name:"HEK293", kind:"human cell line", species:"human",
+    transplanted:false, displays:{ cd47:"yes" } },
+  { id:"jurkat",    name:"Jurkat", kind:"human T-cell line", species:"human",
+    transplanted:false, displays:{ cd3e:"yes", cd3d:"yes", cd3g:"yes", cd47:"yes" } },
+  { id:"k562",      name:"K562", kind:"human cell line", species:"human",
+    transplanted:false, displays:{ cd47:"yes" } },
+  { id:"other",     name:"Something else", kind:"not in the list", species:null,
+    transplanted:true,  displays:null }
 ];
 
 const SCAFFOLDS = [
-  { id:"synnotch", name:"synNotch", modalities:["membrane_bound"], prov:"synnotch",
-    desc:"Senses a ligand held on a neighbouring cell. Needs physical pulling force to switch on.",
-    note:"Original, best characterised." },
-  { id:"snipr", name:"SNIPR", modalities:["membrane_bound","soluble"], prov:"snipr",
-    desc:"Also reported to respond to free-floating ligands, depending on how it is configured.",
-    note:"Newer, cleaner off-state." }
+  { id:"synnotch", name:"synNotch", prov:"synnotch", modalities:["membrane_bound"],
+    desc:"Switches on when a neighbouring cell pulls on it." },
+  { id:"snipr", name:"SNIPR", prov:"snipr", modalities:["membrane_bound","soluble"],
+    desc:"Also reported to answer to free-floating signals." }
 ];
 
 /* ── Sequences (invented) ────────────────────────────────── */
 const SEQ = {
   LINKER:"GGGGSGGGGSGGGGS",
-  // anti-TGF-β1
   TB_VH:"EVQLVQSGAEVKKPGASVKVSCKTSGYTFTNYGMHWVRQAPGQRLEWMGWINTYNGSPTYADDFKGRFVFSLDTSVSTAYLQISSLKAEDTAVYYCARDQGYSLDYWGQGTLVTVSS",
   TB_VL:"DIQMTQSPSSLSASVGDRVTITCRASQDIRNYLNWYQQKPGKAPKLLIYYTSRLHSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQGNTLPWTFGQGTKVEIK",
   VHH:"QVQLVESGGGLVQAGGSLRLSCAASGRTFSTYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAADRSTYWGQGTQVTVSS",
   ECTO:"TIPPHVQKSVNNDMIVTDNNGAVKFPQLCKFCDVRFSTCDNQKSCMSNCSITSICEKPQEVSVAVWRKNDENITLETVCHDPKLPYHDFILEDAASPKCIMKEKKKPGETFFMCSCSSDECNDNIIFSEEYNTSNPD",
-  // anti-CD3ε
   H9_VH:"EVQLVESGGGLVQPGGSLRLSCAASGYSFTGYTMNWVRQAPGKGLEWVGLIDPYYGGTSYAQKFQGRATLTADKSTSTAYMELSSLRSEDTAVYYCARSGYYDGAWFAYWGQGTLVTVSS",
   H9_VL:"DIQMTQSPSSLSASVGDRVTITCRASQSIVHSSGNTYLEWYQQKPGKAPKLLIYKVSNRFSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCFQGSHVPWTFGQGTKLEIK",
   U1_VH:"QVQLQQSGAELARPGASVKMSCKASGYTFTRYTMHWVKQRPGQGLEWIGYINPSRGYTNGSQKFKDKATLTTDKSSSTAYMQLSSLTSEDSAVYYCARYYDDHYSLDYWGQGTTLTVSS",
   U1_VL:"DIQMTQTTSSLSASLGDRVTISCRASQDIRNYLNWYQQKPDQTVKLLIYYTSRLHSGVPSKFSGSGSGTDYSLTISNSEQEDIATYFCQQGNTLPWTFAGGTKLEIK"
 };
 
-/* Scaffold parts, per scaffold (invented placeholders). */
 const PARTS = {
-  snipr: {
-    sp:"MGWSCIILFLVATATGVHS",
+  snipr: { sp:"MGWSCIILFLVATATGVHS", tmd:"GVLLLVLLGVGLGLGLLLL",
     core:"PLGSQSVTNAQEVLRSLGDRVDALEQQVSKLSQGLETRDPQAVLRAQQVLSDLQGRLSALEQRVAELEQGSPAQLLRTLADSVGQLQQRVAELEAGLSPQAVRELSQRLDALSQRVGELSQGLAERLDPQAVRALSQRVGDLEQGLSAQAQRLSELEQRLGALSPQAVRELSQRLDGLSQRVAELAQGLSPQAVRALTQRVGDLEQGLSAQAQRLGELEQRLGALSPQAVRELSQRLDALSQRVGELSQGLAERL",
-    tmd:"GVLLLVLLGVGLGLGLLLL",
-    coreName:"core",
-    coreWhat:"Converts ligand binding into a cut."
-  },
-  synnotch: {
-    sp:"MALPVTALLLPLVLLLHAARS",
+    coreName:"core", coreWhat:"Turns binding into a cut." },
+  synnotch: { sp:"MALPVTALLLPLVLLLHAARS", tmd:"AWAAILLLPLLLLLLLAGLGLLLW",
     core:"EPCQNQATCLDRIGGFTCLCPEGFTGRLCEVDIDECQSSPCANGGTCTDLENSFSCLCPPGFAGSRCERDVDECLSQPCQHGGTCLDLPGSYRCRCPPGYTGRHCELETDECASQPCLHGGRCEDLVGGYRCVCPPGYAGRRCEVEIDECASSPCQHGARCHDRVAGYTCECAPGYTGRRCESLIDACQSQPCAHGGTCLDLGDSFRCLCPPGYAGLRCEVDVDECSSQPCLHGGSCQDGVGSYRCLCPPGYTGSRCQTLVDLCARSPCAHGGSCLERSGGYSCLCPPGYAGSHCEVQADPCASQPCLHGGRCESRPGGYVCHCPPGYAGPRCQIEVSPCLSQPCLHGGTCQPTGASFRCSCPPGYTGSRCEIDVNECLSQPCQNGGTCQDLVNGFRCTCPPGYTGLRCEADIDECRSQPCLHGGTCQDGVGSYSCSCPPGYTGLNCQTQVDPCASSPCLHGGSCRPSPQGPVCLCPPGFAGPRCEIQ",
-    tmd:"AWAAILLLPLLLLLLLAGLGLLLW",
-    coreName:"core (force-sensitive catch)",
-    coreWhat:"Holds the catch. Pulling on the binder opens it and exposes the cut site."
-  },
+    coreName:"catch", coreWhat:"Pulling on the binder opens it and exposes the cut site." },
   output:"KLLSSIEQACDICRLKKLKCSKEKPKCAKCLKNNWECRYSPKTKRSPLTRAHLTEVESRLERLEQLFLLIFPREDLDMILKMDSLQDIKALLTGLFVQDNVNKDAVTDRLASVETDMPLTLRQHRISATSSSEESSNKGQRQLTVSDALHYALHDAPRAADLDDVYTHVQQQGSLDLLTQLLQAPPQ"
 };
 
-/* Findings shared across candidates. The modality finding depends on the
-   target/scaffold pair and is generated separately. */
-const F = {
-  provOk: { rule:"provenance.present", sev:"pass", title:"Every part of this design can be traced to a source.",
-            detail:"The binder, the linker and each scaffold part carry a citation you can open and check." },
-  speciesOk: { rule:"species.match", sev:"pass", title:"This binder was raised against the human protein — the one you selected.",
-               detail:"A binder raised against the mouse version would express perfectly and simply never see your ligand." },
-  singleChainOk: { rule:"format.single_chain", sev:"pass", title:"The binder is one continuous chain, so it can be fused straight into the receptor.",
-                   detail:"Anything held together by two separate chains, such as a whole antibody, cannot be used here." },
-  isoOk: { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" }
-};
+/* ── Candidates ──────────────────────────────────────────── */
 
-function modalityFinding(target, scaf) {
-  if (target.modality === "membrane_bound" && scaf.id === "synnotch") return {
-    rule:"modality.compatible", sev:"pass",
-    title:`${target.name} is held on the surface of a neighbouring cell — exactly what synNotch is built for.`,
-    detail:"Contact between the two cells provides the pulling force this scaffold needs to switch on. This is the pairing synNotch was designed around, and the best characterised way to use it."
-  };
-  if (target.modality === "membrane_bound") return {
-    rule:"modality.compatible", sev:"pass",
-    title:`SNIPR responds to a ligand held on a neighbouring cell, like ${target.name}.`,
-    detail:"Its response to cell-surface ligands is the better established of its two modes."
-  };
-  return {
-    rule:"modality.compatible", sev:"pass",
-    title:`SNIPR can respond to a secreted ligand like ${target.name}.`,
-    detail:"Unlike synNotch, it does not depend on physical force transmitted from a neighbouring cell.",
-    caution:"How well it responds depends on the configuration, and this is less well established than its response to ligands held on a cell. Plan to test more than one arrangement."
-  };
-}
-
-/* ── Candidates, per target ──────────────────────────────── */
+const PASS_SOURCE  = { rule:"provenance.present", sev:"pass", title:"Every part traces back to a source.", detail:"" };
+const PASS_SPECIES = { rule:"species.match",      sev:"pass", title:"Raised against the human protein you picked.", detail:"" };
+const PASS_CHAIN   = { rule:"format.single_chain",sev:"pass", title:"One continuous chain — it can be fused into the receptor.", detail:"" };
 
 const CANDIDATES = {
-
   tgfb1: [
-    { id:"tb1_7_vhvl", name:"TB1-7", orientation:"VH–VL", rank:1,
-      format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
-      binder: SEQ.TB_VH + SEQ.LINKER + SEQ.TB_VL, binderLen:239, evidence:"Co-crystal with TGF-β1",
-      rationale:"TB1-7 is the only humanized binder available for TGF-β1 that also has a published structure solved in complex with the target — so we know where it binds, not just that it binds. It is a single chain, it targets the human protein you selected, and it carries one developability flag worth checking: a sugar-attachment site sitting in one of its binding loops. That is a reason to keep an eye on it, not a reason to reject it. This VH–VL arrangement is listed first only because it is the more commonly reported one for this class of binder; the reversed build below is an equally valid candidate.",
+    { id:"tb1_vhvl", name:"TB1-7", orientation:"VH–VL", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"tb1_7", binder:SEQ.TB_VH+SEQ.LINKER+SEQ.TB_VL, binderLen:239,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The only humanized binder for TGF-β1 with a solved structure showing exactly where it binds. Its one flag is a sugar-attachment site in a binding loop — worth watching, not a reason to drop it. This orientation is listed first because it is the more commonly reported one; the reverse build is just as valid.",
       caveats:[
-        "SNIPR's response to secreted ligands depends on the configuration and is less firmly established than its response to ligands held on a neighbouring cell.",
-        "TGF-β1 is released in an inactive, latent form. A receptor built against it may report that TGF-β1 is <em>present</em> rather than that it is <em>active</em> — which are different questions.",
-        "TGF-β1 is a dimer, so one ligand can engage two receptors at once. That affects switching behaviour in ways this sequence-level check does not model.",
-        "Binding strength is not predicted here. Stronger is not better: a binder that holds on too tightly can switch the receptor on with no ligand present at all."
+        "TGF-β1 is released in an inactive form. This receptor may report that it is <em>present</em>, not that it is <em>active</em>.",
+        "TGF-β1 comes as a pair, so one signal can engage two receptors. That changes switching behaviour in ways this check does not cover.",
+        "Binding strength is not predicted. Tighter is not better — too tight and the receptor fires with nothing there."
       ],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"239 amino acids — an ordinary size for this kind of binder.",
-          detail:"SNIPR has no published hard size limit, and nothing about this length is unusual." },
-        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.",
-          detail:"Consistent with the two internal bonds this format normally forms. An odd count would suggest one is left without a partner, which can cause clumping." },
-        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S), at position 55 of the binder.",
-          detail:"It falls inside a binding loop, so a sugar added there could physically block the part that touches the ligand. Common and often harmless — but worth watching if the binder underperforms." },
-        { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.",
-          detail:"This alters the local charge and can gradually reduce binding. It matters for long-term storage more than for a first experiment." },
-        F.isoOk,
-        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.",
-          detail:"Matters here because the engineered cell is displayed to a recipient immune system; a mouse-derived framework would be more visible to it." }
-      ] },
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"239 amino acids — a normal size.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"Consistent with two internal bonds, as expected." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached at position 55, inside a binding loop.",
+          detail:"If it is, it may block the part that touches the target. Common, and often harmless." },
+        { rule:"liability.deamidation", sev:"warn", title:"That same spot can slowly change chemically.",
+          detail:"Matters for long storage more than for a first experiment." },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
 
-    { id:"tb1_7_vlvh", name:"TB1-7", orientation:"VL–VH", rank:2,
-      format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
-      binder: SEQ.TB_VL + SEQ.LINKER + SEQ.TB_VH, binderLen:239, evidence:"Co-crystal with TGF-β1",
-      rationale:"Identical parts to the recommendation, joined in the opposite order. Both are built because the two arrangements do not always fold or behave the same way, and there is no reliable way to tell from sequence alone which will be better. If the first one disappoints at the bench, this is the first thing to try.",
-      caveats:["Same caveats as the VH–VL build — identical sequence content, different arrangement."],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"239 amino acids — identical content to the VH–VL build.", detail:"" },
+    { id:"tb1_vlvh", name:"TB1-7", orientation:"VL–VH", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"tb1_7", binder:SEQ.TB_VL+SEQ.LINKER+SEQ.TB_VH, binderLen:239,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The same two halves as the recommendation, joined the other way round. Both are built because they do not always fold alike and nothing in the sequence tells you which will win. If the first disappoints at the bench, try this one.",
+      caveats:["Same points as the VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"239 amino acids — same content as the VH–VL build.", detail:"" },
         { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
-        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S) in a binding loop.",
-          detail:"The same site as the VH–VL build; the reordering does not remove it." },
-        { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.", detail:"" },
-        F.isoOk,
-        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.", detail:"" }
-      ] },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached inside a binding loop.", detail:"Reordering does not remove it." },
+        { rule:"liability.deamidation", sev:"warn", title:"That same spot can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
 
-    { id:"tgfbr2_trap", name:"TGFBR2 ectodomain", orientation:null, rank:3,
-      format:"Natural receptor piece", origin:"Human", prov:"tgfbr2",
-      binder: SEQ.ECTO, binderLen:137, evidence:"Co-crystal with TGF-β1",
-      rationale:"This is the outside portion of the body's own receptor for TGF-β1, so it is fully human and binds the real thing by design. The trade-off is specificity: natural receptors evolved surrounded by several binding partners, and their relatives are everywhere. If it engages something on the surface of the cell carrying the receptor, that receptor is switched on permanently and the experiment is dead before it starts. synbind cannot check that yet.",
+    { id:"tgfbr2", name:"TGFBR2 piece", orientation:null, format:"Natural receptor piece", origin:"Human", originClass:"human",
+      prov:"tgfbr2", binder:SEQ.ECTO, binderLen:137,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:3,
+      why:() => "The outside part of the body's own receptor for TGF-β1 — fully human, and built to bind the real thing. The trade-off is specificity: natural receptors evolved among several partners and their relatives are everywhere, so this is the most likely of the four to grab something it should not. synbind cannot check that yet.",
       caveats:[
-        "Natural receptor pieces carry substantially higher off-target risk than antibody-derived binders. The screen that would catch this is not built yet.",
-        "One cysteine appears to have lost its partner when the piece was cut from the full receptor, which can cause clumping."
+        "Natural receptor pieces carry the highest off-target risk here. The check that would catch it does not exist yet.",
+        "One cysteine lost its partner when this piece was cut out of the full receptor, which can cause clumping."
       ],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
         { rule:"format.length", sev:"pass", title:"137 amino acids — compact.", detail:"" },
         { rule:"liability.unpaired_cys", sev:"warn", title:"Eleven cysteines — an odd number, so one has no partner.",
-          detail:"Expected when a domain is cut out of a larger protein. A leftover unpaired cysteine can link to the wrong place and cause clumping.",
-          caution:"Of the flags on this page, this is the one most likely to cause real trouble at the bench." },
-        { rule:"liability.nglyc_sequon", sev:"warn", title:"Three sugar-attachment sites.",
-          detail:"Normal for a natural cell-surface protein, which is glycosylated in life — but more sites means more variability between preparations." },
-        { rule:"liability.deamidation", sev:"warn", title:"One N-G pair that can chemically change over time.", detail:"" },
-        F.isoOk,
-        { rule:"immunogenicity.origin", sev:"pass", title:"Entirely human sequence.",
-          detail:"The least visible option to a recipient immune system." }
-      ] },
+          detail:"Expected when a piece is cut out of a bigger protein. It can link to the wrong place and cause clumping." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"Three places a sugar could be attached.",
+          detail:"Normal for a natural surface protein, but it means more variation between batches." },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
 
-    { id:"c12_vhh", name:"C12", orientation:null, rank:4,
-      format:"Nanobody (VHH)", origin:"Camelid (llama)", prov:"c12",
-      binder: SEQ.VHH, binderLen:114, evidence:"Sequence only — no structure",
-      rationale:"The smallest option, a single compact domain that needs no joining and usually folds well — often an advantage when a binder has to sit correctly on a cell surface. Two things hold it back from the top spot: the framework comes from a llama, which a recipient immune system would notice, and there is no published structure, so the evidence that it binds where the paper says it does is weaker than for TB1-7.",
-      caveats:[
-        "Llama-derived framework. For a transplanted cell, everything on the surface is visible to the recipient's immune system.",
-        "No published structure. The binding site is reported, not directly observed."
-      ],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"114 amino acids — the smallest candidate here.",
-          detail:"Small single domains often fold well and display cleanly on a surface." },
+    { id:"c12", name:"C12", orientation:null, format:"Nanobody", origin:"Llama", originClass:"camelid",
+      prov:"c12", binder:SEQ.VHH, binderLen:114,
+      evidence:"Sequence only — no structure", structural:false, cocrystal:false, liabilities:1,
+      why:h => "The smallest option: a single compact domain, no joining needed, and these usually fold well and sit neatly on a surface. What holds it back is the evidence — nobody has solved its structure, so where it binds is reported rather than seen." +
+               (h.transplanted ? " Its llama framework is also a liability in a cell going into a recipient." : ""),
+      caveats:["No published structure. The binding site is reported, not observed."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"114 amino acids — the smallest here.", detail:"Small domains often fold well and display cleanly." },
         { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
         { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
-        { rule:"liability.deamidation", sev:"warn", title:"One N-S pair that can chemically change over time.",
-          detail:"It sits in a structural region rather than a binding loop, so the impact is likely smaller than for a site in a loop." },
-        F.isoOk,
-        { rule:"immunogenicity.origin", sev:"warn", title:"Llama-derived framework, not human.",
-          detail:"A recipient immune system may react to the binder itself. Humanising it is possible but is extra work, and can cost binding strength.",
-          caution:"This is the reason C12 is not the recommendation, despite being the cleanest sequence on the page." }
-      ] }
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"It sits in a structural region, not a binding loop, so it likely matters less." },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] }
   ],
 
   cd3e: [
-    { id:"h9_vhvl", name:"hCD3-9", orientation:"VH–VL", rank:1,
-      format:"scFv (antibody-derived)", origin:"Humanized", prov:"h9",
-      binder: SEQ.H9_VH + SEQ.LINKER + SEQ.H9_VL, binderLen:247, evidence:"Co-crystal with CD3ε",
-      rationale:"hCD3-9 and UCHT1 recognise the same target, and both have a published structure solved in complex with it. They separate on one point, and it is a point that matters specifically here: hCD3-9's framework is humanized, UCHT1's is mouse-derived. Everything on the surface of a transplanted cell is visible to the recipient's immune system, and the binder sits on the surface. UCHT1 is by far the more widely used antibody, and for a cell-culture experiment that would probably settle it — but these cells are meant to go into a recipient, so it does not.",
+    { id:"h9_vhvl", name:"hCD3-9", orientation:"VH–VL", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"h9", binder:SEQ.H9_VH+SEQ.LINKER+SEQ.H9_VL, binderLen:247,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:1,
+      why:h => h.transplanted
+        ? "hCD3-9 and UCHT1 hit the same target and both have solved structures. They split on one point that matters here: hCD3-9's framework is humanized and UCHT1's comes from a mouse. Everything on the surface of a transplanted cell is visible to the recipient, and the binder is on the surface. UCHT1 is far better known — in a dish that would probably settle it, but these cells are going into a recipient."
+        : "hCD3-9 and UCHT1 hit the same target and both have solved structures. In a dish the framework argument does not apply, so these two separate only on cleanliness: hCD3-9 carries one minor flag, UCHT1 carries two. If you already have UCHT1 reagents on the shelf, that is a fair reason to take it instead.",
       caveats:[
-        "CD3ε sits on T cells. If this receptor is ever put <em>into</em> a T cell rather than a donor cell, the binder will meet CD3ε on its own surface and the receptor will be switched on permanently. Safe in the donor-cell setting; a hazard if the chassis changes.",
-        "CD3ε is one chain of a larger receptor complex. How reachable it is depends on how that complex is arranged on the T-cell surface, which this sequence-level check does not model.",
-        "Binding strength is not predicted here. Stronger is not better: a binder that holds on too tightly can switch the receptor on with no ligand present at all.",
-        "This design reports <em>contact with a T cell</em>, not whether that T cell is hostile. What the receptor switches on should be chosen with that in mind."
+        "CD3ε is one chain of a bigger complex. How reachable it is depends on how that complex sits on the T-cell surface.",
+        "This reports <em>contact with a T cell</em>, not whether that T cell is hostile. Choose what it switches on accordingly.",
+        "Binding strength is not predicted. Tighter is not better — too tight and the receptor fires with nothing there."
       ],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"247 amino acids — an ordinary size for this kind of binder.", detail:"" },
-        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.",
-          detail:"Consistent with the two internal bonds this format normally forms." },
-        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.",
-          detail:"Cleaner on this measure than UCHT1, which has one inside a binding loop." },
-        { rule:"liability.deamidation", sev:"pass", title:"No deamidation-prone pairs.", detail:"" },
-        { rule:"liability.isomerization", sev:"warn", title:"One isomerisation-prone site (D-G) in the main binding loop.",
-          detail:"The pair can slowly rearrange, which changes the shape of the loop that touches the ligand. This is the only flag on this candidate and it is the mildest of the four we check for." },
-        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.",
-          detail:"The decisive advantage over UCHT1 for a transplant setting." }
-      ] },
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — a normal size.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"Consistent with two internal bonds, as expected." },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"Cleaner than UCHT1 here, which has one inside a binding loop." },
+        { rule:"liability.deamidation", sev:"pass", title:"Nothing that deamidates.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot in the main binding loop can slowly rearrange.",
+          detail:"That changes the shape of the loop that touches the target. The mildest of the four flags we check for." } ] },
 
-    { id:"h9_vlvh", name:"hCD3-9", orientation:"VL–VH", rank:2,
-      format:"scFv (antibody-derived)", origin:"Humanized", prov:"h9",
-      binder: SEQ.H9_VL + SEQ.LINKER + SEQ.H9_VH, binderLen:247, evidence:"Co-crystal with CD3ε",
-      rationale:"Identical parts to the recommendation, joined in the opposite order. Both are built because the two arrangements do not always fold or behave the same way, and sequence alone cannot tell you which will be better. If the first one disappoints at the bench, this is the first thing to try.",
-      caveats:["Same caveats as the VH–VL build — identical sequence content, different arrangement."],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"247 amino acids — identical content to the VH–VL build.", detail:"" },
+    { id:"h9_vlvh", name:"hCD3-9", orientation:"VL–VH", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"h9", binder:SEQ.H9_VL+SEQ.LINKER+SEQ.H9_VH, binderLen:247,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:1,
+      why:() => "The same two halves as the recommendation, joined the other way round. Both are built because they do not always fold alike and nothing in the sequence tells you which will win.",
+      caveats:["Same points as the VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — same content as the VH–VL build.", detail:"" },
         { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
         { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
-        { rule:"liability.deamidation", sev:"pass", title:"No deamidation-prone pairs.", detail:"" },
-        { rule:"liability.isomerization", sev:"warn", title:"One isomerisation-prone site (D-G) in the main binding loop.",
-          detail:"The same site as the VH–VL build; the reordering does not remove it." },
-        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.", detail:"" }
-      ] },
+        { rule:"liability.deamidation", sev:"pass", title:"Nothing that deamidates.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot in the main binding loop can slowly rearrange.", detail:"" } ] },
 
-    { id:"ucht1_vhvl", name:"UCHT1", orientation:"VH–VL", rank:3,
-      format:"scFv (antibody-derived)", origin:"Murine", prov:"ucht1",
-      binder: SEQ.U1_VH + SEQ.LINKER + SEQ.U1_VL, binderLen:241, evidence:"Co-crystal with CD3ε",
-      rationale:"The best known anti-CD3ε antibody by a wide margin, with a structure in complex with the target and decades of use behind it. If this were an in-vitro experiment it would be the obvious pick. It is ranked below hCD3-9 for one reason: its framework is mouse-derived, and these cells are intended for a recipient who will see it. It also carries two developability flags that hCD3-9 does not. If familiarity and available reagents matter more to you than the immunogenicity argument, this is a defensible choice — the tool is not hiding it, just ranking it.",
+    { id:"ucht1_vhvl", name:"UCHT1", orientation:"VH–VL", format:"scFv", origin:"Mouse", originClass:"murine",
+      prov:"ucht1", binder:SEQ.U1_VH+SEQ.LINKER+SEQ.U1_VL, binderLen:241,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:h => "The best known anti-CD3 antibody by a wide margin, with a solved structure and decades of use behind it." +
+               (h.transplanted
+                 ? " It sits below hCD3-9 for one reason: its framework comes from a mouse, and these cells are going into a recipient who will see it. It also carries two minor flags that hCD3-9 does not. If familiarity and reagents matter more to you than that argument, this is a defensible pick — it is being ranked, not hidden."
+                 : " In a dish its mouse framework costs nothing, so it sits just below hCD3-9 on two minor flags alone. A very reasonable choice."),
       caveats:[
-        "Mouse-derived framework on a cell intended for transplantation. This is the reason it is not the recommendation.",
-        "CD3ε sits on T cells. If this receptor is ever put <em>into</em> a T cell rather than a donor cell, the binder will meet CD3ε on its own surface and the receptor will be switched on permanently.",
-        "Humanising the framework is possible and well-trodden for this antibody, but it is a project in itself and can cost binding strength."
+        "A sugar could be attached inside one of its binding loops.",
+        "CD3ε is one chain of a bigger complex. How reachable it is depends on how that complex sits on the T-cell surface."
       ],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"241 amino acids — an ordinary size for this kind of binder.", detail:"" },
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"241 amino acids — a normal size.", detail:"" },
         { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
-        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S), at position 59 of the binder.",
-          detail:"It sits in a binding loop, where an added sugar could block contact with the ligand.",
-          caution:"There is a second N-P-S at position 52 that looks similar but is <b>not</b> a sugar-attachment site — a proline in the middle position blocks it. Flagging it would be a false alarm, so it is not flagged." },
-        { rule:"liability.deamidation", sev:"warn", title:"Two sites that can slowly change chemically (one N-G, one N-S).",
-          detail:"Both alter the local charge over time. More relevant to long-term storage than to a first experiment." },
-        F.isoOk,
-        { rule:"immunogenicity.origin", sev:"warn", title:"Mouse-derived framework, not human.",
-          detail:"Everything on the surface of a transplanted cell is visible to the recipient's immune system — including the binder's framework, not just the part that touches the ligand.",
-          caution:"This single finding is what moved UCHT1 below hCD3-9, despite being the better known antibody." }
-      ] },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached at position 59, inside a binding loop.",
+          detail:"A second, similar-looking spot at position 52 is not flagged: a proline sits in the middle of it, which blocks attachment. Flagging it would be a false alarm." },
+        { rule:"liability.deamidation", sev:"warn", title:"Two spots that can slowly change chemically.", detail:"Matters for long storage more than for a first experiment." },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
 
-    { id:"ucht1_vlvh", name:"UCHT1", orientation:"VL–VH", rank:4,
-      format:"scFv (antibody-derived)", origin:"Murine", prov:"ucht1",
-      binder: SEQ.U1_VL + SEQ.LINKER + SEQ.U1_VH, binderLen:241, evidence:"Co-crystal with CD3ε",
-      rationale:"The reversed arrangement of UCHT1. Built for the same reason as every other pair on this page: the two orientations do not always behave alike, and no sequence-level check can predict which is better.",
-      caveats:["Same caveats as the UCHT1 VH–VL build — identical sequence content, different arrangement."],
-      findings:[
-        F.provOk, F.speciesOk, F.singleChainOk,
-        { rule:"format.length", sev:"pass", title:"241 amino acids — identical content to the VH–VL build.", detail:"" },
+    { id:"ucht1_vlvh", name:"UCHT1", orientation:"VL–VH", format:"scFv", origin:"Mouse", originClass:"murine",
+      prov:"ucht1", binder:SEQ.U1_VL+SEQ.LINKER+SEQ.U1_VH, binderLen:241,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The reversed build of UCHT1, made for the same reason as every pair here: the two arrangements do not always behave alike.",
+      caveats:["Same points as the UCHT1 VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"241 amino acids — same content as the VH–VL build.", detail:"" },
         { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
-        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S) in a binding loop.", detail:"" },
-        { rule:"liability.deamidation", sev:"warn", title:"Two sites that can slowly change chemically (one N-G, one N-S).", detail:"" },
-        F.isoOk,
-        { rule:"immunogenicity.origin", sev:"warn", title:"Mouse-derived framework, not human.", detail:"" }
-      ] }
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached inside a binding loop.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"Two spots that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] }
   ]
 };
 
 const REJECTED = {
   tgfb1: [
-    { name:"MT-4", why:"Raised against <b>mouse</b> TGF-β1, not human. It would be made and displayed correctly and simply never meet your ligand.", rule:"species.match" },
-    { name:"BX-201", why:"A whole antibody — two separate chains held together. It cannot be fused into a receptor as one continuous chain.", rule:"format.single_chain" },
-    { name:"L-14 (in-house clone)", why:"No published source. synbind will not recommend a binder you cannot cite or check.", rule:"provenance.present" }
+    { name:"MT-4", why:"Raised against <b>mouse</b> TGF-β1. It would be made correctly and never meet your target.", rule:"species.match" },
+    { name:"BX-201", why:"A whole antibody — two separate chains. It cannot be fused in as one continuous chain.", rule:"format.single_chain" },
+    { name:"L-14", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
   ],
   cd3e: [
-    { name:"MC3-2", why:"Raised against <b>mouse</b> CD3ε, not human. Easy to pick up by mistake — most published anti-CD3 work is done in mice.", rule:"species.match" },
-    { name:"12F (IgG)", why:"A whole antibody — two separate chains held together. It cannot be fused into a receptor as one continuous chain.", rule:"format.single_chain" },
-    { name:"clone 7B (in-house)", why:"No published source. synbind will not recommend a binder you cannot cite or check.", rule:"provenance.present" }
+    { name:"MC3-2", why:"Raised against <b>mouse</b> CD3ε. Easy to pick up by mistake — most anti-CD3 work is done in mice.", rule:"species.match" },
+    { name:"12F", why:"A whole antibody — two separate chains. It cannot be fused in as one continuous chain.", rule:"format.single_chain" },
+    { name:"clone 7B", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
   ]
 };
 
 /* ═══ State ═══════════════════════════════════════════════════ */
 
-const state = { target:null, scaffold:null, tab:"rec", open:new Set() };
+const state = { target:null, host:HOSTS[0], scaffold:null, tab:"rec", open:new Set(), chosen:null };
 
-const $  = s => document.querySelector(s);
+const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
-
 const modalityChip = m => m === "soluble"
-  ? '<span class="chip soluble">floats freely</span>'
-  : '<span class="chip membrane">held on a cell</span>';
+  ? '<span class="chip soluble">floats free</span>'
+  : '<span class="chip membrane">sits on a cell</span>';
+const provBtn = (key, label) => `<button class="prov" data-pop="${key}">${esc(label)}</button>`;
 
-const provBtn = (key, label) => `<button class="prov" data-prov="${key}">${esc(label)}</button>`;
+/* ── Ranking. The number orders the list; it is never shown. ── */
 
-const candidatesFor = t => CANDIDATES[t.id] || [];
-const rejectedFor   = t => REJECTED[t.id] || [];
+function scoreOf(c) {
+  let s = 1.0;
+  s -= 0.10 * Math.min(c.liabilities, 3);
+  if ((c.originClass === "murine" || c.originClass === "camelid") && state.host.transplanted) s -= 0.15;
+  if (!c.structural) s -= 0.10;
+  if (c.cocrystal) s += 0.10;
+  s -= 0.05 * Math.max(0, Math.floor((c.binderLen - 300) / 50));
+  return Math.max(0, Math.min(1, s));
+}
 
-/* ═══ Step 1 — target picker ══════════════════════════════════ */
+function ranked() {
+  const list = (CANDIDATES[state.target?.id] || []).map((c, i) => ({ c, i, s: scoreOf(c) }));
+  list.sort((a, b) => b.s - a.s || a.i - b.i);
+  return list.map((x, n) => ({ ...x.c, rank: n + 1 }));
+}
+const rejectedFor = () => REJECTED[state.target?.id] || [];
+
+/* Origin finding depends on where the cell is going. */
+function originFinding(c) {
+  const nonHuman = c.originClass === "murine" || c.originClass === "camelid";
+  if (!nonHuman) return { rule:"immunogenicity.origin", sev:"pass", title:`${c.origin} framework.`,
+    detail: state.host.transplanted ? "Less visible to a recipient's immune system." : "" };
+  if (!state.host.transplanted) return { rule:"immunogenicity.origin", sev:"pass",
+    title:`${c.origin} framework — not an issue in ${state.host.name}.`,
+    detail:"It would be, if these cells were going into a recipient." };
+  return { rule:"immunogenicity.origin", sev:"warn", title:`${c.origin} framework, not human.`,
+    detail:"Everything on the surface of a transplanted cell is visible to the recipient — the binder's framework included, not just the tip that touches the target." };
+}
+
+function modalityFinding(scaf) {
+  const t = state.target;
+  if (t.modality === "membrane_bound" && scaf.id === "synnotch") return { rule:"modality.compatible", sev:"pass",
+    title:`${t.name} sits on a neighbouring cell — exactly what synNotch needs.`,
+    detail:"Contact between the two cells provides the pull that switches it on." };
+  if (t.modality === "membrane_bound") return { rule:"modality.compatible", sev:"pass",
+    title:`SNIPR answers to a signal sitting on a neighbouring cell.`, detail:"" };
+  return { rule:"modality.compatible", sev:"pass",
+    title:`SNIPR can answer to a free-floating signal like ${t.name}.`,
+    detail:"How well depends on the setup, and that is less firmly established than its response to signals held on a cell. Expect to try more than one arrangement." };
+}
+
+function allFindings(c, scaf) {
+  const f = c.findings.slice();
+  f.splice(2, 0, modalityFinding(scaf));
+  f.push(originFinding(c));
+  return f;
+}
+
+/* ═══ Step 1 — target ════════════════════════════════════════ */
 
 const q = $("#q"), menu = $("#menu");
 
-function search(term) {
-  const t = term.trim().toLowerCase();
-  if (!t) return [];
-  return TARGETS.filter(x =>
-    x.name.toLowerCase().includes(t) || x.gene.toLowerCase().includes(t) ||
-    x.aliases.some(a => a.includes(t)));
-}
-
 function renderMenu() {
-  const hits = search(q.value);
-  if (!q.value.trim()) { menu.hidden = true; return; }
+  const term = q.value.trim().toLowerCase();
+  if (!term) { menu.hidden = true; return; }
+  const hits = TARGETS.filter(x => x.name.toLowerCase().includes(term) ||
+    x.gene.toLowerCase().includes(term) || x.aliases.some(a => a.includes(term)));
   menu.hidden = false;
 
   if (!hits.length) {
-    menu.innerHTML = `<div class="empty">No protein matching “${esc(q.value)}”.
-      synbind knows four targets so far — try <b>TGF-β1</b>, <b>VEGF-A</b>, <b>CD3</b> or <b>CD47</b>.</div>`;
+    menu.innerHTML = `<div class="empty">Nothing matching “${esc(q.value)}”. Try <b>CD3</b>, <b>TGF-β1</b>, <b>VEGF-A</b> or <b>CD47</b>.</div>`;
     return;
   }
-
-  // Ambiguity is shown and resolved, never guessed at silently.
   const ambiguous = hits.length > 1 && hits.every(h => h.gene.startsWith("CD3"));
-  const note = ambiguous
-    ? `<div class="menu-note">“CD3” is three different proteins. Which chain do you mean?</div>` : "";
-
-  menu.innerHTML = note + hits.map(h => `
-    <button class="opt" data-target="${h.id}">
-      <span>
-        <span class="opt-name">${h.name}</span>
-        <span class="opt-sub"> · ${h.gene} · ${h.blurb}</span>
-      </span>
-      ${modalityChip(h.modality)}
-    </button>`).join("");
+  menu.innerHTML =
+    (ambiguous ? `<div class="menu-note">“CD3” is three different proteins. Which one?</div>` : "") +
+    hits.map(h => `<button class="opt" data-target="${h.id}">
+        <span><span class="opt-name">${h.name}</span><span class="opt-sub"> · ${h.blurb}</span></span>
+        ${modalityChip(h.modality)}</button>`).join("");
 }
 
 function pickTarget(id) {
   state.target = TARGETS.find(t => t.id === id);
-  state.scaffold = null;
-  state.tab = "rec";
-  state.open.clear();
+  state.scaffold = null; state.tab = "rec"; state.open.clear(); state.chosen = null;
   q.value = state.target.name;
   menu.hidden = true;
-  renderSelected();
-  renderScaffolds();
-  renderResult();
+  renderAll();
   $("#step2").scrollIntoView({ behavior:"smooth", block:"nearest" });
 }
 
 function renderSelected() {
   const t = state.target;
-  if (!t) { $("#selected").innerHTML = ""; return; }
-  $("#selected").innerHTML = `
+  $("#selected").innerHTML = !t ? "" : `
     <div class="card selected" style="margin-top:12px">
       <span class="who">${t.name}</span>
       ${modalityChip(t.modality)}
-      <span class="acc">${t.gene} · ${t.acc}</span>
+      <span class="acc">${t.gene}</span>
       ${t.prov ? provBtn(t.prov, "source") : ""}
-      <button class="linkish" id="clear">change</button>
+      <button class="linkish" data-clear>change</button>
     </div>`;
-  $("#clear").onclick = () => {
-    state.target = null; state.scaffold = null; state.open.clear();
-    q.value = ""; q.focus();
-    renderSelected(); $("#step2").hidden = true; renderResult();
-  };
 }
 
-/* ═══ Step 2 — scaffold ══════════════════════════════════════ */
+/* ═══ Step 2 — host cell ═════════════════════════════════════ */
+
+function renderHost() {
+  $("#step2").hidden = !state.target;
+  const sel = $("#host");
+  if (!sel.options.length) {
+    sel.innerHTML = HOSTS.map(h => `<option value="${h.id}">${h.name} — ${h.kind}</option>`).join("");
+  }
+  sel.value = state.host.id;
+  const h = state.host;
+  $("#hostSub").textContent = h.species
+    ? `${h.species === "pig" ? "Pig" : "Human"} cells, ${h.transplanted ? "going into a recipient" : "staying in a dish"}`
+    : "We will reason from the scaffold and binder alone";
+}
+
+/* ═══ Step 3 — scaffold ══════════════════════════════════════ */
 
 function renderScaffolds() {
-  $("#step2").hidden = !state.target;
+  $("#step3").hidden = !state.target;
   $("#scaffolds").innerHTML = SCAFFOLDS.map(s => `
     <button class="scaf" data-scaffold="${s.id}" aria-pressed="${state.scaffold === s.id}">
-      <span class="scaf-top">
-        <span class="scaf-name">${s.name}</span>
-        <span class="chip">${s.note}</span>
-      </span>
+      <span class="scaf-name">${s.name}</span>
       <span class="scaf-desc">${s.desc}</span>
     </button>`).join("");
 }
@@ -1022,385 +927,309 @@ function renderScaffolds() {
 function renderResult() {
   const box = $("#result");
   if (!state.target || !state.scaffold) { box.innerHTML = ""; return; }
-
   const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
-  const compatible = scaf.modalities.includes(state.target.modality);
+  const selfBind = state.host.displays && state.host.displays[state.target.id];
 
-  if (!compatible)                box.innerHTML = blockedView(scaf);
-  else if (!state.target.ready)   box.innerHTML = noDataView();
-  else                            box.innerHTML = passView(scaf);
-
+  if (!scaf.modalities.includes(state.target.modality)) box.innerHTML = blockedModality(scaf);
+  else if (!state.target.ready)                         box.innerHTML = noData();
+  else if (selfBind)                                    box.innerHTML = blockedSelf(selfBind);
+  else                                                  box.innerHTML = passView(scaf);
   box.scrollIntoView({ behavior:"smooth", block:"nearest" });
 }
 
-/* ── The block: soluble ligand + force-dependent scaffold ──── */
-
-function blockedView(scaf) {
-  const t = state.target, n = candidatesFor(t).length;
+function blockedModality(scaf) {
+  const t = state.target;
   return `
   <section class="card verdict blocked">
     <div class="verdict-head">
       <span class="mark">✕</span>
-      <div>
-        <h2>This combination will not work</h2>
-        <p>${t.name} floats freely in the space between cells. ${scaf.name} can only switch on when
-           something <b>pulls</b> on it — and nothing floating can pull.</p>
-      </div>
+      <div><h2>This pairing will not fire</h2>
+      <p>${t.name} floats free between cells. ${scaf.name} only switches on when something pulls on it, and nothing floating can pull.</p></div>
     </div>
-
     <div class="because">
-      <h3>Why</h3>
-      <p>${scaf.name} borrows its switching mechanism from a natural receptor that is opened by
-         mechanical force. The ligand has to be anchored to a neighbouring cell so that, as the two
-         cells move apart, the receptor is physically stretched open. That stretching is what exposes
-         the cut site and releases the signal.</p>
-      <p><b>The dangerous part is that nothing looks wrong.</b> The construct assembles, the cells
-         express it, it reaches the surface, and it stays silent. This usually surfaces months later,
-         as an experiment that quietly produced nothing.</p>
-      ${n ? `<p>All ${n} candidate binders for ${t.name} were excluded for this same reason. The problem
-         is the scaffold, not the binder.</p>` : ""}
+      <p>${scaf.name} needs its signal anchored to a neighbouring cell, so that the two cells moving apart stretch the receptor open. That stretch is what exposes the cut site.</p>
+      <p><b>Nothing about this looks wrong.</b> It assembles, the cells make it, it reaches the surface — and it stays silent. That usually surfaces months later, as an experiment that quietly produced nothing.</p>
     </div>
-
     <div class="fixbar">
-      <span class="txt">Use <b>SNIPR</b> instead — it is reported to respond to free-floating ligands.</span>
-      <button class="btn" id="switch">Switch to SNIPR</button>
-      ${provBtn("snipr", "about SNIPR")}
+      <span class="txt">Use <b>SNIPR</b> instead — it is reported to answer free-floating signals.</span>
+      <button class="btn" data-switch="snipr">Switch to SNIPR</button>
     </div>
   </section>`;
 }
 
-function noDataView() {
-  const t = state.target;
+function blockedSelf(certainty) {
+  const t = state.target, h = state.host;
   return `
-  <section class="card verdict">
-    <div class="verdict-head" style="background:var(--surface-2)">
-      <span class="mark" style="background:var(--text-3)">–</span>
-      <div>
-        <h2>No binders curated for ${t.name} yet</h2>
-        <p>The pairing is sound — this scaffold can sense a ligand like ${t.name} — but nobody has
-           added a checked, citable binder for it to the library.</p>
-      </div>
+  <section class="card verdict blocked">
+    <div class="verdict-head">
+      <span class="mark">✕</span>
+      <div><h2>This receptor would be stuck on</h2>
+      <p>${h.name} cells carry ${t.name} on their own surface. The binder would find its target at home, without any other cell involved.</p></div>
     </div>
     <div class="because">
-      <p>In this mock, <b>TGF-β1</b> and <b>CD3ε</b> have candidates attached. Pick either to see a
-         full result.</p>
+      <p>The receptor fires constantly, whatever is happening around it, so it can never report anything. The construct is fine; the pairing of binder and host cell is not.</p>
+      <p>${certainty === "probably"
+        ? `We flag this as likely rather than certain: ${h.name} is a pig cell, and the match is with the pig version of ${t.name} rather than the human one.`
+        : `Nothing here depends on the scaffold — switching scaffolds will not help.`}</p>
+    </div>
+    <div class="fixbar">
+      <span class="txt">Pick a cell that does not carry ${t.name}, such as <b>HEK293</b>.</span>
+      <button class="btn" data-host="hek293">Use HEK293</button>
     </div>
   </section>`;
 }
 
-/* ── The pass: full three-layer result ────────────────────── */
+function noData() {
+  return `
+  <section class="card verdict none">
+    <div class="verdict-head">
+      <span class="mark">–</span>
+      <div><h2>No binders for ${state.target.name} yet</h2>
+      <p>The pairing is sound, but nobody has added a checked, citable binder for this target.</p></div>
+    </div>
+    <div class="because"><p>In this mock, <b>TGF-β1</b> and <b>CD3ε</b> have candidates. Pick either to see a full result.</p></div>
+  </section>`;
+}
 
 function passView(scaf) {
-  const t = state.target;
-  const cands = candidatesFor(t), rej = rejectedFor(t);
-  const panes = { rec: recPane(scaf), cmp: cmpPane(scaf), raw: rawPane(scaf) };
-  const lead = t.modality === "membrane_bound" && scaf.id === "synnotch"
-    ? `${t.name} is held on the surface of a neighbouring cell, which is exactly what synNotch needs.`
-    : `${scaf.name} can respond to ${t.modality === "soluble" ? "a free-floating" : "a cell-surface"} ligand like ${t.name}.`;
+  const list = ranked(), rej = rejectedFor();
+  const panes = { rec: recPane(scaf, list), cmp: cmpPane(scaf, list, rej), raw: rawPane(scaf, list) };
   return `
   <section class="card verdict ok">
     <div class="verdict-head">
       <span class="mark">✓</span>
-      <div>
-        <h2>This combination can work</h2>
-        <p>${lead} ${cands.length} designs passed every blocking check; ${rej.length} were excluded.</p>
-      </div>
+      <div><h2>This should work</h2>
+      <p>${list.length} designs passed every blocking check in ${state.host.name}. ${rej.length} were set aside.</p></div>
     </div>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-tab="rec" aria-selected="${state.tab==="rec"}">Recommendation</button>
-      <button class="tab" role="tab" data-tab="cmp" aria-selected="${state.tab==="cmp"}">Compare<span class="n">${cands.length + rej.length}</span></button>
-      <button class="tab" role="tab" data-tab="raw" aria-selected="${state.tab==="raw"}">Sequence &amp; sources</button>
+      <button class="tab" role="tab" data-tab="cmp" aria-selected="${state.tab==="cmp"}">Compare all</button>
+      <button class="tab" role="tab" data-tab="raw" aria-selected="${state.tab==="raw"}">Sequence</button>
     </div>
     <div class="pane">${panes[state.tab]}</div>
   </section>`;
 }
 
-function allFindings(c, scaf) {
-  // provenance, species, modality, format… — modality depends on the pairing.
-  const f = c.findings.slice();
-  f.splice(2, 0, modalityFinding(state.target, scaf));
-  return f;
-}
-
+/* Warnings shown; passes folded away. */
 function findingsHtml(list) {
-  return list.map(f => `
-    <div class="finding">
-      <span class="dot ${f.sev}">${f.sev === "pass" ? "✓" : f.sev === "warn" ? "!" : "✕"}</span>
-      <div>
-        <div class="f-title">${f.title}</div>
-        ${f.detail ? `<div class="f-detail">${f.detail}</div>` : ""}
-        ${f.caution ? `<div class="f-caution">${f.caution}</div>` : ""}
-        <div class="f-rule">${f.rule}</div>
-      </div>
-    </div>`).join("");
+  const row = f => `<div class="finding">
+      <span class="dot ${f.sev}">${f.sev === "pass" ? "✓" : "!"}</span>
+      <div><div class="f-title">${f.title}</div>
+      ${f.detail ? `<div class="f-detail">${f.detail}</div>` : ""}</div></div>`;
+  const warn = list.filter(f => f.sev === "warn"), pass = list.filter(f => f.sev === "pass");
+  return warn.map(row).join("") +
+    (pass.length ? `<details class="more"><summary>${pass.length} other checks passed</summary>${pass.map(row).join("")}</details>` : "");
 }
 
-function caveatsHtml(c) {
-  return `<ul class="caveats">${c.caveats.map(x => `<li>${x}</li>`).join("")}</ul>`;
-}
-
-function recPane(scaf) {
-  const c = candidatesFor(state.target)[0];
+function recPane(scaf, list) {
+  const top = list[0];
+  const c = state.chosen ? list.find(x => x.id === state.chosen) || top : top;
+  const overridden = c.id !== top.id;
   const f = allFindings(c, scaf);
-  const warns = f.filter(x => x.sev === "warn").length;
+  const warn = f.filter(x => x.sev === "warn").length;
+
   return `
+    ${overridden ? `<div class="override">
+      <span>You picked ${c.name}${c.orientation ? " " + c.orientation : ""}. We suggested ${top.name}${top.orientation ? " " + top.orientation : ""}.</span>
+      <button class="linkish" data-choose="">Go back to the suggestion</button></div>` : ""}
+
     <div class="rec-top">
       <div>
         <div class="rec-name">${c.name}${c.orientation ? ` <span style="color:var(--text-3);font-weight:400">· ${c.orientation}</span>` : ""}</div>
         <div class="rec-meta">${c.format} · ${c.origin} · ${c.binderLen} aa · ${c.evidence} · ${provBtn(c.prov, "source")}</div>
       </div>
       <div class="rec-actions">
-        <button class="btn sm ghost" data-copy="binder">Copy binder</button>
-        <button class="btn sm ghost" data-download="fasta">Download FASTA</button>
-        <button class="btn sm" data-download="json">Download result</button>
+        <button class="btn sm ghost" data-copy>Copy binder</button>
+        <button class="btn sm" data-download="fasta">Download</button>
       </div>
     </div>
 
-    <div class="why">
-      <h3>Why this one</h3>
-      ${c.rationale}
-    </div>
+    <div class="why-box">${c.why(state.host)}</div>
 
     <div class="sub">
-      <h3>WHAT WE CHECKED — ${warns ? `everything passed except ${warns} point${warns===1?"":"s"} worth knowing about` : "everything passed"}</h3>
+      <h3>${warn ? `${warn} thing${warn === 1 ? "" : "s"} to keep an eye on` : "Nothing flagged"}</h3>
       ${findingsHtml(f)}
     </div>
 
     <div class="sub">
-      <h3>BEFORE YOU ORDER ANYTHING</h3>
-      ${caveatsHtml(c)}
+      <h3>Before you order anything</h3>
+      <ul class="caveats">${c.caveats.map(x => `<li>${x}</li>`).join("")}</ul>
     </div>`;
 }
 
-function cmpPane(scaf) {
-  const cands = candidatesFor(state.target), rej = rejectedFor(state.target);
-  const rows = cands.map(c => {
-    const f = allFindings(c, scaf);
-    const warns = f.filter(x => x.sev === "warn");
-    const open = state.open.has(c.id);
+function cmpPane(scaf, list, rej) {
+  const rows = list.map(c => {
+    const f = allFindings(c, scaf), warn = f.filter(x => x.sev === "warn");
+    const open = state.open.has(c.id), chosen = state.chosen === c.id;
     return `
-      <tr class="row ${c.rank === 1 ? "top" : ""}" data-row="${c.id}" aria-expanded="${open}">
+      <tr class="row ${c.rank === 1 ? "top" : ""} ${chosen ? "chosen" : ""}" data-row="${c.id}" aria-expanded="${open}">
         <td><span class="rank">${c.rank}</span></td>
-        <td><span class="nm">${c.name}</span>${c.orientation ? `<div class="sm">${c.orientation}</div>` : ""}</td>
-        <td>${c.format}</td>
+        <td><span class="nm">${c.name}</span><div class="sm">${c.orientation || c.format}</div></td>
         <td>${c.origin}</td>
-        <td>${c.binderLen} aa</td>
-        <td>${c.evidence}</td>
-        <td>${warns.length ? warns.map(w => w.title.replace(/\.$/, "")).join("<br>") : "<span class='sm'>none</span>"}</td>
+        <td>${warn.length ? warn.map(w => w.title.replace(/\.$/, "")).join("<br>") : "<span class='sm'>nothing</span>"}</td>
+        <td>${c.rank === 1 ? "<span class='sm'>suggested</span>"
+              : `<button class="btn sm ghost" data-choose="${c.id}">Use this</button>`}</td>
         <td><span class="chev">▶</span></td>
       </tr>
-      ${open ? `<tr><td class="detail" colspan="8"><div class="detail-in">
-        <div class="why"><h3>Why this one is ranked ${c.rank}</h3>${c.rationale}</div>
-        <div class="sub"><h3>WHAT WE CHECKED</h3>${findingsHtml(f)}</div>
-        <div class="sub"><h3>BEFORE YOU ORDER ANYTHING</h3>${caveatsHtml(c)}</div>
+      ${open ? `<tr><td class="detail" colspan="6"><div class="detail-in">
+        <div class="why-box">${c.why(state.host)}</div>
+        <div class="sub"><h3>${c.binderLen} aa · ${c.evidence}</h3>${findingsHtml(f)}</div>
+        <div class="sub"><h3>Before you order anything</h3>
+          <ul class="caveats">${c.caveats.map(x => `<li>${x}</li>`).join("")}</ul></div>
       </div></td></tr>` : ""}`;
   }).join("");
 
   return `
-    <div class="tablewrap">
-      <table>
-        <thead><tr>
-          <th></th><th>Binder</th><th>Type</th><th>Origin</th><th>Size</th>
-          <th>Evidence</th><th>Points to watch</th><th></th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-    <p class="note" style="margin-top:12px">Select any row to see the full reasoning for that candidate.
-      Ordered by how many concerns each carries, how directly its binding has been observed, and how
-      human it is — not by any single number. Nothing is hidden behind a score.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th>Binder</th><th>From</th><th>Keep an eye on</th><th></th><th></th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+    <p class="note" style="margin-top:12px">Open any row for the full reasoning. Ordered by how many
+      concerns each carries, how directly its binding has been seen, and how human it is.</p>
 
     <div class="rejected">
-      <h3 style="font-size:13px;color:var(--text-2);margin-bottom:10px">EXCLUDED, AND WHY</h3>
-      ${rej.map(r => `
-        <div class="rej">
-          <span class="x">✕</span>
-          <div>
-            <div class="nm">${r.name}</div>
-            <div class="rs">${r.why}</div>
-            <div class="f-rule">${r.rule}</div>
-          </div>
-        </div>`).join("")}
-      <p class="note">These are shown on purpose. A tool that only shows what survived gives you no way
-        to tell whether it looked in the right place.</p>
+      <h3 style="font-size:12.5px;color:var(--text-3);margin-bottom:8px;letter-spacing:.04em">SET ASIDE, AND WHY</h3>
+      ${rej.map(r => `<div class="rej"><span class="x">✕</span>
+        <div><div class="nm">${r.name}</div><div class="rs">${r.why}</div></div></div>`).join("")}
     </div>`;
 }
 
-/* ── Annotated construct ─────────────────────────────────── */
-
-function segDef(scafId) {
-  const p = PARTS[scafId];
-  return [
-    { name:"signal peptide", cls:"sp",     seq:p.sp,        what:"Gets the receptor to the cell surface." },
-    { name:"binder",         cls:"binder", seq:null,        what:"The part that recognises the ligand. This is what synbind designs." },
-    { name:p.coreName,       cls:"core",   seq:p.core,      what:p.coreWhat },
-    { name:"transmembrane",  cls:"tmd",    seq:p.tmd,       what:"Sits in the membrane; the second cut happens here." },
-    { name:"output module",  cls:"output", seq:PARTS.output, what:"Released on activation; switches on your gene of interest." }
-  ];
-}
+/* ── Construct ───────────────────────────────────────────── */
 
 function buildConstruct(binder, scafId) {
+  const p = PARTS[scafId];
+  const def = [
+    { name:"signal peptide", cls:"sp",     seq:p.sp,        what:"Gets the receptor to the surface." },
+    { name:"binder",         cls:"binder", seq:binder,      what:"Recognises the target. This is the part synbind designs." },
+    { name:p.coreName,       cls:"core",   seq:p.core,      what:p.coreWhat },
+    { name:"membrane part",  cls:"tmd",    seq:p.tmd,       what:"Sits in the membrane." },
+    { name:"output",         cls:"output", seq:PARTS.output, what:"Let go when the receptor fires; switches on your gene." }
+  ];
   let pos = 0;
-  const segs = segDef(scafId).map(d => {
-    const seq = d.seq === null ? binder : d.seq;
-    const s = { ...d, seq, start:pos, end:pos + seq.length };
-    pos += seq.length;
-    return s;
-  });
+  const segs = def.map(d => { const s = { ...d, start:pos, end:pos + d.seq.length }; pos += d.seq.length; return s; });
   return { segs, sequence: segs.map(s => s.seq).join(""), length: pos };
 }
 
 function annotate(con) {
   const W = 60, out = [];
   for (let i = 0; i < con.length; i += W) {
-    const gutter = `<span class="ln">${String(i + 1).padStart(4, " ")}  </span>`;
-    let row = "", j = i, lineEnd = Math.min(i + W, con.length);
-    while (j < lineEnd) {
+    let row = `<span class="ln">${String(i + 1).padStart(4, " ")}  </span>`, j = i;
+    const end = Math.min(i + W, con.length);
+    while (j < end) {
       const seg = con.segs.find(s => j >= s.start && j < s.end);
-      const stop = Math.min(seg.end, lineEnd);
+      const stop = Math.min(seg.end, end);
       row += `<span class="${seg.cls}" data-seg="${seg.name}">${con.sequence.slice(j, stop)}</span>`;
       j = stop;
     }
-    out.push(gutter + row);
+    out.push(row);
   }
   return out.join("\n");
 }
 
-function designResultJson(scaf) {
-  const t = state.target, c = candidatesFor(t)[0];
-  const con = buildConstruct(c.binder, scaf.id);
+function currentPick(list) {
+  const l = list || ranked();
+  return (state.chosen && l.find(x => x.id === state.chosen)) || l[0];
+}
+
+function resultJson(scaf) {
+  const c = currentPick(), con = buildConstruct(c.binder, scaf.id);
   return {
-    target: { gene:t.gene, accession:t.acc, modality:t.modality },
+    target: { gene:state.target.gene, accession:state.target.acc, modality:state.target.modality },
+    host_cell: { id:state.host.id, species:state.host.species, transplanted:state.host.transplanted },
     scaffold: { id:`${scaf.id}_v1`, compatible_modalities:scaf.modalities },
-    recommended: {
-      construct: { id:`${c.id}__${scaf.id}_v1`, binder_id:c.id, scaffold_id:`${scaf.id}_v1`,
-                   orientation:c.orientation, length:con.length,
-                   segments: con.segs.map(s => ({ name:s.name, start:s.start, end:s.end,
-                     kind: s.cls === "binder" ? "binder" : "scaffold_part" })) },
-      caveats: c.caveats.length
-    },
-    alternatives: candidatesFor(t).length - 1,
-    rejected: rejectedFor(t).map(r => ({ binder_id:r.name, reason:r.rule })),
+    selected: { binder_id:c.id, orientation:c.orientation, length:con.length,
+      chosen_by: state.chosen ? "user" : "synbind",
+      segments: con.segs.map(s => ({ name:s.name, start:s.start, end:s.end,
+        kind: s.cls === "binder" ? "binder" : "scaffold_part" })) },
+    set_aside: rejectedFor().map(r => ({ binder_id:r.name, reason:r.rule })),
     generated_at: "2026-07-27T10:14:00Z",
-    synbind_version: `0.0.0-${BUILD.tag}`,
-    data_version: "MOCK — no real data version"
+    synbind_version: `0.0.0-${BUILD.tag}`
   };
 }
 
-function rawPane(scaf) {
-  const c = candidatesFor(state.target)[0];
-  const con = buildConstruct(c.binder, scaf.id);
-  window.__construct = con;
-
+function rawPane(scaf, list) {
+  const c = currentPick(list), con = buildConstruct(c.binder, scaf.id);
   return `
-    <div class="legend">
-      ${con.segs.map(s => `<span class="leg">
-        <span class="swatch" style="background:var(--seg-${s.cls})"></span>${s.name}
-        <span style="color:var(--text-3)">${s.end - s.start} aa</span></span>`).join("")}
-    </div>
+    <div class="legend">${con.segs.map(s => `<span class="leg">
+      <span class="swatch" style="background:var(--seg-${s.cls})"></span>${s.name}
+      <span style="color:var(--text-3)">${s.end - s.start} aa</span></span>`).join("")}</div>
 
     <div class="seqbox"><div class="seq">${annotate(con)}</div></div>
 
-    <p class="note" style="margin-top:12px">${con.length} amino acids in total, written from the
-      outside of the cell inwards. The highlighted stretch is the only part that decides
-      <em>what</em> the cell senses — everything else is standard, reusable machinery.</p>
+    <p class="note" style="margin-top:12px">${con.length} amino acids, written from outside the cell
+      inwards. The highlighted stretch is the only part that decides what the cell senses.</p>
 
-    <div class="segtable tablewrap">
-      <table>
-        <thead><tr><th>Segment</th><th>Positions</th><th>Length</th><th>What it does</th><th>Source</th></tr></thead>
-        <tbody>
-        ${con.segs.map(s => `<tr>
+    <details class="more"><summary>Where each part came from</summary>
+      <div class="tablewrap" style="margin-top:8px"><table>
+        <thead><tr><th>Part</th><th>Position</th><th>What it does</th><th>Source</th></tr></thead>
+        <tbody>${con.segs.map(s => `<tr>
           <td><span class="swatch" style="background:var(--seg-${s.cls});display:inline-block;margin-right:7px"></span><span class="nm">${s.name}</span></td>
           <td class="sm">${s.start + 1}–${s.end}</td>
-          <td>${s.end - s.start} aa</td>
           <td>${s.what}</td>
           <td>${provBtn(s.cls === "binder" ? c.prov : scaf.prov, s.cls === "binder" ? c.name : scaf.name)}</td>
         </tr>`).join("")}
-        ${c.orientation ? `<tr>
-          <td colspan="4" class="sm">Inside the binder: ${c.orientation.split("–")[0]} — (G4S)₃ linker — ${c.orientation.split("–")[1]}</td>
-          <td>${provBtn("linker", "linker")}</td>
-        </tr>` : ""}
-        </tbody>
-      </table>
-    </div>
+        ${c.orientation ? `<tr><td colspan="3" class="sm">Inside the binder: ${c.orientation.replace("–", " — (G4S)₃ linker — ")}</td>
+          <td>${provBtn("linker", "linker")}</td></tr>` : ""}</tbody>
+      </table></div>
+    </details>
 
-    <details class="raw">
-      <summary>Machine-readable result</summary>
-      <pre class="json">${esc(JSON.stringify(designResultJson(scaf), null, 2))}</pre>
+    <details class="more"><summary>Machine-readable result</summary>
+      <pre class="json" style="margin-top:8px">${esc(JSON.stringify(resultJson(scaf), null, 2))}</pre>
     </details>`;
 }
 
-/* ═══ Provenance popover ═════════════════════════════════════ */
+/* ═══ Popover ════════════════════════════════════════════════ */
 
 const pop = $("#pop");
-
 function openPop(btn) {
-  const rec = PROV[btn.dataset.prov];
+  const rec = POP[btn.dataset.pop];
   if (!rec) return;
-  pop.innerHTML = `<h4>${esc(rec.title)}</h4><dl>` +
-    Object.entries(rec.fields).map(([k, v]) =>
-      `<dt>${esc(k)}</dt><dd class="${/^(Accession|Identifier|DOI|Sequence)$/.test(k) ? "mono" : ""}">${esc(v)}</dd>`
-    ).join("") +
-    `</dl><div class="warnline">MOCK — this record is invented</div>`;
+  pop.innerHTML = `<h4>${esc(rec.title)}</h4>` + (rec.text
+    ? `<p>${esc(rec.text)}</p>`
+    : `<dl>${Object.entries(rec.fields).map(([k, v]) =>
+        `<dt>${esc(k)}</dt><dd class="${/^(Accession|Identifier|DOI|Sequence)$/.test(k) ? "mono" : ""}">${esc(v)}</dd>`).join("")}</dl>`);
   pop.style.display = "block";
   const r = btn.getBoundingClientRect(), w = pop.offsetWidth;
-  pop.style.top  = (window.scrollY + r.bottom + 8) + "px";
+  pop.style.top = (window.scrollY + r.bottom + 8) + "px";
   pop.style.left = Math.max(12, Math.min(window.scrollX + r.left, window.scrollX + window.innerWidth - w - 12)) + "px";
 }
 
-/* ═══ Copy and download, with a warning line attached ════════ */
+/* ═══ Copy / download ════════════════════════════════════════
+   The mock warning travels with exported content, where the page
+   banner cannot follow it. */
 
 const MOCKLINE = "# MOCK DATA — invented, not a real sequence. Do not order or synthesise.";
 
-function currentPieces() {
-  const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
-  const c = candidatesFor(state.target)[0];
-  const con = buildConstruct(c.binder, scaf.id);
-  const tag = `${c.name}${c.orientation ? "_" + c.orientation.replace("–", "-") : ""}`.replace(/\s+/g, "");
-  return { scaf, c, con, tag };
-}
-
 function fastaText() {
-  const { scaf, c, con, tag } = currentPieces();
+  const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
+  const c = currentPick(), con = buildConstruct(c.binder, scaf.id);
+  const tag = `${c.name}${c.orientation ? "_" + c.orientation.replace("–", "-") : ""}`.replace(/\s+/g, "");
   const wrap = s => (s.match(/.{1,60}/g) || []).join("\n");
-  return [
-    MOCKLINE,
-    `>${tag}_binder_MOCK  ${c.format}, ${c.binderLen} aa, anti-${state.target.name}`,
-    wrap(c.binder),
-    `>${tag}__${scaf.name}_construct_MOCK  ${con.length} aa`,
-    wrap(con.sequence)
-  ].join("\n") + "\n";
+  return [MOCKLINE,
+    `>${tag}_binder_MOCK  ${c.format}, ${c.binderLen} aa, anti-${state.target.name}`, wrap(c.binder),
+    `>${tag}__${scaf.name}_construct_MOCK  ${con.length} aa`, wrap(con.sequence)].join("\n") + "\n";
 }
 
 function copyBinder() {
-  const { c, tag } = currentPieces();
-  const text = `${MOCKLINE}\n>${tag}_binder_MOCK\n` + (c.binder.match(/.{1,60}/g) || []).join("\n");
-  writeClipboard(text, () => toast(`Copied — with a "MOCK DATA" line attached`));
-}
-
-function writeClipboard(text, done) {
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
-  } else fallback(text, done);
+  const c = currentPick();
+  const text = `${MOCKLINE}\n>${c.name}_binder_MOCK\n` + (c.binder.match(/.{1,60}/g) || []).join("\n");
+  const done = () => toast("Copied");
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
+  else fallback(text, done);
 }
 
 function fallback(text, done) {
   const ta = document.createElement("textarea");
   ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
   document.body.appendChild(ta); ta.select();
-  try { document.execCommand("copy"); done(); }
-  catch (e) { toast("Copy blocked by the browser — select the sequence manually"); }
+  try { document.execCommand("copy"); done(); } catch (e) { toast("Copy blocked — select the sequence manually"); }
   ta.remove();
 }
 
-function download(kind) {
-  const { scaf, tag } = currentPieces();
-  const isFasta = kind === "fasta";
-  const name = `${tag}__${scaf.name}_MOCK.${isFasta ? "fasta" : "json"}`;
-  const body = isFasta
-    ? fastaText()
-    : JSON.stringify({ _warning: MOCKLINE.slice(2), ...designResultJson(scaf) }, null, 2);
-  const url = URL.createObjectURL(new Blob([body], { type: isFasta ? "text/plain" : "application/json" }));
+function downloadFasta() {
+  const scaf = SCAFFOLDS.find(s => s.id === state.scaffold), c = currentPick();
+  const name = `${c.name}__${scaf.name}_MOCK.fasta`.replace(/\s+/g, "");
+  const url = URL.createObjectURL(new Blob([fastaText()], { type:"text/plain" }));
   const a = document.createElement("a");
   a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
@@ -1413,48 +1242,65 @@ function toast(msg) {
   const el = $("#toast");
   el.textContent = msg; el.classList.add("on");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove("on"), 2600);
+  toastTimer = setTimeout(() => el.classList.remove("on"), 2400);
 }
 
-/* ═══ Events ═════════════════════════════════════════════════ */
+/* ═══ Wiring ═════════════════════════════════════════════════ */
+
+function renderAll() { renderSelected(); renderHost(); renderScaffolds(); renderResult(); }
 
 q.addEventListener("input", renderMenu);
 q.addEventListener("focus", renderMenu);
 
+$("#host").addEventListener("change", e => {
+  state.host = HOSTS.find(h => h.id === e.target.value);
+  state.chosen = null; state.open.clear();
+  renderAll();
+});
+
 document.addEventListener("click", e => {
   const t = e.target;
 
-  const pv = t.closest("[data-prov]");
-  if (pv) { openPop(pv); e.stopPropagation(); return; }
+  const popBtn = t.closest("[data-pop]");
+  if (popBtn) { openPop(popBtn); e.stopPropagation(); return; }
+
+  const choose = t.closest("[data-choose]");
+  if (choose) {
+    state.chosen = choose.dataset.choose || null;
+    state.tab = "rec"; state.open.clear();
+    renderResult(); e.stopPropagation(); return;
+  }
 
   const opt = t.closest("[data-target]");
   if (opt) { pickTarget(opt.dataset.target); return; }
 
-  const scaf = t.closest("[data-scaffold]");
-  if (scaf) {
-    state.scaffold = scaf.dataset.scaffold; state.tab = "rec"; state.open.clear();
-    renderScaffolds(); renderResult(); return;
+  if (t.closest("[data-clear]")) {
+    state.target = null; state.scaffold = null; state.chosen = null;
+    q.value = ""; q.focus();
+    $("#step2").hidden = true; $("#step3").hidden = true;
+    renderSelected(); renderResult(); return;
   }
 
-  if (t.closest("#switch")) {
-    state.scaffold = "snipr"; state.tab = "rec"; state.open.clear();
-    renderScaffolds(); renderResult(); return;
-  }
+  const hostBtn = t.closest("[data-host]");
+  if (hostBtn) { state.host = HOSTS.find(h => h.id === hostBtn.dataset.host); renderAll(); return; }
+
+  const scaf = t.closest("[data-scaffold]");
+  if (scaf) { state.scaffold = scaf.dataset.scaffold; state.tab = "rec"; state.open.clear(); state.chosen = null;
+              renderScaffolds(); renderResult(); return; }
+
+  const sw = t.closest("[data-switch]");
+  if (sw) { state.scaffold = sw.dataset.switch; state.tab = "rec"; renderScaffolds(); renderResult(); return; }
 
   const tab = t.closest("[data-tab]");
   if (tab) { state.tab = tab.dataset.tab; renderResult(); return; }
 
   const row = t.closest("[data-row]");
-  if (row) {
-    const id = row.dataset.row;
-    state.open.has(id) ? state.open.delete(id) : state.open.add(id);
-    renderResult(); return;
-  }
+  if (row) { const id = row.dataset.row;
+             state.open.has(id) ? state.open.delete(id) : state.open.add(id);
+             renderResult(); return; }
 
   if (t.closest("[data-copy]")) { copyBinder(); return; }
-
-  const dl = t.closest("[data-download]");
-  if (dl) { download(dl.dataset.download); return; }
+  if (t.closest("[data-download]")) { downloadFasta(); return; }
 
   if (!t.closest("#pop")) pop.style.display = "none";
   if (!t.closest(".picker")) menu.hidden = true;
@@ -1465,6 +1311,7 @@ document.addEventListener("keydown", e => {
 });
 
 $("#build").textContent = `${BUILD.tag} · ${BUILD.date}`;
+renderHost();
 renderScaffolds();
 </script>
 </body>
