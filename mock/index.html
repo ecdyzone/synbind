@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>synbind — interface mock</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   synbind UI mock. Hand-written CSS, no framework, no build step.
+   Opens from file://. See ../MOCK.md — all data here is invented.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --bg:        #f6f7f9;
+  --surface:   #ffffff;
+  --surface-2: #f0f2f5;
+  --line:      #dfe3e8;
+  --line-soft: #eaedf1;
+  --text:      #1a1d21;
+  --text-2:    #565e68;
+  --text-3:    #858e99;
+  --accent:    #2f5fd0;
+  --accent-bg: #eaf0fd;
+  --ok:        #1a7f52;
+  --ok-bg:     #e7f4ed;
+  --warn:      #9a6410;
+  --warn-bg:   #fdf3e0;
+  --fail:      #b4261f;
+  --fail-bg:   #fdecea;
+  --mock:      #8a5a00;
+  --mock-bg:   #fff4d6;
+  --mock-line: #eccb7a;
+
+  --seg-sp:     #8993a1;
+  --seg-binder: #2f5fd0;
+  --seg-core:   #128a7d;
+  --seg-tmd:    #b8791a;
+  --seg-output: #7a4bbd;
+
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(16,24,40,.05), 0 4px 14px rgba(16,24,40,.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #14171b;
+    --surface:   #1c2026;
+    --surface-2: #232830;
+    --line:      #333a44;
+    --line-soft: #272d35;
+    --text:      #e8eaed;
+    --text-2:    #a8b1bd;
+    --text-3:    #7c8593;
+    --accent:    #7aa2f7;
+    --accent-bg: #1e2a44;
+    --ok:        #5ec98f;
+    --ok-bg:     #17301f;
+    --warn:      #e0b062;
+    --warn-bg:   #332612;
+    --fail:      #f08078;
+    --fail-bg:   #35191a;
+    --mock:      #f0cd7d;
+    --mock-bg:   #332a12;
+    --mock-line: #5c4a1e;
+
+    --seg-sp:     #98a2b3;
+    --seg-binder: #7aa2f7;
+    --seg-core:   #4bc4b4;
+    --seg-tmd:    #e0b062;
+    --seg-output: #b48ae8;
+
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 20px 96px; }
+
+/* ── Mock badge ───────────────────────────────────────────── */
+
+.mockbar {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--mock-bg);
+  border-bottom: 1px solid var(--mock-line);
+  color: var(--mock);
+  font-size: 12.5px; font-weight: 600;
+  letter-spacing: .02em;
+  padding: 7px 20px;
+  display: flex; gap: 8px; align-items: center; justify-content: center;
+  text-align: center;
+}
+.mockbar span { font-weight: 500; }
+
+/* ── Masthead ─────────────────────────────────────────────── */
+
+header.mast {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.mast-in {
+  max-width: 940px; margin: 0 auto; padding: 22px 20px 20px;
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.logo { font-size: 21px; font-weight: 650; letter-spacing: -0.02em; }
+.logo b { color: var(--accent); font-weight: 650; }
+.tagline { color: var(--text-2); font-size: 14px; }
+
+/* ── Cards & layout ───────────────────────────────────────── */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.step { margin-top: 26px; }
+.step-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.step-num {
+  width: 21px; height: 21px; flex: none;
+  border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 11.5px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.step-head h2 { font-size: 14px; letter-spacing: .01em; }
+.step-hint { color: var(--text-3); font-size: 13px; margin-left: auto; }
+
+/* ── Target picker ────────────────────────────────────────── */
+
+.picker { position: relative; }
+.picker input {
+  width: 100%; padding: 13px 15px;
+  font: inherit; font-size: 15.5px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.picker input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+.picker input::placeholder { color: var(--text-3); }
+
+.menu {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.menu-note {
+  padding: 9px 14px;
+  background: var(--warn-bg); color: var(--warn);
+  font-size: 12.5px; font-weight: 500;
+  border-bottom: 1px solid var(--line-soft);
+}
+.opt {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; text-align: left;
+  padding: 10px 14px;
+  background: none; border: 0; border-bottom: 1px solid var(--line-soft);
+  cursor: pointer;
+}
+.opt:last-child { border-bottom: 0; }
+.opt:hover, .opt:focus-visible { background: var(--surface-2); outline: none; }
+.opt-name { font-weight: 600; }
+.opt-sub { color: var(--text-3); font-size: 13px; }
+.opt .chip { margin-left: auto; }
+
+.empty {
+  padding: 14px; color: var(--text-2); font-size: 14px;
+}
+
+/* ── Chips ────────────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2.5px 9px;
+  border-radius: 999px;
+  font-size: 12px; font-weight: 600; white-space: nowrap;
+  background: var(--surface-2); color: var(--text-2);
+  border: 1px solid var(--line-soft);
+}
+.chip.soluble  { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
+.chip.membrane { background: var(--ok-bg);     color: var(--ok);     border-color: transparent; }
+.chip.warn     { background: var(--warn-bg);   color: var(--warn);   border-color: transparent; }
+.chip.fail     { background: var(--fail-bg);   color: var(--fail);   border-color: transparent; }
+
+/* ── Selected target bar ──────────────────────────────────── */
+
+.selected {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 13px 15px;
+}
+.selected .who { font-weight: 650; font-size: 16px; }
+.selected .acc { color: var(--text-3); font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.linkish {
+  background: none; border: 0; padding: 0;
+  color: var(--accent); font-size: 13px; font-weight: 500;
+  cursor: pointer; text-decoration: underline; text-underline-offset: 2px;
+}
+.selected .linkish { margin-left: auto; }
+
+/* ── Scaffold cards ───────────────────────────────────────── */
+
+.scaffolds { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .scaffolds { grid-template-columns: 1fr; } }
+
+.scaf {
+  text-align: left; cursor: pointer;
+  padding: 14px 15px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 7px;
+}
+.scaf:hover { border-color: var(--text-3); }
+.scaf[aria-pressed="true"] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg), var(--shadow);
+}
+.scaf-top { display: flex; align-items: center; gap: 9px; }
+.scaf-name { font-weight: 650; font-size: 15.5px; }
+.scaf-desc { color: var(--text-2); font-size: 13.5px; }
+
+/* ── Verdict panels ───────────────────────────────────────── */
+
+.verdict { margin-top: 26px; overflow: hidden; }
+.verdict-head {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.verdict.blocked .verdict-head { background: var(--fail-bg); border-bottom-color: transparent; }
+.verdict.ok      .verdict-head { background: var(--ok-bg);   border-bottom-color: transparent; }
+
+.mark {
+  width: 26px; height: 26px; flex: none; margin-top: 1px;
+  border-radius: 50%; display: grid; place-items: center;
+  font-size: 15px; font-weight: 700; color: #fff;
+}
+.blocked .mark { background: var(--fail); }
+.ok .mark      { background: var(--ok); }
+
+.verdict-head h2 { font-size: 17px; }
+.blocked .verdict-head h2 { color: var(--fail); }
+.ok .verdict-head h2      { color: var(--ok); }
+.verdict-head p { margin-top: 5px; color: var(--text); font-size: 14.5px; max-width: 68ch; }
+
+.because {
+  padding: 16px 20px 18px;
+  border-top: 1px solid var(--line-soft);
+}
+.because h3 { font-size: 13px; color: var(--text-2); margin-bottom: 7px; }
+.because p { color: var(--text-2); font-size: 14px; max-width: 72ch; }
+.because p + p { margin-top: 9px; }
+
+.fixbar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 15px 20px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+}
+.fixbar .txt { font-size: 14px; color: var(--text-2); }
+.fixbar .txt b { color: var(--text); font-weight: 650; }
+
+.btn {
+  padding: 9px 15px; border-radius: 8px;
+  background: var(--accent); color: #fff;
+  border: 1px solid transparent;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn.ghost {
+  background: var(--surface); color: var(--text-2);
+  border-color: var(--line);
+}
+.btn.sm { padding: 6px 11px; font-size: 13px; }
+
+/* ── Tabs ─────────────────────────────────────────────────── */
+
+.tabs {
+  display: flex; gap: 2px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  overflow-x: auto;
+}
+.tab {
+  padding: 12px 14px 10px;
+  background: none; border: 0; border-bottom: 2px solid transparent;
+  color: var(--text-2); font-size: 14px; font-weight: 550;
+  cursor: pointer; white-space: nowrap;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.tab .n {
+  display: inline-block; margin-left: 6px; padding: 0 6px;
+  border-radius: 999px; background: var(--surface-2);
+  font-size: 11.5px; color: var(--text-3);
+}
+.pane { padding: 20px; }
+
+/* ── Recommendation ───────────────────────────────────────── */
+
+.rec-top { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.rec-name { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
+.rec-meta { color: var(--text-2); font-size: 13.5px; margin-top: 3px; }
+.rec-actions { margin-left: auto; display: flex; gap: 8px; }
+
+.why {
+  margin-top: 14px; padding: 14px 16px;
+  background: var(--accent-bg);
+  border-radius: var(--radius);
+  font-size: 14.5px; line-height: 1.6;
+  max-width: 74ch;
+}
+.why h3 { font-size: 12.5px; color: var(--accent); margin-bottom: 6px; letter-spacing: .03em; text-transform: uppercase; }
+
+.sub { margin-top: 24px; }
+.sub h3 { font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
+
+/* findings */
+.finding {
+  display: grid; grid-template-columns: 22px 1fr; gap: 10px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.finding:first-of-type { border-top: 0; }
+.dot {
+  width: 17px; height: 17px; margin-top: 2px;
+  border-radius: 50%; display: grid; place-items: center;
+  font-size: 11px; font-weight: 800; color: #fff;
+}
+.dot.pass { background: var(--ok); }
+.dot.warn { background: var(--warn); }
+.dot.fail { background: var(--fail); }
+.f-title { font-weight: 600; font-size: 14.5px; }
+.f-detail { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 76ch; }
+.f-rule {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px; color: var(--text-3); margin-top: 4px;
+}
+.f-caution {
+  margin-top: 7px; padding: 8px 11px;
+  background: var(--warn-bg); color: var(--warn);
+  border-radius: 7px; font-size: 13px; max-width: 76ch;
+}
+
+/* caveats */
+.caveats { list-style: none; padding: 0; margin: 0; }
+.caveats li {
+  position: relative; padding: 7px 0 7px 22px;
+  color: var(--text-2); font-size: 14px; max-width: 76ch;
+}
+.caveats li::before {
+  content: "!"; position: absolute; left: 0; top: 8px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--warn-bg); color: var(--warn);
+  font-size: 10px; font-weight: 800;
+  display: grid; place-items: center;
+}
+
+/* ── Comparison ───────────────────────────────────────────── */
+
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+th, td { text-align: left; padding: 11px 13px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+th { font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; background: var(--surface-2); }
+tr:last-child td { border-bottom: 0; }
+tr.top td { background: var(--accent-bg); }
+td .nm { font-weight: 600; }
+td .sm { color: var(--text-3); font-size: 12.5px; }
+
+.rank {
+  display: inline-grid; place-items: center;
+  width: 20px; height: 20px; border-radius: 5px;
+  background: var(--surface-2); color: var(--text-2);
+  font-size: 12px; font-weight: 700;
+}
+tr.top .rank { background: var(--accent); color: #fff; }
+
+.rejected { margin-top: 26px; }
+.rej {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--fail);
+  border-radius: 8px;
+  background: var(--surface);
+  margin-bottom: 8px;
+}
+.rej .x {
+  width: 17px; height: 17px; margin-top: 2px; flex: none;
+  border-radius: 50%; background: var(--fail); color: #fff;
+  font-size: 11px; font-weight: 800; display: grid; place-items: center;
+}
+.rej .nm { font-weight: 600; font-size: 14.5px; }
+.rej .rs { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 76ch; }
+
+.note {
+  padding: 12px 14px; border-radius: 8px;
+  background: var(--surface-2); color: var(--text-2);
+  font-size: 13.5px; max-width: 78ch;
+}
+
+/* ── Raw / sequence ───────────────────────────────────────── */
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; }
+.leg { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-2); }
+.swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+.seqbox {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); overflow-x: auto; padding: 14px 16px;
+}
+.seq {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px; line-height: 1.95; white-space: pre;
+}
+.seq .ln { color: var(--text-3); user-select: none; }
+.seq span[data-seg] { border-radius: 2px; padding: 2px 0; }
+
+.sp     { color: var(--seg-sp); }
+.binder { color: var(--seg-binder); font-weight: 700; background: var(--accent-bg); }
+.core   { color: var(--seg-core); }
+.tmd    { color: var(--seg-tmd); }
+.output { color: var(--seg-output); }
+
+.segtable { margin-top: 16px; }
+
+pre.json {
+  margin: 0; padding: 14px 16px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px; line-height: 1.6;
+  overflow-x: auto; color: var(--text-2);
+}
+
+details.raw { margin-top: 16px; }
+details.raw > summary {
+  cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--accent);
+  padding: 8px 0; list-style: none;
+}
+details.raw > summary::-webkit-details-marker { display: none; }
+details.raw > summary::before { content: "▸ "; }
+details.raw[open] > summary::before { content: "▾ "; }
+
+/* ── Provenance popover ───────────────────────────────────── */
+
+.prov {
+  background: none; border: 0; padding: 0;
+  color: var(--accent); cursor: pointer;
+  font-size: inherit; font-weight: 500;
+  text-decoration: underline; text-underline-offset: 2px;
+  text-decoration-style: dotted;
+}
+.prov::before { content: "ⓘ "; text-decoration: none; }
+
+#pop {
+  position: absolute; z-index: 60; display: none;
+  width: min(360px, calc(100vw - 32px));
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 30px rgba(16,24,40,.16);
+  padding: 14px 15px;
+}
+#pop h4 { margin: 0 0 8px; font-size: 13px; }
+#pop dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; font-size: 12.5px; }
+#pop dt { color: var(--text-3); }
+#pop dd { margin: 0; color: var(--text); word-break: break-word; }
+#pop dd.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#pop .warnline {
+  margin-top: 10px; padding: 7px 9px; border-radius: 6px;
+  background: var(--mock-bg); color: var(--mock);
+  font-size: 11.5px; font-weight: 600;
+}
+
+.toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%);
+  z-index: 80;
+  background: var(--text); color: var(--bg);
+  padding: 10px 16px; border-radius: 8px;
+  font-size: 13.5px; font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.toast.on { opacity: 1; }
+
+footer.foot {
+  margin-top: 40px; padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--text-3); font-size: 12.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="mockbar">⚠ MOCK DATA <span>— sequences, identifiers and citations on this page are invented for layout review. Nothing here is real.</span></div>
+
+<header class="mast">
+  <div class="mast-in">
+    <div class="logo">syn<b>bind</b></div>
+    <div class="tagline">Design and validate a binder domain for a synthetic receptor.</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Step 1 ─ target -->
+  <section class="step">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <h2>What should the cell sense?</h2>
+      <span class="step-hint">Type a protein name — no accession needed</span>
+    </div>
+    <div class="picker">
+      <input id="q" type="text" autocomplete="off" spellcheck="false"
+             placeholder="e.g. TGF-beta1, CD3, VEGF…" aria-label="Target protein">
+      <div id="menu" class="menu" hidden></div>
+    </div>
+    <div id="selected"></div>
+  </section>
+
+  <!-- Step 2 ─ scaffold -->
+  <section class="step" id="step2" hidden>
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <h2>Which receptor scaffold?</h2>
+      <span class="step-hint">The chassis the binder is fused into</span>
+    </div>
+    <div class="scaffolds" id="scaffolds"></div>
+  </section>
+
+  <!-- Result -->
+  <div id="result"></div>
+
+  <footer class="foot">
+    synbind interface mock · not a working application · all data invented — see <code>MOCK.md</code>
+  </footer>
+</div>
+
+<div id="pop" role="dialog" aria-label="Source record"></div>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+"use strict";
+/* ═══════════════════════════════════════════════════════════════
+   MOCK DATA — every value below is invented. See ../MOCK.md.
+   Accessions are the four already recorded in data/targets.yaml
+   (still verified:false there). Everything else is fiction.
+   ═══════════════════════════════════════════════════════════════ */
+
+const PROV = {
+  tgfb1_uniprot: {
+    title: "UniProt · P01137",
+    fields: { Source: "UniProt", Accession: "P01137", Record: "TGFB1_HUMAN",
+              Retrieved: "2026-07-21", "Curated by": "m.amaral",
+              Note: "Accession recorded from memory; not yet checked against UniProt." }
+  },
+  tb1_7: {
+    title: "PDB · MOCK-7XQ1",
+    fields: { Source: "PDB (invented)", Identifier: "MOCK-7XQ1",
+              Entry: "Humanized Fab TB1-7 in complex with human TGF-β1",
+              Method: "X-ray, 2.1 Å", Deposited: "2024-03-11", "Curated by": "m.amaral" }
+  },
+  c12: {
+    title: "Literature · MOCK-DOI 10.0000/mock.2023.114",
+    fields: { Source: "literature (invented)", DOI: "10.0000/mock.2023.114",
+              Paper: "Single-domain antibodies against latent TGF-β1",
+              Year: "2023", "Curated by": "m.amaral",
+              Note: "Sequence taken from the supplementary table; no structure deposited." }
+  },
+  tgfbr2: {
+    title: "PDB · MOCK-3KFD",
+    fields: { Source: "PDB (invented)", Identifier: "MOCK-3KFD",
+              Entry: "TGF-β type II receptor ectodomain bound to TGF-β1",
+              Method: "X-ray, 2.6 Å", "Curated by": "m.amaral" }
+  },
+  snipr: {
+    title: "Literature · SNIPR scaffold",
+    fields: { Source: "literature", Reference: "Zhu et al. (2022) Cell",
+              Parts: "signal peptide, core, TMD, GAL4-VP64 output",
+              File: "data/scaffolds/snipr.yaml",
+              Note: "Part sequences in this mock are invented placeholders." }
+  },
+  synnotch: {
+    title: "Literature · synNotch scaffold",
+    fields: { Source: "literature", Reference: "Morsut et al. (2016) Nature",
+              File: "data/scaffolds/synnotch.yaml",
+              Note: "Part sequences in this mock are invented placeholders." }
+  },
+  linker: {
+    title: "Linker · (G4S)3",
+    fields: { Source: "curated", Identifier: "g4s_x3", Sequence: "GGGGSGGGGSGGGGS",
+              File: "data/linkers.yaml",
+              Note: "Standard flexible scFv linker. This one is real." }
+  }
+};
+
+const TARGETS = [
+  { id:"tgfb1", name:"TGF-β1", gene:"TGFB1", acc:"P01137", modality:"soluble",
+    aliases:["tgfb1","tgf-beta1","tgf beta 1","transforming growth factor beta-1","tgfb"],
+    blurb:"Secreted signalling protein. Relevant to fibrosis and chronic rejection.",
+    prov:"tgfb1_uniprot", ready:true },
+  { id:"vegfa", name:"VEGF-A", gene:"VEGFA", acc:"P15692", modality:"soluble",
+    aliases:["vegf","vegfa","vegf-a","vascular endothelial growth factor a"],
+    blurb:"Secreted, dimeric. Relevant to graft vascularisation.",
+    prov:null, ready:false },
+  { id:"cd3e", name:"CD3ε", gene:"CD3E", acc:"P07766", modality:"membrane_bound",
+    aliases:["cd3","cd3e","cd3 epsilon","t-cell surface glycoprotein cd3 epsilon"],
+    blurb:"Part of the T-cell receptor complex. Senses T-cell contact.",
+    prov:null, ready:false },
+  { id:"cd3d", name:"CD3δ", gene:"CD3D", acc:"P04234", modality:"membrane_bound",
+    aliases:["cd3","cd3d","cd3 delta"],
+    blurb:"A different chain of the same complex.", prov:null, ready:false },
+  { id:"cd3g", name:"CD3γ", gene:"CD3G", acc:"P09693", modality:"membrane_bound",
+    aliases:["cd3","cd3g","cd3 gamma"],
+    blurb:"A different chain of the same complex.", prov:null, ready:false },
+  { id:"cd47", name:"CD47", gene:"CD47", acc:"Q08722", modality:"membrane_bound",
+    aliases:["cd47","iap","integrin-associated protein"],
+    blurb:"On nearly every cell — kept as a benchmark, not a useful sensor input.",
+    prov:null, ready:false }
+];
+
+const SCAFFOLDS = [
+  { id:"synnotch", name:"synNotch", modalities:["membrane_bound"], prov:"synnotch",
+    desc:"Senses a ligand held on a neighbouring cell. Needs physical pulling force to switch on.",
+    note:"Original, best characterised." },
+  { id:"snipr", name:"SNIPR", modalities:["membrane_bound","soluble"], prov:"snipr",
+    desc:"Also reported to respond to free-floating ligands, depending on how it is configured.",
+    note:"Newer, cleaner off-state." }
+];
+
+/* ── Sequences (invented) ────────────────────────────────── */
+const SEQ = {
+  VH:"EVQLVQSGAEVKKPGASVKVSCKTSGYTFTNYGMHWVRQAPGQRLEWMGWINTYNGSPTYADDFKGRFVFSLDTSVSTAYLQISSLKAEDTAVYYCARDQGYSLDYWGQGTLVTVSS",
+  VL:"DIQMTQSPSSLSASVGDRVTITCRASQDIRNYLNWYQQKPGKAPKLLIYYTSRLHSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQGNTLPWTFGQGTKVEIK",
+  LINKER:"GGGGSGGGGSGGGGS",
+  VHH:"QVQLVESGGGLVQAGGSLRLSCAASGRTFSTYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAADRSTYWGQGTQVTVSS",
+  ECTO:"TIPPHVQKSVNNDMIVTDNNGAVKFPQLCKFCDVRFSTCDNQKSCMSNCSITSICEKPQEVSVAVWRKNDENITLETVCHDPKLPYHDFILEDAASPKCIMKEKKKPGETFFMCSCSSDECNDNIIFSEEYNTSNPD",
+  SP:"MGWSCIILFLVATATGVHS",
+  CORE:"PLGSQSVTNAQEVLRSLGDRVDALEQQVSKLSQGLETRDPQAVLRAQQVLSDLQGRLSALEQRVAELEQGSPAQLLRTLADSVGQLQQRVAELEAGLSPQAVRELSQRLDALSQRVGELSQGLAERLDPQAVRALSQRVGDLEQGLSAQAQRLSELEQRLGALSPQAVRELSQRLDGLSQRVAELAQGLSPQAVRALTQRVGDLEQGLSAQAQRLGELEQRLGALSPQAVRELSQRLDALSQRVGELSQGLAERL",
+  TMD:"GVLLLVLLGVGLGLGLLLL",
+  OUTPUT:"KLLSSIEQACDICRLKKLKCSKEKPKCAKCLKNNWECRYSPKTKRSPLTRAHLTEVESRLERLEQLFLLIFPREDLDMILKMDSLQDIKALLTGLFVQDNVNKDAVTDRLASVETDMPLTLRQHRISATSSSEESSNKGQRQLTVSDALHYALHDAPRAADLDDVYTHVQQQGSLDLLTQLLQAPPQ"
+};
+
+const F = {  // reusable findings
+  provOk: { rule:"provenance.present", sev:"pass", title:"Every part of this design can be traced to a source.",
+            detail:"The binder, the linker and each scaffold part carry a citation you can open and check." },
+  speciesOk: { rule:"species.match", sev:"pass", title:"This binder was raised against the human protein — the one you selected.",
+               detail:"A binder raised against the mouse version would express perfectly and simply never see your ligand." },
+  modalityOk: { rule:"modality.compatible", sev:"pass", title:"SNIPR can respond to a secreted ligand like TGF-β1.",
+                detail:"Unlike synNotch, it does not depend on physical force transmitted from a neighbouring cell.",
+                caution:"How well it responds depends on the configuration, and this is less well established than its response to ligands held on a cell. Plan to test more than one arrangement." },
+  singleChainOk: { rule:"format.single_chain", sev:"pass", title:"The binder is one continuous chain, so it can be fused straight into the receptor.",
+                   detail:"Anything held together by two separate chains, such as a whole antibody, cannot be used here." }
+};
+
+const CANDIDATES = [
+  {
+    id:"tb1_7_vhvl", name:"TB1-7", orientation:"VH–VL", rank:1, score:0.90,
+    format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
+    binder: SEQ.VH + SEQ.LINKER + SEQ.VL, binderLen:239, evidence:"Co-crystal with TGF-β1",
+    summary:"Humanized, structure-backed, one minor flag",
+    rationale:"TB1-7 is the only humanized binder available for TGF-β1 that also has a published structure solved in complex with the target — so we know where it binds, not just that it binds. It is a single chain, it targets the human protein you selected, and it carries one developability flag worth checking: a sugar-attachment site sitting in one of its binding loops. That is a reason to keep an eye on it, not a reason to reject it. This VH–VL arrangement is listed first only because it is the more commonly reported one for this class of binder; the reversed build below is an equally valid candidate.",
+    caveats:[
+      "SNIPR's response to secreted ligands depends on the configuration and is less firmly established than its response to ligands held on a neighbouring cell.",
+      "TGF-β1 is released in an inactive, latent form. A receptor built against it may report that TGF-β1 is <em>present</em> rather than that it is <em>active</em> — which are different questions.",
+      "TGF-β1 is a dimer, so one ligand can engage two receptors at once. That affects switching behaviour in ways this sequence-level check does not model.",
+      "Binding strength is not predicted here. Stronger is not better: a binder that holds on too tightly can switch the receptor on with no ligand present at all."
+    ],
+    findings:[
+      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
+      { rule:"format.length", sev:"pass", title:"239 amino acids — an ordinary size for this kind of binder.",
+        detail:"SNIPR has no published hard size limit, and nothing about this length is unusual." },
+      { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.",
+        detail:"Consistent with the two internal bonds this format normally forms. An odd count would suggest one is left without a partner, which can cause clumping." },
+      { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S), at position 55 of the binder.",
+        detail:"It falls inside a binding loop, so a sugar added there could physically block the part that touches the ligand. Common and often harmless — but worth watching if the binder underperforms." },
+      { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.",
+        detail:"This alters the local charge and can gradually reduce binding. It matters for long-term storage more than for a first experiment." },
+      { rule:"liability.isomerization", sev:"pass", title:"No D-G motifs, so no isomerisation-prone sites.", detail:"" },
+      { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.",
+        detail:"Matters here because the engineered cell is displayed to a recipient immune system; a mouse-derived framework would be more visible to it." }
+    ]
+  },
+  {
+    id:"tb1_7_vlvh", name:"TB1-7", orientation:"VL–VH", rank:2, score:0.90,
+    format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
+    binder: SEQ.VL + SEQ.LINKER + SEQ.VH, binderLen:239, evidence:"Co-crystal with TGF-β1",
+    summary:"Same binder, halves joined the other way round",
+    rationale:"Identical parts to the recommendation, joined in the opposite order. Both are built because the two arrangements do not always fold or behave the same way, and there is no reliable way to tell from sequence alone which will be better. If the first one disappoints at the bench, this is the first thing to try.",
+    caveats:["Same caveats as the VH–VL build — identical sequence content, different arrangement."],
+    findings:[
+      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
+      { rule:"format.length", sev:"pass", title:"239 amino acids — identical content to the VH–VL build.", detail:"" },
+      { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+      { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S) in a binding loop.",
+        detail:"The same site as the VH–VL build; the reordering does not remove it." },
+      { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.", detail:"" },
+      { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" },
+      { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.", detail:"" }
+    ]
+  },
+  {
+    id:"tgfbr2_trap", name:"TGFBR2 ectodomain", orientation:null, rank:3, score:0.80,
+    format:"Natural receptor piece", origin:"Human", prov:"tgfbr2",
+    binder: SEQ.ECTO, binderLen:137, evidence:"Co-crystal with TGF-β1",
+    summary:"Fully human, but the highest off-target risk here",
+    rationale:"This is the outside portion of the body's own receptor for TGF-β1, so it is fully human and binds the real thing by design. The trade-off is specificity: natural receptors evolved surrounded by several binding partners, and their relatives are everywhere. If it engages something on the surface of the cell carrying the receptor, that receptor is switched on permanently and the experiment is dead before it starts. synbind cannot check that yet.",
+    caveats:[
+      "Natural receptor pieces carry substantially higher off-target risk than antibody-derived binders. The screen that would catch this is not built yet.",
+      "One cysteine appears to have lost its partner when the piece was cut from the full receptor, which can cause clumping."
+    ],
+    findings:[
+      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
+      { rule:"format.length", sev:"pass", title:"137 amino acids — compact.", detail:"" },
+      { rule:"liability.unpaired_cys", sev:"warn", title:"Eleven cysteines — an odd number, so one has no partner.",
+        detail:"Expected when a domain is cut out of a larger protein. A leftover unpaired cysteine can link to the wrong place and cause clumping.",
+        caution:"Of the flags on this page, this is the one most likely to cause real trouble at the bench." },
+      { rule:"liability.nglyc_sequon", sev:"warn", title:"Three sugar-attachment sites.",
+        detail:"Normal for a natural cell-surface protein, which is glycosylated in life — but more sites means more variability between preparations." },
+      { rule:"liability.deamidation", sev:"warn", title:"One N-G pair that can chemically change over time.", detail:"" },
+      { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" },
+      { rule:"immunogenicity.origin", sev:"pass", title:"Entirely human sequence.",
+        detail:"The least visible option to a recipient immune system." }
+    ]
+  },
+  {
+    id:"c12_vhh", name:"C12", orientation:null, rank:4, score:0.65,
+    format:"Nanobody (VHH)", origin:"Camelid (llama)", prov:"c12",
+    binder: SEQ.VHH, binderLen:114, evidence:"Sequence only — no structure",
+    summary:"Smallest and cleanest, but non-human and unproven structurally",
+    rationale:"The smallest option, a single compact domain that needs no joining and usually folds well — often an advantage when a binder has to sit correctly on a cell surface. Two things hold it back from the top spot: the framework comes from a llama, which a recipient immune system would notice, and there is no published structure, so the evidence that it binds where the paper says it does is weaker than for TB1-7.",
+    caveats:[
+      "Llama-derived framework. For a transplanted cell, everything on the surface is visible to the recipient's immune system.",
+      "No published structure. The binding site is reported, not directly observed."
+    ],
+    findings:[
+      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
+      { rule:"format.length", sev:"pass", title:"114 amino acids — the smallest candidate here.",
+        detail:"Small single domains often fold well and display cleanly on a surface." },
+      { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
+      { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+      { rule:"liability.deamidation", sev:"warn", title:"One N-S pair that can chemically change over time.",
+        detail:"It sits in a structural region rather than a binding loop, so the impact is likely smaller than for a site in a loop." },
+      { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" },
+      { rule:"immunogenicity.origin", sev:"warn", title:"Llama-derived framework, not human.",
+        detail:"A recipient immune system may react to the binder itself. Humanising it is possible but is extra work, and can cost binding strength.",
+        caution:"This is the reason C12 is not the recommendation, despite being the cleanest sequence on the page." }
+    ]
+  }
+];
+
+const REJECTED = [
+  { name:"MT-4", why:"Raised against <b>mouse</b> TGF-β1, not human. It would be made and displayed correctly and simply never meet your ligand.", rule:"species.match" },
+  { name:"BX-201", why:"A whole antibody — two separate chains held together. It cannot be fused into a receptor as one continuous chain.", rule:"format.single_chain" },
+  { name:"L-14 (in-house clone)", why:"No published source. synbind will not recommend a binder you cannot cite or check.", rule:"provenance.present" }
+];
+
+/* ═══ State ═══════════════════════════════════════════════════ */
+
+const state = { target:null, scaffold:null, tab:"rec" };
+
+const $  = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+const modalityChip = m => m === "soluble"
+  ? '<span class="chip soluble">floats freely</span>'
+  : '<span class="chip membrane">held on a cell</span>';
+
+const provBtn = (key, label) =>
+  `<button class="prov" data-prov="${key}">${esc(label)}</button>`;
+
+/* ═══ Step 1 — target picker ══════════════════════════════════ */
+
+const q = $("#q"), menu = $("#menu");
+
+function search(term) {
+  const t = term.trim().toLowerCase();
+  if (!t) return [];
+  return TARGETS.filter(x =>
+    x.name.toLowerCase().includes(t) || x.gene.toLowerCase().includes(t) ||
+    x.aliases.some(a => a.includes(t)));
+}
+
+function renderMenu() {
+  const hits = search(q.value);
+  if (!q.value.trim()) { menu.hidden = true; return; }
+  menu.hidden = false;
+
+  if (!hits.length) {
+    menu.innerHTML = `<div class="empty">No protein matching “${esc(q.value)}”.
+      synbind knows four targets so far — try <b>TGF-β1</b>, <b>VEGF-A</b>, <b>CD3</b> or <b>CD47</b>.</div>`;
+    return;
+  }
+
+  // Ambiguity is shown and resolved, never guessed at silently.
+  const ambiguous = hits.length > 1 && hits.every(h => h.gene.startsWith("CD3"));
+  const note = ambiguous
+    ? `<div class="menu-note">“CD3” is three different proteins. Which chain do you mean?</div>` : "";
+
+  menu.innerHTML = note + hits.map(h => `
+    <button class="opt" data-target="${h.id}">
+      <span>
+        <span class="opt-name">${h.name}</span>
+        <span class="opt-sub"> · ${h.gene} · ${h.blurb}</span>
+      </span>
+      ${modalityChip(h.modality)}
+    </button>`).join("");
+}
+
+function pickTarget(id) {
+  state.target = TARGETS.find(t => t.id === id);
+  state.scaffold = null;
+  state.tab = "rec";
+  q.value = state.target.name;
+  menu.hidden = true;
+  renderSelected();
+  renderScaffolds();
+  renderResult();
+  $("#step2").scrollIntoView({ behavior:"smooth", block:"nearest" });
+}
+
+function renderSelected() {
+  const t = state.target;
+  if (!t) { $("#selected").innerHTML = ""; return; }
+  $("#selected").innerHTML = `
+    <div class="card selected" style="margin-top:12px">
+      <span class="who">${t.name}</span>
+      ${modalityChip(t.modality)}
+      <span class="acc">${t.gene} · ${t.acc}</span>
+      ${t.prov ? provBtn(t.prov, "source") : ""}
+      <button class="linkish" id="clear">change</button>
+    </div>`;
+  $("#clear").onclick = () => {
+    state.target = null; state.scaffold = null;
+    q.value = ""; q.focus();
+    renderSelected(); $("#step2").hidden = true; renderResult();
+  };
+}
+
+/* ═══ Step 2 — scaffold ══════════════════════════════════════ */
+
+function renderScaffolds() {
+  $("#step2").hidden = !state.target;
+  $("#scaffolds").innerHTML = SCAFFOLDS.map(s => `
+    <button class="scaf" data-scaffold="${s.id}" aria-pressed="${state.scaffold === s.id}">
+      <span class="scaf-top">
+        <span class="scaf-name">${s.name}</span>
+        <span class="chip">${s.note}</span>
+      </span>
+      <span class="scaf-desc">${s.desc}</span>
+    </button>`).join("");
+}
+
+/* ═══ Result ═════════════════════════════════════════════════ */
+
+function renderResult() {
+  const box = $("#result");
+  if (!state.target || !state.scaffold) { box.innerHTML = ""; return; }
+
+  const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
+  const compatible = scaf.modalities.includes(state.target.modality);
+  const supported = state.target.ready;
+
+  if (!compatible)      box.innerHTML = blockedView(scaf);
+  else if (!supported)  box.innerHTML = noDataView();
+  else                  box.innerHTML = passView(scaf);
+
+  box.scrollIntoView({ behavior:"smooth", block:"nearest" });
+}
+
+/* ── The block: soluble ligand + force-dependent scaffold ──── */
+
+function blockedView(scaf) {
+  const t = state.target;
+  return `
+  <section class="card verdict blocked">
+    <div class="verdict-head">
+      <span class="mark">✕</span>
+      <div>
+        <h2>This combination will not work</h2>
+        <p>${t.name} floats freely in the space between cells. ${scaf.name} can only switch on when
+           something <b>pulls</b> on it — and nothing floating can pull.</p>
+      </div>
+    </div>
+
+    <div class="because">
+      <h3>Why</h3>
+      <p>${scaf.name} borrows its switching mechanism from a natural receptor that is opened by
+         mechanical force. The ligand has to be anchored to a neighbouring cell so that, as the two
+         cells move apart, the receptor is physically stretched open. That stretching is what exposes
+         the cut site and releases the signal.</p>
+      <p><b>The dangerous part is that nothing looks wrong.</b> The construct assembles, the cells
+         express it, it reaches the surface, and it stays silent. This usually surfaces months later,
+         as an experiment that quietly produced nothing.</p>
+      <p>All four candidate binders for ${t.name} were excluded for this same reason. The problem is
+         the scaffold, not the binder.</p>
+    </div>
+
+    <div class="fixbar">
+      <span class="txt">Use <b>SNIPR</b> instead — it is reported to respond to free-floating ligands.</span>
+      <button class="btn" id="switch">Switch to SNIPR</button>
+      ${provBtn("snipr", "about SNIPR")}
+    </div>
+  </section>`;
+}
+
+function noDataView() {
+  const t = state.target;
+  return `
+  <section class="card verdict">
+    <div class="verdict-head" style="background:var(--surface-2)">
+      <span class="mark" style="background:var(--text-3)">–</span>
+      <div>
+        <h2>No binders curated for ${t.name} yet</h2>
+        <p>The pairing is sound — this scaffold can sense a ligand like ${t.name} — but nobody has
+           added a checked, citable binder for it to the library.</p>
+      </div>
+    </div>
+    <div class="because">
+      <p>In this mock only <b>TGF-β1</b> has candidates attached. Pick it to see the full result.</p>
+    </div>
+  </section>`;
+}
+
+/* ── The pass: full three-layer result ────────────────────── */
+
+function passView(scaf) {
+  const t = state.target, top = CANDIDATES[0];
+  const panes = { rec: recPane(), cmp: cmpPane(), raw: rawPane(scaf) };
+  return `
+  <section class="card verdict ok">
+    <div class="verdict-head">
+      <span class="mark">✓</span>
+      <div>
+        <h2>This combination can work</h2>
+        <p>${scaf.name} can respond to a free-floating ligand like ${t.name}.
+           ${CANDIDATES.length} designs passed every blocking check; ${REJECTED.length} were excluded.</p>
+      </div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="rec" aria-selected="${state.tab==="rec"}">Recommendation</button>
+      <button class="tab" role="tab" data-tab="cmp" aria-selected="${state.tab==="cmp"}">Compare<span class="n">${CANDIDATES.length + REJECTED.length}</span></button>
+      <button class="tab" role="tab" data-tab="raw" aria-selected="${state.tab==="raw"}">Sequence &amp; sources</button>
+    </div>
+    <div class="pane">${panes[state.tab]}</div>
+  </section>`;
+}
+
+function findingsHtml(list) {
+  return list.map(f => `
+    <div class="finding">
+      <span class="dot ${f.sev}">${f.sev === "pass" ? "✓" : f.sev === "warn" ? "!" : "✕"}</span>
+      <div>
+        <div class="f-title">${f.title}</div>
+        ${f.detail ? `<div class="f-detail">${f.detail}</div>` : ""}
+        ${f.caution ? `<div class="f-caution">${f.caution}</div>` : ""}
+        <div class="f-rule">${f.rule}</div>
+      </div>
+    </div>`).join("");
+}
+
+function recPane() {
+  const c = CANDIDATES[0];
+  const warns = c.findings.filter(f => f.sev === "warn").length;
+  return `
+    <div class="rec-top">
+      <div>
+        <div class="rec-name">${c.name} <span style="color:var(--text-3);font-weight:400">· ${c.orientation}</span></div>
+        <div class="rec-meta">${c.format} · ${c.origin} · ${c.binderLen} aa · ${c.evidence} · ${provBtn(c.prov, "source")}</div>
+      </div>
+      <div class="rec-actions">
+        <button class="btn sm ghost" data-copy="binder">Copy binder</button>
+        <button class="btn sm" data-copy="construct">Copy full construct</button>
+      </div>
+    </div>
+
+    <div class="why">
+      <h3>Why this one</h3>
+      ${c.rationale}
+    </div>
+
+    <div class="sub">
+      <h3>WHAT WE CHECKED — everything passed except ${warns} point${warns===1?"":"s"} worth knowing about</h3>
+      ${findingsHtml(c.findings)}
+    </div>
+
+    <div class="sub">
+      <h3>BEFORE YOU ORDER ANYTHING</h3>
+      <ul class="caveats">${c.caveats.map(x => `<li>${x}</li>`).join("")}</ul>
+    </div>`;
+}
+
+function cmpPane() {
+  return `
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th></th><th>Binder</th><th>Type</th><th>Origin</th><th>Size</th>
+          <th>Evidence</th><th>Points to watch</th>
+        </tr></thead>
+        <tbody>
+        ${CANDIDATES.map(c => {
+          const warns = c.findings.filter(f => f.sev === "warn");
+          return `<tr class="${c.rank === 1 ? "top" : ""}">
+            <td><span class="rank">${c.rank}</span></td>
+            <td><span class="nm">${c.name}</span>${c.orientation ? `<div class="sm">${c.orientation}</div>` : ""}</td>
+            <td>${c.format}</td>
+            <td>${c.origin}</td>
+            <td>${c.binderLen} aa</td>
+            <td>${c.evidence}</td>
+            <td>${warns.length ? warns.map(w => w.title.replace(/\.$/, "")).join("<br>") : "<span class='sm'>none</span>"}</td>
+          </tr>`;
+        }).join("")}
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="margin-top:12px">Ordered by how many concerns each carries, how directly its
+      binding has been observed, and how human it is — not by any single number. The reasons are in the
+      last column; nothing is hidden behind a score.</p>
+
+    <div class="rejected">
+      <h3 style="font-size:13px;color:var(--text-2);margin-bottom:10px">EXCLUDED, AND WHY</h3>
+      ${REJECTED.map(r => `
+        <div class="rej">
+          <span class="x">✕</span>
+          <div>
+            <div class="nm">${r.name}</div>
+            <div class="rs">${r.why}</div>
+            <div class="f-rule">${r.rule}</div>
+          </div>
+        </div>`).join("")}
+      <p class="note">These are shown on purpose. A tool that only shows what survived gives you no way
+        to tell whether it looked in the right place.</p>
+    </div>`;
+}
+
+/* ── Annotated construct ─────────────────────────────────── */
+
+const SEGDEF = [
+  { name:"signal peptide", cls:"sp",     seq:SEQ.SP,     what:"Gets the receptor to the cell surface." },
+  { name:"binder",         cls:"binder", seq:null,       what:"The part that recognises the ligand. This is what synbind designs." },
+  { name:"core",           cls:"core",   seq:SEQ.CORE,   what:"Converts ligand binding into a cut." },
+  { name:"transmembrane",  cls:"tmd",    seq:SEQ.TMD,    what:"Sits in the membrane; the second cut happens here." },
+  { name:"output module",  cls:"output", seq:SEQ.OUTPUT, what:"Released on activation; switches on your gene of interest." }
+];
+
+function buildConstruct(binder) {
+  let pos = 0;
+  const segs = SEGDEF.map(d => {
+    const seq = d.seq === null ? binder : d.seq;
+    const s = { ...d, seq, start:pos, end:pos + seq.length };
+    pos += seq.length;
+    return s;
+  });
+  return { segs, sequence: segs.map(s => s.seq).join(""), length: pos };
+}
+
+function annotate(con) {
+  const W = 60, out = [];
+  for (let i = 0; i < con.length; i += W) {
+    const gutter = `<span class="ln">${String(i + 1).padStart(4, " ")}  </span>`;
+    let row = "", j = i, lineEnd = Math.min(i + W, con.length);
+    while (j < lineEnd) {
+      const seg = con.segs.find(s => j >= s.start && j < s.end);
+      const stop = Math.min(seg.end, lineEnd);
+      row += `<span class="${seg.cls}" data-seg="${seg.name}">${con.sequence.slice(j, stop)}</span>`;
+      j = stop;
+    }
+    out.push(gutter + row);
+  }
+  return out.join("\n");
+}
+
+function rawPane(scaf) {
+  const c = CANDIDATES[0];
+  const con = buildConstruct(c.binder);
+  window.__construct = con;
+
+  const designResult = {
+    target: { gene:"TGFB1", accession:"P01137", modality:"soluble" },
+    scaffold: { id:"snipr_v1", compatible_modalities:["membrane_bound","soluble"] },
+    recommended: {
+      construct: { id:"tb1_7_vhvl__snipr_v1", binder_id:"tb1_7", scaffold_id:"snipr_v1",
+                   orientation:"VH-VL", length:con.length,
+                   segments: con.segs.map(s => ({ name:s.name, start:s.start, end:s.end,
+                     kind: s.cls === "binder" ? "binder" : "scaffold_part" })) },
+      score: c.score,
+      caveats: c.caveats.length
+    },
+    alternatives: CANDIDATES.length - 1,
+    rejected: REJECTED.map(r => ({ binder_id:r.name, reason:r.rule })),
+    generated_at: "2026-07-27T10:14:00Z",
+    synbind_version: "0.0.0-mock",
+    data_version: "MOCK — no real data version"
+  };
+
+  return `
+    <div class="legend">
+      ${con.segs.map(s => `<span class="leg">
+        <span class="swatch" style="background:var(--seg-${s.cls})"></span>${s.name}
+        <span style="color:var(--text-3)">${s.end - s.start} aa</span></span>`).join("")}
+    </div>
+
+    <div class="seqbox"><div class="seq">${annotate(con)}</div></div>
+
+    <p class="note" style="margin-top:12px">${con.length} amino acids in total, written from the
+      outside of the cell inwards. The highlighted stretch is the only part that decides
+      <em>what</em> the cell senses — everything else is standard, reusable machinery.</p>
+
+    <div class="segtable tablewrap">
+      <table>
+        <thead><tr><th>Segment</th><th>Positions</th><th>Length</th><th>What it does</th><th>Source</th></tr></thead>
+        <tbody>
+        ${con.segs.map(s => `<tr>
+          <td><span class="swatch" style="background:var(--seg-${s.cls});display:inline-block;margin-right:7px"></span><span class="nm">${s.name}</span></td>
+          <td class="sm">${s.start + 1}–${s.end}</td>
+          <td>${s.end - s.start} aa</td>
+          <td>${s.what}</td>
+          <td>${provBtn(s.cls === "binder" ? c.prov : scaf.prov, s.cls === "binder" ? "TB1-7" : scaf.name)}</td>
+        </tr>`).join("")}
+        <tr>
+          <td colspan="4" class="sm">Inside the binder: VH — (G4S)₃ linker — VL</td>
+          <td>${provBtn("linker", "linker")}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="raw">
+      <summary>Machine-readable result</summary>
+      <pre class="json">${esc(JSON.stringify(designResult, null, 2))}</pre>
+    </details>`;
+}
+
+/* ═══ Provenance popover ═════════════════════════════════════ */
+
+const pop = $("#pop");
+
+function openPop(btn) {
+  const rec = PROV[btn.dataset.prov];
+  if (!rec) return;
+  pop.innerHTML = `<h4>${esc(rec.title)}</h4><dl>` +
+    Object.entries(rec.fields).map(([k, v]) =>
+      `<dt>${esc(k)}</dt><dd class="${/^(Accession|Identifier|DOI|Sequence)$/.test(k) ? "mono" : ""}">${esc(v)}</dd>`
+    ).join("") +
+    `</dl><div class="warnline">MOCK — this record is invented</div>`;
+  pop.style.display = "block";
+  const r = btn.getBoundingClientRect(), w = pop.offsetWidth;
+  pop.style.top  = (window.scrollY + r.bottom + 8) + "px";
+  pop.style.left = Math.max(12, Math.min(window.scrollX + r.left, window.scrollX + window.innerWidth - w - 12)) + "px";
+}
+
+/* ═══ Copy, with a warning line attached ═════════════════════ */
+
+function copy(what) {
+  const c = CANDIDATES[0];
+  const con = window.__construct || buildConstruct(c.binder);
+  const seq = what === "binder" ? c.binder : con.sequence;
+  const text = `# MOCK DATA — invented, not a real sequence. Do not order or synthesise.\n` +
+               `>${what === "binder" ? "TB1-7_scFv_VH-VL" : "TB1-7_scFv_VH-VL__SNIPR"}_MOCK\n` +
+               (seq.match(/.{1,60}/g) || []).join("\n");
+
+  const done = () => toast(`Copied — with a "MOCK DATA" line attached`);
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
+  } else fallback(text, done);
+}
+
+function fallback(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); }
+  catch (e) { toast("Copy blocked by the browser — select the sequence manually"); }
+  ta.remove();
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = $("#toast");
+  el.textContent = msg; el.classList.add("on");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("on"), 2600);
+}
+
+/* ═══ Events ═════════════════════════════════════════════════ */
+
+q.addEventListener("input", renderMenu);
+q.addEventListener("focus", renderMenu);
+
+document.addEventListener("click", e => {
+  const t = e.target;
+
+  const opt = t.closest("[data-target]");
+  if (opt) { pickTarget(opt.dataset.target); return; }
+
+  const scaf = t.closest("[data-scaffold]");
+  if (scaf) {
+    state.scaffold = scaf.dataset.scaffold; state.tab = "rec";
+    renderScaffolds(); renderResult(); return;
+  }
+
+  if (t.closest("#switch")) {
+    state.scaffold = "snipr"; state.tab = "rec";
+    renderScaffolds(); renderResult(); return;
+  }
+
+  const tab = t.closest("[data-tab]");
+  if (tab) { state.tab = tab.dataset.tab; renderResult(); return; }
+
+  const cp = t.closest("[data-copy]");
+  if (cp) { copy(cp.dataset.copy); return; }
+
+  const pv = t.closest("[data-prov]");
+  if (pv) { openPop(pv); e.stopPropagation(); return; }
+
+  if (!t.closest("#pop")) pop.style.display = "none";
+  if (!t.closest(".picker")) menu.hidden = true;
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") { pop.style.display = "none"; menu.hidden = true; }
+});
+
+renderScaffolds();
+</script>
+</body>
+</html>
