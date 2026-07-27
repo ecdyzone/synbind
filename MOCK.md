@@ -8,8 +8,10 @@ It is a picture of an application, not an application.
 
 ## What it covers
 
-Two targets have candidates attached. Between them they exercise every state worth
-reacting to:
+**All six targets have candidates**, so nothing dead-ends in a "not found" screen.
+Every target × cell × scaffold combination reaches a real, explained result.
+
+The paths worth walking someone through:
 
 | Pick this | To see |
 |---|---|
@@ -18,9 +20,13 @@ reacting to:
 | **CD3ε** + pig islet cell | The tool ranks the famous antibody (UCHT1) *below* a humanized one, because these cells go into a recipient. Switch the cell to HEK293 and the reasoning visibly changes. |
 | **TGF-β1** + SNIPR | Four binder formats compared: scFv both ways round, a nanobody, a natural receptor piece. |
 | Type **CD3** | Ambiguity resolved rather than guessed: ε, δ and γ are offered. |
+| **CD47** + any listed cell | Always blocked, and the page says why rather than offering a fix that would not work: CD47 is on almost every cell, which is what makes it a poor sensor however well studied it is. Pick "Something else" as the cell to see its candidates. |
+| **CD3γ** | The thin-evidence case. One binder exists, mouse-derived, no structure — the tool still answers, but says the evidence is weak and points at CD3ε instead. |
+| **VEGF-A** + SNIPR | Includes a candidate with no flags at all, which is its own state. |
 | Any **Use this** button | Overriding the suggestion. The choice is carried through to the sequence and the exported record. |
 
-VEGF-A, CD3δ, CD3γ and CD47 resolve but have no binders, which is its own state.
+A "no binders curated" screen still exists in the code, since the real tool will need
+it — but no target in the mock reaches it.
 
 ---
 

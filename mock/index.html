@@ -344,6 +344,7 @@ header.mast { border-bottom: 1px solid var(--line); background: var(--surface); 
 .f-detail { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 68ch; }
 
 details.more { margin-top: 6px; }
+.exportbar { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
 details.more > summary {
   cursor: pointer; list-style: none;
   color: var(--accent); font-size: 13.5px; font-weight: 550;
@@ -550,7 +551,7 @@ footer.foot .build { font-family: ui-monospace, SFMono-Regular, Menlo, monospace
    MOCK DATA — every value below is invented. See ../MOCK.md.
    ═══════════════════════════════════════════════════════════════ */
 
-const BUILD = { tag: "mock-3", date: "2026-07-27" };
+const BUILD = { tag: "mock-4", date: "2026-07-27" };
 
 const POP = {
   why_host: { title: "Why the cell matters",
@@ -560,6 +561,32 @@ const POP = {
     fields: { Source:"UniProt", Accession:"P01137", Record:"TGFB1_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
   cd3e_uniprot: { title: "UniProt · P07766",
     fields: { Source:"UniProt", Accession:"P07766", Record:"CD3E_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  cd3d_uniprot: { title: "UniProt · P04234",
+    fields: { Source:"UniProt", Accession:"P04234", Record:"CD3D_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  cd3g_uniprot: { title: "UniProt · P09693",
+    fields: { Source:"UniProt", Accession:"P09693", Record:"CD3G_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  vegfa_uniprot: { title: "UniProt · P15692",
+    fields: { Source:"UniProt", Accession:"P15692", Record:"VEGFA_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  cd47_uniprot: { title: "UniProt · Q08722",
+    fields: { Source:"UniProt", Accession:"Q08722", Record:"CD47_HUMAN", Retrieved:"2026-07-21", Checked:"not yet" } },
+  d4: { title: "PDB · MOCK-6QTA",
+    fields: { Source:"PDB", Identifier:"MOCK-6QTA", Entry:"Humanized Fab hCD3d-4 with human CD3δ", Method:"X-ray, 2.3 Å", Curated:"m.amaral" } },
+  d7: { title: "Paper · 10.0000/mock.2024.208",
+    fields: { Source:"literature", DOI:"10.0000/mock.2024.208", Paper:"Single-domain binders to the CD3 complex", Curated:"m.amaral" } },
+  g3: { title: "Paper · 10.0000/mock.2019.041",
+    fields: { Source:"literature", DOI:"10.0000/mock.2019.041", Paper:"Monoclonal antibodies against CD3γ", Curated:"m.amaral" } },
+  bva: { title: "PDB · MOCK-4KZN",
+    fields: { Source:"PDB", Identifier:"MOCK-4KZN", Entry:"Humanized Fab BV-A with VEGF-A", Method:"X-ray, 2.0 Å", Curated:"m.amaral" } },
+  vr1: { title: "PDB · MOCK-5TQW",
+    fields: { Source:"PDB", Identifier:"MOCK-5TQW", Entry:"VEGFR1 domain 2 with VEGF-A", Method:"X-ray, 2.7 Å", Curated:"m.amaral" } },
+  v11: { title: "Paper · 10.0000/mock.2022.077",
+    fields: { Source:"literature", DOI:"10.0000/mock.2022.077", Paper:"Nanobodies neutralising VEGF-A", Curated:"m.amaral" } },
+  ac9: { title: "PDB · MOCK-2WJR",
+    fields: { Source:"PDB", Identifier:"MOCK-2WJR", Entry:"Humanized Fab AC-9 with human CD47", Method:"X-ray, 2.2 Å", Curated:"m.amaral" } },
+  sirpa: { title: "PDB · MOCK-2JJT",
+    fields: { Source:"PDB", Identifier:"MOCK-2JJT", Entry:"SIRPα domain 1 with CD47", Method:"X-ray, 1.9 Å", Curated:"m.amaral" } },
+  n4: { title: "Paper · 10.0000/mock.2021.155",
+    fields: { Source:"literature", DOI:"10.0000/mock.2021.155", Paper:"Single-domain antibodies against CD47", Curated:"m.amaral" } },
   tb1_7: { title: "PDB · MOCK-7XQ1",
     fields: { Source:"PDB", Identifier:"MOCK-7XQ1", Entry:"Humanized Fab TB1-7 with human TGF-β1", Method:"X-ray, 2.1 Å", Curated:"m.amaral" } },
   c12: { title: "Paper · 10.0000/mock.2023.114",
@@ -588,13 +615,17 @@ const TARGETS = [
     blurb:"Sits on T cells. Senses that a T cell is touching this cell.",
     prov:"cd3e_uniprot", ready:true },
   { id:"vegfa", name:"VEGF-A", gene:"VEGFA", acc:"P15692", modality:"soluble",
-    aliases:["vegf","vegfa","vegf-a"], blurb:"Released, and travels. Linked to blood-vessel growth.", ready:false },
+    aliases:["vegf","vegfa","vegf-a"], blurb:"Released, and travels. Linked to blood-vessel growth.",
+    prov:"vegfa_uniprot", ready:true },
   { id:"cd3d", name:"CD3δ", gene:"CD3D", acc:"P04234", modality:"membrane_bound",
-    aliases:["cd3","cd3d","cd3 delta"], blurb:"A different chain of the same T-cell complex.", ready:false },
+    aliases:["cd3","cd3d","cd3 delta"], blurb:"Another chain of the same T-cell complex.",
+    prov:"cd3d_uniprot", ready:true },
   { id:"cd3g", name:"CD3γ", gene:"CD3G", acc:"P09693", modality:"membrane_bound",
-    aliases:["cd3","cd3g","cd3 gamma"], blurb:"A different chain of the same T-cell complex.", ready:false },
+    aliases:["cd3","cd3g","cd3 gamma"], blurb:"Another chain of the same T-cell complex, the least studied.",
+    prov:"cd3g_uniprot", ready:true },
   { id:"cd47", name:"CD47", gene:"CD47", acc:"Q08722", modality:"membrane_bound",
-    aliases:["cd47","iap"], blurb:"On nearly every cell, so it says very little on its own.", ready:false }
+    aliases:["cd47","iap"], blurb:"On nearly every cell, so it says very little on its own.",
+    prov:"cd47_uniprot", ready:true }
 ];
 
 /* Which cell carries the receptor. `displays` lists targets that sit on this
@@ -631,7 +662,20 @@ const SEQ = {
   H9_VH:"EVQLVESGGGLVQPGGSLRLSCAASGYSFTGYTMNWVRQAPGKGLEWVGLIDPYYGGTSYAQKFQGRATLTADKSTSTAYMELSSLRSEDTAVYYCARSGYYDGAWFAYWGQGTLVTVSS",
   H9_VL:"DIQMTQSPSSLSASVGDRVTITCRASQSIVHSSGNTYLEWYQQKPGKAPKLLIYKVSNRFSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCFQGSHVPWTFGQGTKLEIK",
   U1_VH:"QVQLQQSGAELARPGASVKMSCKASGYTFTRYTMHWVKQRPGQGLEWIGYINPSRGYTNGSQKFKDKATLTTDKSSSTAYMQLSSLTSEDSAVYYCARYYDDHYSLDYWGQGTTLTVSS",
-  U1_VL:"DIQMTQTTSSLSASLGDRVTISCRASQDIRNYLNWYQQKPDQTVKLLIYYTSRLHSGVPSKFSGSGSGTDYSLTISNSEQEDIATYFCQQGNTLPWTFAGGTKLEIK"
+  U1_VL:"DIQMTQTTSSLSASLGDRVTISCRASQDIRNYLNWYQQKPDQTVKLLIYYTSRLHSGVPSKFSGSGSGTDYSLTISNSEQEDIATYFCQQGNTLPWTFAGGTKLEIK",
+  D4_VH:"EVQLVESGGGLVQPGGSLRLSCAASGFTFSTYWMHWVRQAPGKGLEWVSRIKSKTDGGTTDYAAPVKGRFTISRDDSKQTLYLQMTSLKTEDTAVYYCTTYYSPLRYWGQGTLVTVSS",
+  D4_VL:"DIQMTQSPSSLSASVGDRVTITCKASQDVSTAVAWYQQKPGKAPKLLIYSASYRYTGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQHYSTPLTFGQGTKVEIK",
+  D7_VHH:"QVQLVESGGGLVQPGGSLRLSCAASGFTFDDYAIGWFRQAPGKEREGVSAISNSTGSTYYADSVKGRFTISSDNAKNTVYLQMNSLKPEDTAVYYCAAKWRPLRYWGQGTQVTVSS",
+  G3_VH:"QVQLQQSGAELARPGASVKMSCKASGYTFTSYWMQWVKQRPGQGLEWIGAIYPGDGDTRYTQKFKGKATLTVDKSSSTAYMQLSSLTSEDSAVYYCARGEDYYGSSYWGQGTTLTVSS",
+  G3_VL:"DIVMTQSPSSLTVTAGEKVTMSCKSSQSLLNSGNQKNYLTWYQQKPGQPPKLLIYWASTRESGVPDRFTGSGSGTDFTLTISSVQAEDLAVYYCQNDYSYPLTFGAGTKLELK",
+  BV_VH:"EVQLVESGGGLVQPGGSLRLSCAASGYTFTNGSHWMNWVRQAPGKGLEWVGAINPSNGGTNYAQKFQRRFTFSLDTSKSTAYLQMNSLRAEDTAVYYCAKYPHYYGSSHWYFDVWGQGTLVTVSS",
+  BV_VL:"DIQMTQSPSSLSASVGDRVTITCSASQDISNYLNWYQQKPGKAPKVLIYFTSSLHSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYSTVPWTFGQGTKVEIK",
+  VR1_D2:"SDTGRPFVEMYSEIPEIIHMTEGRELVIPCRVTSPNITVTLKKFPLDTLIPDGKRIIWDSRKGFIISNATYKEIGLLTCEATVNGHLYKTNYLTHRQTNTIIDVVLSPSHGIELSVGEKLVLNCTARTELNVGIDF",
+  V11_VHH:"QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMAWFRQAPGKEREFVAAISWSGGHTYYADSVKGRFTISRDAAKKTVYLQMTSLKPEDTAVYYCAADRVSAWYWGQGTQVTVSS",
+  AC9_VH:"EVQLVESGGGLVQPGGSLRLSCAASGYTFTDYNMHWVRQAPGKGLEWVGYIYPYNGGTGYAQKFQGRATLTADKSTSTAYMELSSLRSEDTAVYYCARGGHDGSSWYFDVWGQGTLVTVSS",
+  AC9_VL:"DIQMTQSPSSLSASVGDRVTITCRASESVDNYGISFMKWYQQKPGKAPKLLIYAASKQGSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQSKEVPWTFGQGTKVEIK",
+  SIRPA_D1:"EEELQVIQPDKSVLVAAGETATLRCTATSLIPVGPIQWFRGAGPGRELIYNQKEGHFPRVTTVSDLTKRNNMDFSIRIGNITPADAGTYYCVKFRKGSPDDVEFKNGAGTELSVRAKPS",
+  N4_VHH:"QVQLVESGGGLVQPGGSLRLSCTASGFTFSNGYMSWVRQAPGKGLEWVSTINSGGGSTYYPDSVKGRFTISRDNAKNTLYLQMNSLKSEDTAMYYCARDRLTTYWGQGTQVTVSS"
 };
 
 const PARTS = {
@@ -775,6 +819,201 @@ const CANDIDATES = {
         { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached inside a binding loop.", detail:"" },
         { rule:"liability.deamidation", sev:"warn", title:"Two spots that can slowly change chemically.", detail:"" },
         { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] }
+  ],
+
+  cd3d: [
+    { id:"d4_vhvl", name:"hCD3d-4", orientation:"VH–VL", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"d4", binder:SEQ.D4_VH+SEQ.LINKER+SEQ.D4_VL, binderLen:240,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:1,
+      why:() => "The only humanized binder curated for CD3δ, and its structure has been solved sitting on the target — so where it binds is seen, not inferred. One minor flag and nothing else.",
+      caveats:[
+        "CD3δ is one chain of a bigger complex. How reachable it is depends on how that complex sits on the T-cell surface.",
+        "CD3ε is the better studied chain of the same complex. If either would do the job, it has more options behind it.",
+        "Binding strength is not predicted. Tighter is not better — too tight and the receptor fires with nothing there."
+      ],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"240 amino acids — a normal size.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"Consistent with two internal bonds, as expected." },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"pass", title:"Nothing that deamidates.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot in a binding loop can slowly rearrange.",
+          detail:"That changes the shape of the loop that touches the target. The mildest of the four flags we check for." } ] },
+
+    { id:"d4_vlvh", name:"hCD3d-4", orientation:"VL–VH", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"d4", binder:SEQ.D4_VL+SEQ.LINKER+SEQ.D4_VH, binderLen:240,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:1,
+      why:() => "The same two halves as the recommendation, joined the other way round. Both are built because they do not always fold alike and nothing in the sequence tells you which will win.",
+      caveats:["Same points as the VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"240 amino acids — same content as the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"pass", title:"Nothing that deamidates.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot in a binding loop can slowly rearrange.", detail:"" } ] },
+
+    { id:"d7_vhh", name:"D-7", orientation:null, format:"Nanobody", origin:"Llama", originClass:"camelid",
+      prov:"d7", binder:SEQ.D7_VHH, binderLen:116,
+      evidence:"Sequence only — no structure", structural:false, cocrystal:false, liabilities:2,
+      why:h => "A single compact domain, half the size of the others and usually a good folder. What holds it back is the evidence: nobody has solved its structure, so where it binds is reported rather than seen." +
+               (h.transplanted ? " Its llama framework is also a liability in a cell going into a recipient." : ""),
+      caveats:["No published structure. The binding site is reported, not observed."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"116 amino acids — the smallest here.", detail:"Small domains often fold well and display cleanly." },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached at position 53, inside a binding loop.",
+          detail:"If it is, it may block the part that touches the target." },
+        { rule:"liability.deamidation", sev:"warn", title:"Two spots that can slowly change chemically.", detail:"Matters for long storage more than for a first experiment." },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] }
+  ],
+
+  cd3g: [
+    { id:"g3_vhvl", name:"MG-3", orientation:"VH–VL", format:"scFv", origin:"Mouse", originClass:"murine",
+      prov:"g3", binder:SEQ.G3_VH+SEQ.LINKER+SEQ.G3_VL, binderLen:246,
+      evidence:"Sequence only — no structure", structural:false, cocrystal:false, liabilities:2,
+      why:h => "The only published binder for CD3γ, so there is nothing to compare it against. The evidence behind it is thinner than for the other two chains of this complex: no solved structure, so where it binds is reported rather than seen." +
+               (h.transplanted ? " Its framework also comes from a mouse, which a recipient would see." : "") +
+               " If CD3ε would do the same job for you, it has better options behind it.",
+      caveats:[
+        "Only one binder exists for this target, so there is no second opinion and no fallback if it disappoints.",
+        "No published structure. The binding site is reported, not observed.",
+        "CD3γ is the least studied chain of the complex. CD3ε is the safer choice if either would work."
+      ],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"246 amino acids — a normal size.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot in a binding loop can slowly rearrange.", detail:"" } ] },
+
+    { id:"g3_vlvh", name:"MG-3", orientation:"VL–VH", format:"scFv", origin:"Mouse", originClass:"murine",
+      prov:"g3", binder:SEQ.G3_VL+SEQ.LINKER+SEQ.G3_VH, binderLen:246,
+      evidence:"Sequence only — no structure", structural:false, cocrystal:false, liabilities:2,
+      why:() => "The reversed build of the only binder available for this target. Worth making alongside the other one, since the two arrangements do not always behave alike.",
+      caveats:["Same points as the VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"246 amino acids — same content as the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot in a binding loop can slowly rearrange.", detail:"" } ] }
+  ],
+
+  vegfa: [
+    { id:"bva_vhvl", name:"BV-A", orientation:"VH–VL", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"bva", binder:SEQ.BV_VH+SEQ.LINKER+SEQ.BV_VL, binderLen:247,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The best evidenced option for VEGF-A: humanized, and solved sitting on the target so its binding site is known rather than inferred. Its two flags are both minor and both in the same place.",
+      caveats:[
+        "VEGF-A comes as a pair, so one signal can engage two receptors. That changes switching behaviour in ways this check does not cover.",
+        "Binding strength is not predicted. Tighter is not better — too tight and the receptor fires with nothing there."
+      ],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — a normal size.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"Consistent with two internal bonds, as expected." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached at position 31, inside a binding loop.",
+          detail:"If it is, it may block the part that touches the target. Common, and often harmless." },
+        { rule:"liability.deamidation", sev:"warn", title:"Two spots that can slowly change chemically.", detail:"Matters for long storage more than for a first experiment." },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
+
+    { id:"bva_vlvh", name:"BV-A", orientation:"VL–VH", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"bva", binder:SEQ.BV_VL+SEQ.LINKER+SEQ.BV_VH, binderLen:247,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The same two halves as the recommendation, joined the other way round. Both are built because they do not always fold alike and nothing in the sequence tells you which will win.",
+      caveats:["Same points as the VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — same content as the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached inside a binding loop.", detail:"Reordering does not remove it." },
+        { rule:"liability.deamidation", sev:"warn", title:"Two spots that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
+
+    { id:"vr1_d2", name:"VEGFR1 piece", orientation:null, format:"Natural receptor piece", origin:"Human", originClass:"human",
+      prov:"vr1", binder:SEQ.VR1_D2, binderLen:136,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:4,
+      why:() => "The part of the body's own VEGF receptor that does the catching — fully human, and built for this job. Two things to weigh against that: it is the untidiest sequence here, and natural receptors evolved among several partners, so it is the most likely of these to grab something it should not. synbind cannot check that yet.",
+      caveats:[
+        "Natural receptor pieces carry the highest off-target risk here. The check that would catch it does not exist yet.",
+        "One cysteine lost its partner when this piece was cut out of the full receptor, which can cause clumping."
+      ],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"136 amino acids — compact.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"warn", title:"Three cysteines — an odd number, so one has no partner.",
+          detail:"Expected when a piece is cut out of a bigger protein. It can link to the wrong place and cause clumping." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"Three places a sugar could be attached.",
+          detail:"Normal for a natural surface protein, but it means more variation between batches." },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot that can slowly rearrange.", detail:"" } ] },
+
+    { id:"v11_vhh", name:"V-11", orientation:null, format:"Nanobody", origin:"Llama", originClass:"camelid",
+      prov:"v11", binder:SEQ.V11_VHH, binderLen:116,
+      evidence:"Sequence only — no structure", structural:false, cocrystal:false, liabilities:0,
+      why:h => "The cleanest sequence on this page — not a single flag — and the smallest, which usually helps it fold and sit properly on a surface. What keeps it off the top spot is evidence: no solved structure, so where it binds is reported rather than seen." +
+               (h.transplanted ? " Its llama framework is also a liability in a cell going into a recipient." : ""),
+      caveats:["No published structure. The binding site is reported, not observed."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"116 amino acids — the smallest here.", detail:"Small domains often fold well and display cleanly." },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"pass", title:"Nothing that deamidates.", detail:"" },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] }
+  ],
+
+  cd47: [
+    { id:"ac9_vhvl", name:"AC-9", orientation:"VH–VL", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"ac9", binder:SEQ.AC9_VH+SEQ.LINKER+SEQ.AC9_VL, binderLen:247,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "Humanized, solved sitting on the target, and an antibody rather than a natural receptor piece — which makes it the more predictable of the two well-evidenced options here. Two minor flags, both away from the tip that does the binding.",
+      caveats:[
+        "CD47 sits on almost every cell in the body, so a receptor built against it reports very little. It earns its place as a benchmark for testing the pipeline, not as a sensor.",
+        "Binding strength is not predicted. Tighter is not better — too tight and the receptor fires with nothing there."
+      ],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — a normal size.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"Consistent with two internal bonds, as expected." },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"Matters for long storage more than for a first experiment." },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot that can slowly rearrange.", detail:"" } ] },
+
+    { id:"ac9_vlvh", name:"AC-9", orientation:"VL–VH", format:"scFv", origin:"Humanized", originClass:"humanized",
+      prov:"ac9", binder:SEQ.AC9_VL+SEQ.LINKER+SEQ.AC9_VH, binderLen:247,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The same two halves as the recommendation, joined the other way round. Both are built because they do not always fold alike and nothing in the sequence tells you which will win.",
+      caveats:["Same points as the VH–VL build — identical content, different arrangement."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — same content as the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One spot that can slowly rearrange.", detail:"" } ] },
+
+    { id:"sirpa_d1", name:"SIRPα piece", orientation:null, format:"Natural receptor piece", origin:"Human", originClass:"human",
+      prov:"sirpa", binder:SEQ.SIRPA_D1, binderLen:119,
+      evidence:"Structure solved with the target", structural:true, cocrystal:true, liabilities:2,
+      why:() => "The part of the body's own partner for CD47, and the best characterised pairing available — the structure is sharper than anything else on this page. It scores level with the antibody above and sits second only because natural receptor pieces evolved among several partners, so they are likelier to grab something they should not. That is a judgement, not a measurement: synbind cannot check it yet.",
+      caveats:[
+        "Natural receptor pieces carry the highest off-target risk here. The check that would catch it does not exist yet.",
+        "CD47 sits on almost every cell in the body, so a receptor built against it reports very little. It earns its place as a benchmark, not as a sensor."
+      ],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"119 amino acids — compact.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"Tidier than most natural receptor pieces, which often lose a partner when cut out." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"A sugar could be attached at position 80.",
+          detail:"Normal for a natural surface protein, but it means more variation between batches." },
+        { rule:"liability.deamidation", sev:"warn", title:"One spot that can slowly change chemically.", detail:"" },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] },
+
+    { id:"n4_vhh", name:"N-4", orientation:null, format:"Nanobody", origin:"Llama", originClass:"camelid",
+      prov:"n4", binder:SEQ.N4_VHH, binderLen:115,
+      evidence:"Sequence only — no structure", structural:false, cocrystal:false, liabilities:1,
+      why:h => "The smallest option, with only one minor flag against it. It sits last because of evidence rather than sequence: no solved structure, so where it binds is reported rather than seen." +
+               (h.transplanted ? " Its llama framework is also a liability in a cell going into a recipient." : ""),
+      caveats:["No published structure. The binding site is reported, not observed."],
+      findings:[ PASS_SOURCE, PASS_SPECIES, PASS_CHAIN,
+        { rule:"format.length", sev:"pass", title:"115 amino acids — the smallest here.", detail:"Small domains often fold well and display cleanly." },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"Three spots that can slowly change chemically.", detail:"Matters for long storage more than for a first experiment." },
+        { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone spots.", detail:"" } ] }
   ]
 };
 
@@ -788,6 +1027,25 @@ const REJECTED = {
     { name:"MC3-2", why:"Raised against <b>mouse</b> CD3ε. Easy to pick up by mistake — most anti-CD3 work is done in mice.", rule:"species.match" },
     { name:"12F", why:"A whole antibody — two separate chains. It cannot be fused in as one continuous chain.", rule:"format.single_chain" },
     { name:"clone 7B", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
+  ],
+  cd3d: [
+    { name:"MD-1", why:"Raised against <b>mouse</b> CD3δ. It would be made correctly and never meet your target.", rule:"species.match" },
+    { name:"9C", why:"A whole antibody — two separate chains. It cannot be fused in as one continuous chain.", rule:"format.single_chain" },
+    { name:"clone 3A", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
+  ],
+  cd3g: [
+    { name:"MG-9", why:"Raised against <b>mouse</b> CD3γ. It would be made correctly and never meet your target.", rule:"species.match" },
+    { name:"clone 11B", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
+  ],
+  vegfa: [
+    { name:"rVEGF-2", why:"Raised against <b>mouse</b> VEGF-A. It would be made correctly and never meet your target.", rule:"species.match" },
+    { name:"AF-293", why:"A whole antibody — two separate chains. It cannot be fused in as one continuous chain.", rule:"format.single_chain" },
+    { name:"clone 5D", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
+  ],
+  cd47: [
+    { name:"miap301", why:"Raised against <b>mouse</b> CD47. It would be made correctly and never meet your target.", rule:"species.match" },
+    { name:"CC2-IgG", why:"A whole antibody — two separate chains. It cannot be fused in as one continuous chain.", rule:"format.single_chain" },
+    { name:"clone 8E", why:"No published source, so there is nothing to check.", rule:"provenance.present" }
   ]
 };
 
@@ -959,6 +1217,10 @@ function blockedModality(scaf) {
 
 function blockedSelf(certainty) {
   const t = state.target, h = state.host;
+  // Prefer a swap that keeps them in the same setting — another culture line
+  // for a culture line, another primary cell for a primary cell.
+  const free = x => x.displays && !x.displays[t.id];
+  const alt = HOSTS.find(x => free(x) && x.transplanted === h.transplanted) || HOSTS.find(free);
   return `
   <section class="card verdict blocked">
     <div class="verdict-head">
@@ -973,8 +1235,10 @@ function blockedSelf(certainty) {
         : `Nothing here depends on the scaffold — switching scaffolds will not help.`}</p>
     </div>
     <div class="fixbar">
-      <span class="txt">Pick a cell that does not carry ${t.name}, such as <b>HEK293</b>.</span>
-      <button class="btn" data-host="hek293">Use HEK293</button>
+      ${alt ? `<span class="txt">Pick a cell that does not carry ${t.name}, such as <b>${alt.name}</b>.</span>
+               <button class="btn" data-host="${alt.id}">Use ${alt.name}</button>`
+            : `<span class="txt">No cell in the list avoids this. ${t.name} sits on almost every cell in the body —
+               which is exactly what makes it a poor thing to sense, however well studied it is.</span>`}
     </div>
   </section>`;
 }
@@ -1039,7 +1303,7 @@ function recPane(scaf, list) {
         <div class="rec-meta">${c.format} · ${c.origin} · ${c.binderLen} aa · ${c.evidence} · ${provBtn(c.prov, "source")}</div>
       </div>
       <div class="rec-actions">
-        <button class="btn sm ghost" data-copy>Copy binder</button>
+        <button class="btn sm ghost" data-copy="binder">Copy binder</button>
         <button class="btn sm" data-download="fasta">Download</button>
       </div>
     </div>
@@ -1159,7 +1423,7 @@ function rawPane(scaf, list) {
     <p class="note" style="margin-top:12px">${con.length} amino acids, written from outside the cell
       inwards. The highlighted stretch is the only part that decides what the cell senses.</p>
 
-    <details class="more"><summary>Where each part came from</summary>
+    <details class="more" open><summary>Where each part came from</summary>
       <div class="tablewrap" style="margin-top:8px"><table>
         <thead><tr><th>Part</th><th>Position</th><th>What it does</th><th>Source</th></tr></thead>
         <tbody>${con.segs.map(s => `<tr>
@@ -1173,8 +1437,12 @@ function rawPane(scaf, list) {
       </table></div>
     </details>
 
-    <details class="more"><summary>Machine-readable result</summary>
-      <pre class="json" style="margin-top:8px">${esc(JSON.stringify(resultJson(scaf), null, 2))}</pre>
+    <details class="more"><summary>Machine-readable result (JSON format)</summary>
+      <div class="exportbar">
+        <button class="btn sm ghost" data-copy="json">Copy JSON</button>
+        <button class="btn sm ghost" data-download="json">Download JSON</button>
+      </div>
+      <pre class="json">${esc(JSON.stringify(resultJson(scaf), null, 2))}</pre>
     </details>`;
 }
 
@@ -1210,10 +1478,18 @@ function fastaText() {
     `>${tag}__${scaf.name}_construct_MOCK  ${con.length} aa`, wrap(con.sequence)].join("\n") + "\n";
 }
 
-function copyBinder() {
+function exportJson() {
+  const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
+  return JSON.stringify({ _warning: MOCKLINE.replace(/^# /, ""), ...resultJson(scaf) }, null, 2);
+}
+
+function binderFasta() {
   const c = currentPick();
-  const text = `${MOCKLINE}\n>${c.name}_binder_MOCK\n` + (c.binder.match(/.{1,60}/g) || []).join("\n");
-  const done = () => toast("Copied");
+  return `${MOCKLINE}\n>${c.name}_binder_MOCK\n` + (c.binder.match(/.{1,60}/g) || []).join("\n");
+}
+
+function copyText(text, msg) {
+  const done = () => toast(msg);
   if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
   else fallback(text, done);
 }
@@ -1226,10 +1502,12 @@ function fallback(text, done) {
   ta.remove();
 }
 
-function downloadFasta() {
+function downloadFile(kind) {
   const scaf = SCAFFOLDS.find(s => s.id === state.scaffold), c = currentPick();
-  const name = `${c.name}__${scaf.name}_MOCK.fasta`.replace(/\s+/g, "");
-  const url = URL.createObjectURL(new Blob([fastaText()], { type:"text/plain" }));
+  const isFasta = kind !== "json";
+  const name = `${c.name}__${scaf.name}_MOCK.${isFasta ? "fasta" : "json"}`.replace(/\s+/g, "");
+  const url = URL.createObjectURL(new Blob([isFasta ? fastaText() : exportJson()],
+    { type: isFasta ? "text/plain" : "application/json" }));
   const a = document.createElement("a");
   a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
@@ -1299,8 +1577,12 @@ document.addEventListener("click", e => {
              state.open.has(id) ? state.open.delete(id) : state.open.add(id);
              renderResult(); return; }
 
-  if (t.closest("[data-copy]")) { copyBinder(); return; }
-  if (t.closest("[data-download]")) { downloadFasta(); return; }
+  const cp = t.closest("[data-copy]");
+  if (cp) { cp.dataset.copy === "json" ? copyText(exportJson(), "Copied JSON")
+                                       : copyText(binderFasta(), "Copied"); return; }
+
+  const dl = t.closest("[data-download]");
+  if (dl) { downloadFile(dl.dataset.download); return; }
 
   if (!t.closest("#pop")) pop.style.display = "none";
   if (!t.closest(".picker")) menu.hidden = true;
