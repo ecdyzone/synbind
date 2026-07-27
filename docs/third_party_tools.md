@@ -6,6 +6,8 @@ instead of reimplementing.
 **Guiding principle:** write almost no algorithms. Write a well-tested pipeline that
 calls other people's algorithms and produces a trustworthy, reproducible artifact.
 
+Scope decisions referenced below are recorded in [`decisions.md`](decisions.md).
+
 ---
 
 ## Status of this document
@@ -22,8 +24,8 @@ Verification status per entry:
 
 Everything is 🔴 at time of writing.
 
-**License caveat:** several entries are academic-use-only. This matters if the repo
-goes public as a portfolio piece. Flagged per entry where known; all need confirming.
+**License caveat:** several entries are academic-use-only, which constrains what can
+be shipped in a public repository. Flagged per entry where known; all need confirming.
 
 ---
 
@@ -100,9 +102,10 @@ Foldseek + pig AlphaFold DB makes the **cis-activation screen** tractable on a l
 No GPU. Minutes, not hours. This is likely the single most valuable thing the software
 can do, and the tooling already exists — we just have to point it in the right direction.
 
-See the cis/trans off-target discussion in the design notes: trans-screening against
-human and cis-screening against pig are *different screens with different consequences*,
-and the cis one is the failure mode that silently kills experiments.
+See **ADR-009** in [`decisions.md`](decisions.md): trans-screening against the ligand's
+species and cis-screening against the host cell's species are *different screens with
+different consequences*, and the cis one is the failure mode that silently kills
+experiments. Scheduled as deliverable v1.2 in [`roadmap.md`](roadmap.md).
 
 ---
 
@@ -158,7 +161,7 @@ niche where commercial GUIs already compete.
 | **OPM / PPM server** | Precomputed / computed membrane positioning of structures. | 🔴 |
 | **MemProtMD** | Coarse-grained MD of membrane proteins. | 🔴 |
 | **Martini / martinize2** | Coarse-grained force field + tooling. | 🔴 |
-| ~~**COMPLIP**~~ | ⚠️ **Existence unconfirmed.** The `boltz predict --membrane --membrane_thickness` interface described in `CLAUDE.md` does not match mainline Boltz as far as I know. **Do not design around this until a repo URL is produced.** Prefer the tools above. | 🔴 |
+| ~~**COMPLIP**~~ | ⚠️ **Existence unconfirmed** — the described `boltz predict --membrane` interface does not match mainline Boltz. **Rejected as a dependency (ADR-017).** Membrane context is out of scope. If it ever returns, prefer the established tools above. | 🔴 |
 
 ---
 
@@ -189,11 +192,16 @@ Everything else should be a dependency, not code.
 
 ## Next actions
 
-- [ ] Verify the load-bearing dependencies before committing to them:
-      Thera-SAbDab access model, RCSB Search API shape, Foldseek + pig AlphaFold DB
-      availability, DNA Chisel, `riot-na`
-- [ ] Confirm licenses for anything shipped in a public repo (NetMHCpan, ANARCI,
+- [ ] Verify the load-bearing dependencies before committing to them. Priority order
+      follows the roadmap: binder-discovery sources (Thera-SAbDab access model, RCSB
+      Search API shape) for v1.1, then Foldseek + predicted proteome availability for
+      v1.2
+- [ ] Confirm licenses for anything shipped in a public repo (NetMHCpan, ANARCI, and
       IMGT-derived data are the likely friction points)
-- [ ] Get a source for COMPLIP or drop it from the design
-- [ ] Decide whether DNA output is in scope — it determines whether the EGF suite
-      becomes a core dependency or stays on the roadmap
+- [x] ~~Get a source for COMPLIP or drop it~~ — dropped, ADR-017
+- [x] ~~Decide whether DNA output is in scope~~ — out of scope, ADR-001. The Edinburgh
+      Genome Foundry suite stays on the backlog, not a dependency
+
+**Note:** v1 has no third-party dependencies from this document at all — it is pure
+Python over a curated data registry (ADR-007). The first real external tool
+dependencies arrive with v1.1 and v1.2.

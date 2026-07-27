@@ -1,154 +1,213 @@
-# SynNotch biology
+# Receptor biology
 
-Essential reading before working on any module that touches construct design,
-membrane simulation, or the interpretation of output metrics.
-
----
-
-## What is synNotch?
-
-SynNotch (synthetic Notch) was developed by the Lim lab (UCSF) and published in
-Nature in 2016. It repurposes the Notch receptor — a cell-cell signaling protein
-conserved across metazoa — as a programmable sensor for any antigen.
-
-The key insight: the Notch receptor's antigen-binding domain and its
-transcriptional output are modular and can be independently swapped.
+Essential reading before working on construct assembly, validation rules, or the
+interpretation of any output.
 
 ---
 
-## Natural Notch signaling (simplified)
+## Synthetic receptors, generally
 
-1. Notch is displayed on the surface of the **receiving cell** as a type I
-   transmembrane protein
-2. Delta-like or Jagged ligands on an adjacent **sending cell** bind Notch's
-   extracellular domain
-3. Mechanical force from cell-cell contact opens the Notch NRR (negative
-   regulatory region), exposing a cleavage site
-4. ADAM10/TACE protease cleaves the extracellular region (S2 cleavage)
-5. γ-Secretase cleaves within the TMD (S3 cleavage)
-6. The released intracellular domain (NICD) translocates to the nucleus and
-   activates Notch target genes
-
-**Critical: cleavage requires mechanical force from a ligand on a neighboring cell.**
-This is why synNotch only fires in trans (cell-to-cell) — not when the antigen
-is soluble in the media. This is a feature, not a bug.
-
----
-
-## SynNotch architecture
+A synthetic receptor is an engineered protein that lets a cell detect a specific
+ligand and respond by expressing genes the designer chooses. The general architecture
+is modular:
 
 ```
-EXTRACELLULAR                                    INTRACELLULAR
-─────────────────────────────────────────────────────────────
-[SP]──[BINDER]──[NRR/HD]──||──[TMD]──||──[RAM]──[ANK]──[TA]
-       ↑ WHAT              ↑ HINGE    ↑          ↑ OUTPUT
-    synbind designs       region    membrane   transactivator
-                                              (e.g. GAL4-VP64,
-                                               tTA, dCas9-VP64)
+EXTRACELLULAR                                     INTRACELLULAR
+──────────────────────────────────────────────────────────────
+[SP]──[BINDER]──[CORE]──||──[TMD]──||──[OUTPUT MODULE]
+       ↑                    ↑                ↑
+   synbind designs      membrane        transactivator
+                                        (e.g. GAL4-VP64)
 ```
 
-- **SP** — signal peptide (for membrane targeting)
-- **BINDER** — the antigen-recognition domain. This is what synbind designs.
-- **NRR/HD** — Notch negative regulatory region + heterodimerization domain.
-  These are preserved from natural Notch and mediate the force-induced
-  conformational change that exposes the S2 cleavage site.
-- **TMD** — transmembrane domain (from Notch or synthetic)
-- **RAM/ANK** — RAM domain and ankyrin repeats. Bind CSL/RBPJ upon nuclear entry.
-- **TA** — transactivator. Drives expression of any gene of interest.
+- **SP** — signal peptide, for surface trafficking
+- **BINDER** — the ligand-recognition domain. **This is what synbind designs.**
+- **CORE** — receptor-family-specific machinery that converts ligand engagement into
+  a proteolytic or conformational event
+- **TMD** — transmembrane domain
+- **OUTPUT MODULE** — released on activation; drives expression of a gene of interest
+
+Only the binder determines *what* the cell senses. Everything else is off-the-shelf
+and swappable. That is why binder selection is the whole problem.
+
+---
+
+## Receptor families
+
+synbind treats receptor families as **data**, not code (ADR-003). Each family differs
+in its core machinery, and — critically — in what kind of ligand it can detect.
+
+### synNotch
+
+Developed by the Lim lab (UCSF), published 2016. Repurposes the Notch receptor.
+
+Natural Notch signalling, simplified:
+
+1. Notch is displayed on the **receiving cell** as a type I transmembrane protein
+2. A ligand on an adjacent **sending cell** engages the Notch ectodomain
+3. **Mechanical force** from cell–cell contact opens the negative regulatory region
+   (NRR), exposing a cleavage site
+4. ADAM10/TACE cleaves the extracellular region (S2)
+5. γ-Secretase cleaves within the TMD (S3)
+6. The released intracellular domain enters the nucleus and drives transcription
+
+**Step 3 is the constraint that matters.** Cleavage requires mechanical force, which
+requires the ligand to be anchored to something — normally a neighbouring cell. This
+is why synNotch fires in *trans* and is largely inert to a soluble ligand.
+
+For natural Notch signalling this is a feature. For a designer choosing a scaffold,
+it is a hard limit.
+
+### SNIPR
+
+Synthetic Intramembrane Proteolysis Receptors. A later generation with a redesigned
+core, offering improved dynamic range, lower ligand-independent signalling, and
+greater tolerance of ligand presentation format — including reported responsiveness
+to soluble factors under some configurations.
+
+### Others
+
+MESA and GEMS-type receptors were designed for soluble ligand input from the start.
+Not implemented; noted so the data model accommodates them.
+
+---
+
+## Ligand modality — the central design constraint
+
+**This is the most important concept in the project.**
+
+| Modality | Ligand is | Example targets |
+|---|---|---|
+| `membrane_bound` | anchored on a neighbouring cell | CD3ε, CD47 |
+| `soluble` | free in the extracellular space | VEGF-A, TGF-β1 |
+
+A force-dependent scaffold paired with a soluble ligand produces a receptor that
+looks correct on paper, assembles fine, expresses fine, and never fires.
+
+This failure is:
+
+- invisible in any single paper, because papers report what worked
+- cheap to encode once someone bothers
+- expensive to discover experimentally
+
+Hence: every target declares a modality, every scaffold declares which modalities it
+supports, and mismatch is a blocking validation failure with a suggested alternative.
+
+Two second-order notes:
+
+- **Soluble ligands are often multimeric.** VEGF-A and TGF-β1 are both dimeric, so
+  avidity and valency affect activation in ways a monomeric analysis misses.
+- **Presentation matters as much as solubility.** A nominally soluble ligand
+  immobilised on matrix or captured on a cell surface may support force-dependent
+  signalling. Modality is a useful approximation, not a law.
 
 ---
 
 ## Requirements for the binder domain
 
-Understanding these shapes every decision in synbind:
+These shape every rule in `synbind/validation/`.
 
-### 1. Single-chain
-The binder must be a single polypeptide — it is fused directly to the Notch
-core as one continuous chain. This rules out full IgG (two chains, held by
-disulfide bonds). Acceptable formats:
-- scFv (VH + linker + VL) — ✅ most common
-- Nanobody (VHH) — ✅ single domain, smaller, often better folder
-- Natural receptor ectodomain — ✅ if single-chain after trimming TM helix
+### 1. Single polypeptide
 
-### 2. Extracellular fold under membrane constraint
-The binder is not floating freely — it is tethered to the Notch TMD and
-displayed at a fixed height above the membrane surface (~10–15 nm for a typical
-scFv). This constrains the geometry of antigen engagement.
+The binder is fused directly to the receptor core as one continuous chain. Full IgG
+(two chains held by disulfide bonds) cannot be used. Acceptable formats:
 
-The antigen is also membrane-anchored on the opposing cell. The binder must
-be able to reach across the synaptic cleft (~15–20 nm) and bind the antigen
-at its specific epitope.
+- **scFv** — VH + linker + VL. Most common. Both orientations (VH-VL, VL-VH) are
+  worth generating; they do not always behave identically.
+- **Nanobody (VHH)** — single domain, small, often an excellent folder. No assembly
+  needed.
+- **Natural receptor ectodomain** — usable if single-chain after removing the TM
+  anchor. Physiologically relevant, but see off-target risk below.
 
-**Implication for structure prediction:** solution-phase Boltz docking is
-a good first approximation. Membrane-mode (COMPLIP) is a better approximation
-but slower. For the membrane run, we use the full synNotch ectodomain
-(binder + NRR linker), not just the isolated binder.
+### 2. Geometry under membrane constraint
 
-### 3. Affinity in the right range
-- Kd too LOW (< 0.1 nM, very tight): risk of tonic (ligand-independent)
-  signaling, and the receptor may not be efficiently transported to the surface
-- Kd too HIGH (> 1 µM, very loose): signaling will be weak or absent
-- **Target range: ~1–100 nM** for robust synNotch signaling
+The binder is not free in solution. It is tethered to the receptor and displayed at
+a fixed distance and orientation from the membrane. For a membrane-bound ligand, it
+must reach across the intercellular gap and engage its epitope without clashing with
+the adjacent core domain.
 
-synbind does not directly predict Kd in v1 (see ideas.md #5 for affinity
-estimation plans). ipTM is used as a proxy for binding quality.
+synbind does not model this in v1 (ADR-004). It is noted because it explains why
+solution-phase reasoning about binder–ligand pairs is an approximation.
 
-### 4. Low off-target binding
-An scFv derived from a well-characterized mAb typically has high specificity.
-A natural receptor ectodomain (e.g., SIRPα) often has paralogous binding
-partners (SIRP-β1, SIRP-γ) — these are off-targets that would cause
-the synNotch to fire in the presence of unintended ligands.
+### 3. Affinity in a window, not maximised
 
----
+Counterintuitive and important: **tighter is not better.**
 
-## The membrane geometry problem
+- Too tight — risk of ligand-independent (tonic) signalling; the receptor may also
+  traffic poorly to the surface
+- Too loose — weak or absent signal
 
-This is worth emphasizing because it distinguishes synbind from generic
-antibody-antigen docking tools.
+Roughly 1–100 nM is the commonly cited productive range for this receptor class.
+synbind does not predict affinity in v1; the constraint is documented so that no one
+later adds a rule that rewards maximum affinity.
 
-When two cells are in contact, the membranes are separated by a synaptic
-cleft. The synNotch on the receiving cell must engage an antigen (e.g., CD47)
-on the sending cell surface in **trans**. The geometry is:
+### 4. Specificity in both directions
 
-```
-RECEIVING CELL MEMBRANE
-────────────────────────────────────────────────
-[TMD]──[NRR]──[BINDER] ──────engages──────▶ [ANTIGEN]──[TM]
-                                              (on opposing cell)
-────────────────────────────────────────────────
-SENDING CELL MEMBRANE   ← ~15–20 nm gap
-```
+Two distinct risks, with different consequences (ADR-009):
 
-A binder that works in this geometry must:
-- Protrude far enough from the membrane to reach across the cleft
-- Have its binding site oriented outward (not buried against the Notch stalk)
-- Not sterically clash with the NRR domain adjacent to it
+| | What it means | Consequence |
+|---|---|---|
+| **trans off-target** | Binder engages an unintended ligand on another cell | Receptor fires on the wrong cell |
+| **cis off-target** | Binder engages something on its **own** host cell | Constitutive signalling — receptor is always on |
 
-The COMPLIP membrane simulation captures this geometry better than
-solution-phase docking, which models the two proteins as free-floating.
+The cis case is the more dangerous and the less considered. It is also
+species-dependent: when a receptor is expressed in one species' cells to detect
+another species' ligand, host-cell paralogs of the target ligand are exactly the
+proteins most likely to cause it.
+
+Antibody-derived binders are generally specific by construction. **Natural receptor
+ectodomains carry substantially higher risk** — they evolved in a context with
+multiple binding partners, and their paralogs are widespread.
+
+### 5. Immunogenicity of what is displayed
+
+If the engineered cell is transplanted, everything on its surface is visible to the
+recipient's immune system — including the receptor scaffold and the binder framework.
+A murine-framework scFv is a liability in a way it would not be for a purely in vitro
+application. This is why binder `origin_species` and scaffold part `species_origin`
+are tracked.
 
 ---
 
-## Notch backbone sequences
+## Sequence liabilities
 
-Stored in `data/notch_backbone.yaml`. These are the fixed Notch components
-that are NOT designed by synbind — they are used only in the membrane
-simulation step (step 4b) to build the full construct model.
+Cheap to detect from sequence alone, and predictive of poor behaviour:
 
-Sequences are from human Notch1 (UniProt P46531):
-- `nrr_hd`: residues 1447–1735 (negative regulatory region + HD domain)
-- `tmd`: residues 1756–1800 (transmembrane domain)
-- `ram`: residues 1851–1891 (RAM domain)
-- `ank`: residues 1892–2183 (ankyrin repeats)
+| Motif | Risk |
+|---|---|
+| Unpaired cysteine | Incorrect disulfide pairing, aggregation |
+| N-X-S/T (X≠P) | N-glycosylation site; may block the binding interface |
+| NG, NS | Deamidation — changes charge over time |
+| DG | Isomerization |
 
-The transactivator (GAL4-VP64, tTA, etc.) is not included — it is intracellular
-and irrelevant to the extracellular docking geometry.
+These are warnings, not blockers. A liability inside a CDR matters far more than one
+in a framework loop, and synbind does not currently make that distinction — so the
+findings inform rather than decide.
+
+---
+
+## Terminology
+
+| Term | Meaning |
+|---|---|
+| **Ectodomain** | The extracellular portion of a membrane protein |
+| **scFv** | Single-chain variable fragment: VH + linker + VL |
+| **VHH / nanobody** | Single-domain antibody fragment, camelid-derived |
+| **VH / VL** | Heavy / light chain variable domain |
+| **CDR** | Complementarity-determining region — the loops that contact the ligand |
+| **Framework** | The structural scaffold surrounding the CDRs |
+| **Tonic signalling** | Ligand-independent activation; the receptor fires without input |
+| **cis / trans** | Interaction on the same cell / between two cells |
+| **NRR** | Negative regulatory region — the force-sensitive element in Notch |
 
 ---
 
 ## Further reading
 
-- Morsut et al. (2016) Nature — original synNotch paper (UCSF Lim lab)
-- Roybal et al. (2016) Cell — synNotch for therapeutic applications
-- Toda et al. (2018) Science — multi-input synNotch logic gates
-- Zhu et al. (2020) Nature Chemical Biology — synNotch in vivo
+- Morsut et al. (2016) *Nature* — original synNotch
+- Roybal et al. (2016) *Cell* — synNotch for therapeutic applications
+- Toda et al. (2018) *Science* — multi-input synNotch logic
+- Zhu et al. (2022) *Cell* — SNIPR
+
+Citations are provided for orientation and have not been re-verified against the
+current literature.
