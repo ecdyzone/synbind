@@ -1,0 +1,92 @@
+[project]
+name = "synbind"
+version = "0.1.0"
+description = "Design and validate extracellular binder domains for synthetic receptors"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+dependencies = [
+    "pydantic>=2.7",
+    "pyyaml>=6.0",
+    "structlog>=24.1",
+    "fastapi>=0.111",
+    "uvicorn[standard]>=0.30",
+    "jinja2>=3.1",
+    "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "httpx>=0.27",          # FastAPI TestClient
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "types-PyYAML",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["synbind"]
+
+
+# ─────────────────────────────────────────────────────────────────────
+# pixi — see ADR-015
+#
+# v1 has no conda-channel dependencies. bioconda is declared now so that
+# v1.2 tooling (foldseek, mmseqs2) can be added without restructuring.
+# ─────────────────────────────────────────────────────────────────────
+
+[tool.pixi.project]
+channels = ["conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+synbind = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { features = ["dev"], solve-group = "default" }
+
+[tool.pixi.dependencies]
+python = ">=3.11"
+
+# v1.2 will add:
+#   foldseek = "*"
+#   mmseqs2  = "*"
+
+[tool.pixi.tasks]
+test     = "pytest -q"
+cov      = "pytest --cov=synbind --cov-report=term-missing"
+lint     = "ruff check ."
+fmt      = "ruff format ."
+typecheck = "mypy synbind"
+check    = { depends-on = ["lint", "typecheck", "test"] }
+serve    = "uvicorn synbind.web.app:app --reload --port 8000"
+
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = [
+    "canary: tests that hit live external services; excluded from the default run",
+]

@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# pixi
+.pixi/
+
+# tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# local agent/editor settings
+.claude/settings.local.json
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# runtime output
+results/
+*.log
