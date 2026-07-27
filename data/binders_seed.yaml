@@ -1,0 +1,74 @@
+# Hand-curated binder registry — the high-confidence tier (ADR-007).
+#
+# ⚠️ Sequences are TODO. Do NOT fabricate them. See data/README.md.
+#    Source from the cited PDB entry, patent, or publication.
+#
+# A binder without provenance CANNOT appear in a recommendation (ADR-011).
+#
+# This registry is not throwaway. When automated discovery arrives (v1.1),
+# entries here remain the highest-confidence tier and search results layer
+# beneath them.
+
+schema_version: 1
+
+binders:
+
+  # ── Antibody, two chains, requires assembly ─────────────────────────
+  # chain_role: VH and VL supplied separately → assembly.py builds both
+  # VH-VL and VL-VH orientations as separate Construct objects.
+  - id: ucht1
+    name: "UCHT1"
+    target_accession: P07766
+    target_species: "Homo sapiens"      # ← anti-HUMAN. A murine-target binder
+                                        #   here would be a silent failure.
+    format: antibody
+    chain_role: VH_VL                   # both chains provided below
+    origin_species: murine
+    sequences:
+      VH: TODO
+      VL: TODO
+    provenance:
+      source: PDB
+      identifier: TODO
+      url: null
+      curated_by: TODO
+      note: "Anti-human CD3ε. Widely used. Verify chain assignment on retrieval."
+
+  # ── Natural receptor ectodomain, single chain, no assembly needed ───
+  - id: sirpa_d1
+    name: "SIRPα domain 1"
+    target_accession: Q08722
+    target_species: "Homo sapiens"
+    format: receptor_ectodomain
+    chain_role: ectodomain
+    origin_species: "Homo sapiens"
+    sequences:
+      ectodomain: TODO
+    off_target_note: >
+      Natural receptor ectodomains carry substantially higher off-target risk
+      than antibody-derived binders — they evolved among multiple binding
+      partners and their paralogs are widespread. Flag prominently until the
+      cross-species screening of v1.2 exists.
+    provenance:
+      source: PDB
+      identifier: TODO
+      url: null
+      curated_by: TODO
+      note: "Co-crystal with CD47 exists; benchmark-grade evidence."
+
+  # ── Template for a nanobody: single domain, no linker, no assembly ──
+  # - id: example_vhh
+  #   name: "..."
+  #   target_accession: ...
+  #   target_species: "Homo sapiens"
+  #   format: nanobody
+  #   chain_role: VHH
+  #   origin_species: camelid
+  #   sequences:
+  #     VHH: TODO
+  #   provenance: { source: PDB, identifier: TODO, curated_by: TODO }
+
+  # ── TODO: binders for P15692 (VEGF-A) and P01137 (TGF-β1) ───────────
+  # Both soluble. Antibody and receptor-trap options exist for each.
+  # At least 3 binders for one target are needed for the comparison layer
+  # (layer 2) to look realistic in a demo.

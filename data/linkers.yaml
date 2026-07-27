@@ -1,0 +1,50 @@
+# Linker sequences for scFv assembly.
+#
+# (G4S)n repeats are flexible, uncharged, and the standard choice for scFv
+# construction. Longer linkers favour intramolecular pairing (true monomeric
+# scFv); shorter ones promote diabody formation, which is usually undesirable
+# for a single-chain receptor fusion.
+
+schema_version: 1
+
+default_scfv_linker: g4s_x3
+
+linkers:
+
+  - id: g4s_x1
+    name: "(G4S)"
+    sequence: GGGGS
+    length: 5
+    note: >
+      Too short for most scFv; promotes diabody formation. Included for
+      completeness, not recommended.
+
+  - id: g4s_x2
+    name: "(G4S)2"
+    sequence: GGGGSGGGGS
+    length: 10
+
+  - id: g4s_x3
+    name: "(G4S)3"
+    sequence: GGGGSGGGGSGGGGS
+    length: 15
+    note: "Standard default for scFv assembly."
+
+  - id: g4s_x4
+    name: "(G4S)4"
+    sequence: GGGGSGGGGSGGGGSGGGGS
+    length: 20
+    note: "Longer, more flexible; useful if steric strain is suspected."
+
+  # Rigid and semi-rigid alternatives.
+  # ⚠️ Sequences not yet filled in — see data/README.md, never fabricate.
+  - id: whitlow_218
+    name: "Whitlow 218 linker"
+    sequence: TODO
+    length: null
+    note: >
+      Semi-rigid alternative reported to improve stability in some scFv.
+      Sequence must be taken from the primary reference before use.
+    provenance:
+      source: literature
+      identifier: TODO

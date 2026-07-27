@@ -1,0 +1,94 @@
+# Target ligands.
+#
+# ⚠️ Accessions below were recorded from memory and are UNVERIFIED.
+#    Check each against UniProt before use, then set verified: true.
+#    See data/README.md.
+
+schema_version: 1
+
+targets:
+
+  - accession: P07766
+    gene: CD3E
+    display_name: "CD3ε"
+    aliases: ["CD3", "CD3e", "CD3 epsilon", "T-cell surface glycoprotein CD3 epsilon"]
+    species: "Homo sapiens"
+    modality: membrane_bound
+    role: candidate_sensor
+    rationale: >
+      Component of the T-cell receptor complex. Sensing T-cell contact is directly
+      relevant to cellular rejection. Abundant published antibody binders.
+    verified: false
+    provenance:
+      source: UniProt
+      identifier: P07766
+      url: https://www.uniprot.org/uniprotkb/P07766
+      note: "Accession unverified — check before use"
+
+  - accession: Q08722
+    gene: CD47
+    display_name: "CD47"
+    aliases: ["IAP", "integrin-associated protein", "leukocyte surface antigen CD47"]
+    species: "Homo sapiens"
+    modality: membrane_bound
+    role: benchmark
+    rationale: >
+      BENCHMARK, not a candidate sensor. CD47 is expressed on essentially all cells,
+      so it carries little information as a sensor input. It is retained because the
+      CD47 interaction is among the best-characterised available: co-crystal
+      structures exist, affinities are measured, and both antibody and natural
+      receptor ectodomain binder paths are available. Ideal for validating the
+      pipeline end to end.
+    verified: false
+    provenance:
+      source: UniProt
+      identifier: Q08722
+      url: https://www.uniprot.org/uniprotkb/Q08722
+      note: "Accession unverified — check before use"
+
+  - accession: P15692
+    gene: VEGFA
+    display_name: "VEGF-A"
+    aliases: ["VEGF", "VEGF-A", "vascular endothelial growth factor A"]
+    species: "Homo sapiens"
+    modality: soluble
+    role: candidate_sensor
+    rationale: >
+      Secreted, homodimeric. Relevant to graft vascularisation and inflammation.
+      Note that the tool must NOT accept "VEGF-alpha" — no such protein exists;
+      it is a common confusion with VEGFR nomenclature.
+    notes:
+      multimeric: true
+      note: >
+        Homodimer. Avidity and valency affect activation in ways a monomeric
+        analysis will miss. See docs/biology.md.
+    verified: false
+    provenance:
+      source: UniProt
+      identifier: P15692
+      url: https://www.uniprot.org/uniprotkb/P15692
+      note: "Accession unverified — check before use"
+
+  - accession: P01137
+    gene: TGFB1
+    display_name: "TGF-β1"
+    aliases: ["TGFB1", "TGF-beta1", "transforming growth factor beta-1"]
+    species: "Homo sapiens"
+    modality: soluble
+    role: candidate_sensor
+    rationale: >
+      Secreted, dimeric. Relevant to fibrosis and chronic rejection.
+      The primary demonstration case for modality/scaffold compatibility checking:
+      pairing TGF-β1 with a force-dependent scaffold must fail clearly.
+    notes:
+      multimeric: true
+      latency: >
+        Secreted as a latent complex requiring activation. "TGF-β1 is present" and
+        "TGF-β1 is active" are different questions; this may matter for what a
+        receptor built against it actually reports.
+    verified: false
+    provenance:
+      source: UniProt
+      identifier: P01137
+      url: https://www.uniprot.org/uniprotkb/P01137
+      note: "Accession unverified — check before use"

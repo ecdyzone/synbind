@@ -1,0 +1,69 @@
+# SNIPR scaffold (Synthetic Intramembrane Proteolysis Receptor).
+#
+# ⚠️ All part sequences are TODO. Do NOT fabricate them — see data/README.md.
+#
+# Later-generation scaffold with a redesigned core. Reported advantages over
+# synNotch: improved dynamic range, lower ligand-independent signalling, and
+# greater tolerance of ligand presentation format — including responsiveness to
+# soluble factors under some configurations.
+
+schema_version: 1
+
+id: snipr_v1
+display_name: "SNIPR"
+
+description: >
+  Synthetic intramembrane proteolysis receptor. Redesigned core with broader
+  tolerance of ligand presentation format.
+
+compatible_modalities:
+  - membrane_bound
+  - soluble
+
+modality_caveat: >
+  Soluble responsiveness is configuration-dependent and less well established
+  than membrane-bound activation. Surface this as a caution to the user rather
+  than presenting soluble support as equivalent to membrane-bound support.
+
+binder_constraints:
+  accepted_formats: [antibody, nanobody, receptor_ectodomain]
+  single_chain_required: true
+  fusion_terminus: N
+  max_binder_length_aa: null  # TODO: confirm a practical limit
+  default_linker_id: g4s_x3
+
+binder_insertion_index: 1
+
+parts:
+  - name: signal_peptide
+    sequence: TODO
+    species_origin: TODO
+    provenance: { source: TODO, identifier: TODO }
+
+  # ← binder inserted here (index 1)
+
+  - name: core
+    sequence: TODO
+    species_origin: "Homo sapiens"
+    note: >
+      Redesigned proteolysis core. Predominantly human-derived, which reduces
+      immunogenicity relative to non-human scaffold components — relevant when
+      the engineered cell is displayed to a recipient immune system.
+    provenance: { source: TODO, identifier: TODO }
+
+  - name: tmd
+    sequence: TODO
+    species_origin: "Homo sapiens"
+    provenance: { source: TODO, identifier: TODO }
+
+  - name: output_module
+    sequence: TODO
+    species_origin: synthetic
+    note: "Configurable, never hardcoded (ADR-010)."
+    payload_id: gal4_vp64
+    provenance: { source: TODO, identifier: TODO }
+
+provenance:
+  source: literature
+  identifier: TODO
+  note: "SNIPR publication — see docs/biology.md further reading."

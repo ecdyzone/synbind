@@ -1,0 +1,78 @@
+# synNotch scaffold.
+#
+# ⚠️ All part sequences are TODO. Do NOT fabricate them — see data/README.md.
+#    Source them from the original publication or from a deposited plasmid
+#    record, and cite the source in each part's provenance block.
+#
+# The defining property of this scaffold is that activation is FORCE-DEPENDENT:
+# cleavage requires mechanical tension from a ligand anchored on an opposing
+# cell. It is therefore incompatible with soluble ligands (ADR-002).
+
+schema_version: 1
+
+id: synnotch_v1
+display_name: "synNotch"
+
+description: >
+  Engineered Notch receptor. Ligand engagement under mechanical force exposes a
+  proteolytic cleavage site, releasing an intracellular transactivator.
+
+# ── The check that matters most ──────────────────────────────────────
+compatible_modalities:
+  - membrane_bound
+
+incompatibility_note: >
+  Activation requires mechanical force transmitted through a ligand anchored on
+  an opposing cell. A soluble ligand cannot generate this force, so the receptor
+  will assemble and express normally but will not signal. Suggest a scaffold that
+  supports soluble input instead.
+
+suggested_alternative_for_soluble: snipr_v1
+# ─────────────────────────────────────────────────────────────────────
+
+binder_constraints:
+  accepted_formats: [antibody, nanobody, receptor_ectodomain]
+  single_chain_required: true
+  fusion_terminus: N          # binder sits N-terminal to the core
+  max_binder_length_aa: null  # TODO: confirm a practical limit
+  default_linker_id: g4s_x3
+
+# Ordered N → C. The binder is inserted at binder_insertion_index.
+binder_insertion_index: 1
+
+parts:
+  - name: signal_peptide
+    sequence: TODO
+    species_origin: TODO
+    note: "Required for surface trafficking."
+    provenance: { source: TODO, identifier: TODO }
+
+  # ← binder inserted here (index 1)
+
+  - name: core_nrr_hd
+    sequence: TODO
+    species_origin: "Homo sapiens"
+    note: >
+      Notch negative regulatory region + heterodimerisation domain. Mediates the
+      force-induced conformational change that exposes the S2 cleavage site.
+      This part is the reason the scaffold is force-dependent.
+    provenance: { source: TODO, identifier: TODO }
+
+  - name: tmd
+    sequence: TODO
+    species_origin: "Homo sapiens"
+    note: "Transmembrane domain; site of S3 cleavage."
+    provenance: { source: TODO, identifier: TODO }
+
+  - name: output_module
+    sequence: TODO
+    species_origin: synthetic
+    note: >
+      Default transactivator. Configurable, never hardcoded (ADR-010).
+    payload_id: gal4_vp64
+    provenance: { source: TODO, identifier: TODO }
+
+provenance:
+  source: literature
+  identifier: TODO
+  note: "Original synNotch publication — see docs/biology.md further reading."
