@@ -87,6 +87,12 @@ body {
 h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
 p { margin: 0; }
 button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  html { scroll-behavior: auto; }
+}
 
 .wrap { max-width: 940px; margin: 0 auto; padding: 0 20px 96px; }
 
@@ -143,6 +149,7 @@ header.mast {
 }
 .step-head h2 { font-size: 14px; letter-spacing: .01em; }
 .step-hint { color: var(--text-3); font-size: 13px; margin-left: auto; }
+@media (max-width: 620px) { .step-hint { display: none; } }
 
 /* ── Target picker ────────────────────────────────────────── */
 
@@ -185,14 +192,12 @@ header.mast {
   cursor: pointer;
 }
 .opt:last-child { border-bottom: 0; }
-.opt:hover, .opt:focus-visible { background: var(--surface-2); outline: none; }
+.opt:hover, .opt:focus-visible { background: var(--surface-2); }
 .opt-name { font-weight: 600; }
 .opt-sub { color: var(--text-3); font-size: 13px; }
 .opt .chip { margin-left: auto; }
 
-.empty {
-  padding: 14px; color: var(--text-2); font-size: 14px;
-}
+.empty { padding: 14px; color: var(--text-2); font-size: 14px; }
 
 /* ── Chips ────────────────────────────────────────────────── */
 
@@ -207,14 +212,10 @@ header.mast {
 .chip.soluble  { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
 .chip.membrane { background: var(--ok-bg);     color: var(--ok);     border-color: transparent; }
 .chip.warn     { background: var(--warn-bg);   color: var(--warn);   border-color: transparent; }
-.chip.fail     { background: var(--fail-bg);   color: var(--fail);   border-color: transparent; }
 
 /* ── Selected target bar ──────────────────────────────────── */
 
-.selected {
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  padding: 13px 15px;
-}
+.selected { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 13px 15px; }
 .selected .who { font-weight: 650; font-size: 16px; }
 .selected .acc { color: var(--text-3); font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .linkish {
@@ -271,10 +272,7 @@ header.mast {
 .ok .verdict-head h2      { color: var(--ok); }
 .verdict-head p { margin-top: 5px; color: var(--text); font-size: 14.5px; max-width: 68ch; }
 
-.because {
-  padding: 16px 20px 18px;
-  border-top: 1px solid var(--line-soft);
-}
+.because { padding: 16px 20px 18px; border-top: 1px solid var(--line-soft); }
 .because h3 { font-size: 13px; color: var(--text-2); margin-bottom: 7px; }
 .because p { color: var(--text-2); font-size: 14px; max-width: 72ch; }
 .because p + p { margin-top: 9px; }
@@ -295,10 +293,7 @@ header.mast {
   font-size: 14px; font-weight: 600; cursor: pointer;
 }
 .btn:hover { filter: brightness(1.08); }
-.btn.ghost {
-  background: var(--surface); color: var(--text-2);
-  border-color: var(--line);
-}
+.btn.ghost { background: var(--surface); color: var(--text-2); border-color: var(--line); }
 .btn.sm { padding: 6px 11px; font-size: 13px; }
 
 /* ── Tabs ─────────────────────────────────────────────────── */
@@ -330,7 +325,7 @@ header.mast {
 .rec-top { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
 .rec-name { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .rec-meta { color: var(--text-2); font-size: 13.5px; margin-top: 3px; }
-.rec-actions { margin-left: auto; display: flex; gap: 8px; }
+.rec-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
 
 .why {
   margin-top: 14px; padding: 14px 16px;
@@ -344,7 +339,6 @@ header.mast {
 .sub { margin-top: 24px; }
 .sub h3 { font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
 
-/* findings */
 .finding {
   display: grid; grid-template-columns: 22px 1fr; gap: 10px;
   padding: 11px 0;
@@ -361,22 +355,15 @@ header.mast {
 .dot.fail { background: var(--fail); }
 .f-title { font-weight: 600; font-size: 14.5px; }
 .f-detail { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 76ch; }
-.f-rule {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 11.5px; color: var(--text-3); margin-top: 4px;
-}
+.f-rule { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; color: var(--text-3); margin-top: 4px; }
 .f-caution {
   margin-top: 7px; padding: 8px 11px;
   background: var(--warn-bg); color: var(--warn);
   border-radius: 7px; font-size: 13px; max-width: 76ch;
 }
 
-/* caveats */
 .caveats { list-style: none; padding: 0; margin: 0; }
-.caveats li {
-  position: relative; padding: 7px 0 7px 22px;
-  color: var(--text-2); font-size: 14px; max-width: 76ch;
-}
+.caveats li { position: relative; padding: 7px 0 7px 22px; color: var(--text-2); font-size: 14px; max-width: 76ch; }
 .caveats li::before {
   content: "!"; position: absolute; left: 0; top: 8px;
   width: 15px; height: 15px; border-radius: 50%;
@@ -388,12 +375,12 @@ header.mast {
 /* ── Comparison ───────────────────────────────────────────── */
 
 .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
-table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 720px; }
 th, td { text-align: left; padding: 11px 13px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
 th { font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; background: var(--surface-2); }
 tr:last-child td { border-bottom: 0; }
 tr.top td { background: var(--accent-bg); }
-td .nm { font-weight: 600; }
+td .nm { font-weight: 600; white-space: nowrap; }
 td .sm { color: var(--text-3); font-size: 12.5px; }
 
 .rank {
@@ -403,6 +390,16 @@ td .sm { color: var(--text-3); font-size: 12.5px; }
   font-size: 12px; font-weight: 700;
 }
 tr.top .rank { background: var(--accent); color: #fff; }
+
+tr.row { cursor: pointer; }
+tr.row:hover td { background: var(--surface-2); }
+tr.row.top:hover td { background: var(--accent-bg); filter: brightness(.98); }
+.chev { color: var(--text-3); font-size: 10px; display: inline-block; transition: transform .15s; }
+tr.row[aria-expanded="true"] .chev { transform: rotate(90deg); }
+td.detail { padding: 0; background: var(--surface-2); }
+.detail-in { padding: 4px 18px 18px; }
+.detail-in .why { margin-top: 14px; background: var(--surface); }
+.detail-in .why h3 { color: var(--text-2); }
 
 .rejected { margin-top: 26px; }
 .rej {
@@ -422,11 +419,7 @@ tr.top .rank { background: var(--accent); color: #fff; }
 .rej .nm { font-weight: 600; font-size: 14.5px; }
 .rej .rs { color: var(--text-2); font-size: 13.5px; margin-top: 2px; max-width: 76ch; }
 
-.note {
-  padding: 12px 14px; border-radius: 8px;
-  background: var(--surface-2); color: var(--text-2);
-  font-size: 13.5px; max-width: 78ch;
-}
+.note { padding: 12px 14px; border-radius: 8px; background: var(--surface-2); color: var(--text-2); font-size: 13.5px; max-width: 78ch; }
 
 /* ── Raw / sequence ───────────────────────────────────────── */
 
@@ -434,14 +427,8 @@ tr.top .rank { background: var(--accent); color: #fff; }
 .leg { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-2); }
 .swatch { width: 11px; height: 11px; border-radius: 3px; flex: none; }
 
-.seqbox {
-  border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface); overflow-x: auto; padding: 14px 16px;
-}
-.seq {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 12.5px; line-height: 1.95; white-space: pre;
-}
+.seqbox { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow-x: auto; padding: 14px 16px; }
+.seq { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; line-height: 1.95; white-space: pre; }
 .seq .ln { color: var(--text-3); user-select: none; }
 .seq span[data-seg] { border-radius: 2px; padding: 2px 0; }
 
@@ -463,10 +450,7 @@ pre.json {
 }
 
 details.raw { margin-top: 16px; }
-details.raw > summary {
-  cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--accent);
-  padding: 8px 0; list-style: none;
-}
+details.raw > summary { cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--accent); padding: 8px 0; list-style: none; }
 details.raw > summary::-webkit-details-marker { display: none; }
 details.raw > summary::before { content: "▸ "; }
 details.raw[open] > summary::before { content: "▾ "; }
@@ -517,7 +501,9 @@ footer.foot {
   margin-top: 40px; padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--text-3); font-size: 12.5px;
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between;
 }
+footer.foot .build { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 </style>
 </head>
 <body>
@@ -562,7 +548,8 @@ footer.foot {
   <div id="result"></div>
 
   <footer class="foot">
-    synbind interface mock · not a working application · all data invented — see <code>MOCK.md</code>
+    <span>synbind interface mock · not a working application · all data invented — see <code>MOCK.md</code></span>
+    <span class="build" id="build"></span>
   </footer>
 </div>
 
@@ -573,14 +560,22 @@ footer.foot {
 "use strict";
 /* ═══════════════════════════════════════════════════════════════
    MOCK DATA — every value below is invented. See ../MOCK.md.
-   Accessions are the four already recorded in data/targets.yaml
+   Accessions are the ones already recorded in data/targets.yaml
    (still verified:false there). Everything else is fiction.
    ═══════════════════════════════════════════════════════════════ */
+
+const BUILD = { tag: "mock-2", date: "2026-07-27" };
 
 const PROV = {
   tgfb1_uniprot: {
     title: "UniProt · P01137",
     fields: { Source: "UniProt", Accession: "P01137", Record: "TGFB1_HUMAN",
+              Retrieved: "2026-07-21", "Curated by": "m.amaral",
+              Note: "Accession recorded from memory; not yet checked against UniProt." }
+  },
+  cd3e_uniprot: {
+    title: "UniProt · P07766",
+    fields: { Source: "UniProt", Accession: "P07766", Record: "CD3E_HUMAN",
               Retrieved: "2026-07-21", "Curated by": "m.amaral",
               Note: "Accession recorded from memory; not yet checked against UniProt." }
   },
@@ -603,6 +598,19 @@ const PROV = {
               Entry: "TGF-β type II receptor ectodomain bound to TGF-β1",
               Method: "X-ray, 2.6 Å", "Curated by": "m.amaral" }
   },
+  h9: {
+    title: "PDB · MOCK-8LRC",
+    fields: { Source: "PDB (invented)", Identifier: "MOCK-8LRC",
+              Entry: "Humanized Fab hCD3-9 in complex with human CD3ε",
+              Method: "X-ray, 2.4 Å", Deposited: "2025-01-08", "Curated by": "m.amaral" }
+  },
+  ucht1: {
+    title: "PDB · MOCK-1XIW",
+    fields: { Source: "PDB (invented)", Identifier: "MOCK-1XIW",
+              Entry: "UCHT1 Fab in complex with human CD3ε",
+              Method: "X-ray, 2.1 Å", "Curated by": "m.amaral",
+              Note: "Record present in data/binders_seed.yaml with sequences still TODO." }
+  },
   snipr: {
     title: "Literature · SNIPR scaffold",
     fields: { Source: "literature", Reference: "Zhu et al. (2022) Cell",
@@ -613,6 +621,7 @@ const PROV = {
   synnotch: {
     title: "Literature · synNotch scaffold",
     fields: { Source: "literature", Reference: "Morsut et al. (2016) Nature",
+              Parts: "signal peptide, Notch NRR core, TMD, GAL4-VP64 output",
               File: "data/scaffolds/synnotch.yaml",
               Note: "Part sequences in this mock are invented placeholders." }
   },
@@ -629,13 +638,13 @@ const TARGETS = [
     aliases:["tgfb1","tgf-beta1","tgf beta 1","transforming growth factor beta-1","tgfb"],
     blurb:"Secreted signalling protein. Relevant to fibrosis and chronic rejection.",
     prov:"tgfb1_uniprot", ready:true },
+  { id:"cd3e", name:"CD3ε", gene:"CD3E", acc:"P07766", modality:"membrane_bound",
+    aliases:["cd3","cd3e","cd3 epsilon","t-cell surface glycoprotein cd3 epsilon"],
+    blurb:"Part of the T-cell receptor complex. Senses that a T cell is touching this cell.",
+    prov:"cd3e_uniprot", ready:true },
   { id:"vegfa", name:"VEGF-A", gene:"VEGFA", acc:"P15692", modality:"soluble",
     aliases:["vegf","vegfa","vegf-a","vascular endothelial growth factor a"],
     blurb:"Secreted, dimeric. Relevant to graft vascularisation.",
-    prov:null, ready:false },
-  { id:"cd3e", name:"CD3ε", gene:"CD3E", acc:"P07766", modality:"membrane_bound",
-    aliases:["cd3","cd3e","cd3 epsilon","t-cell surface glycoprotein cd3 epsilon"],
-    blurb:"Part of the T-cell receptor complex. Senses T-cell contact.",
     prov:null, ready:false },
   { id:"cd3d", name:"CD3δ", gene:"CD3D", acc:"P04234", modality:"membrane_bound",
     aliases:["cd3","cd3d","cd3 delta"],
@@ -660,134 +669,258 @@ const SCAFFOLDS = [
 
 /* ── Sequences (invented) ────────────────────────────────── */
 const SEQ = {
-  VH:"EVQLVQSGAEVKKPGASVKVSCKTSGYTFTNYGMHWVRQAPGQRLEWMGWINTYNGSPTYADDFKGRFVFSLDTSVSTAYLQISSLKAEDTAVYYCARDQGYSLDYWGQGTLVTVSS",
-  VL:"DIQMTQSPSSLSASVGDRVTITCRASQDIRNYLNWYQQKPGKAPKLLIYYTSRLHSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQGNTLPWTFGQGTKVEIK",
   LINKER:"GGGGSGGGGSGGGGS",
+  // anti-TGF-β1
+  TB_VH:"EVQLVQSGAEVKKPGASVKVSCKTSGYTFTNYGMHWVRQAPGQRLEWMGWINTYNGSPTYADDFKGRFVFSLDTSVSTAYLQISSLKAEDTAVYYCARDQGYSLDYWGQGTLVTVSS",
+  TB_VL:"DIQMTQSPSSLSASVGDRVTITCRASQDIRNYLNWYQQKPGKAPKLLIYYTSRLHSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQGNTLPWTFGQGTKVEIK",
   VHH:"QVQLVESGGGLVQAGGSLRLSCAASGRTFSTYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAADRSTYWGQGTQVTVSS",
   ECTO:"TIPPHVQKSVNNDMIVTDNNGAVKFPQLCKFCDVRFSTCDNQKSCMSNCSITSICEKPQEVSVAVWRKNDENITLETVCHDPKLPYHDFILEDAASPKCIMKEKKKPGETFFMCSCSSDECNDNIIFSEEYNTSNPD",
-  SP:"MGWSCIILFLVATATGVHS",
-  CORE:"PLGSQSVTNAQEVLRSLGDRVDALEQQVSKLSQGLETRDPQAVLRAQQVLSDLQGRLSALEQRVAELEQGSPAQLLRTLADSVGQLQQRVAELEAGLSPQAVRELSQRLDALSQRVGELSQGLAERLDPQAVRALSQRVGDLEQGLSAQAQRLSELEQRLGALSPQAVRELSQRLDGLSQRVAELAQGLSPQAVRALTQRVGDLEQGLSAQAQRLGELEQRLGALSPQAVRELSQRLDALSQRVGELSQGLAERL",
-  TMD:"GVLLLVLLGVGLGLGLLLL",
-  OUTPUT:"KLLSSIEQACDICRLKKLKCSKEKPKCAKCLKNNWECRYSPKTKRSPLTRAHLTEVESRLERLEQLFLLIFPREDLDMILKMDSLQDIKALLTGLFVQDNVNKDAVTDRLASVETDMPLTLRQHRISATSSSEESSNKGQRQLTVSDALHYALHDAPRAADLDDVYTHVQQQGSLDLLTQLLQAPPQ"
+  // anti-CD3ε
+  H9_VH:"EVQLVESGGGLVQPGGSLRLSCAASGYSFTGYTMNWVRQAPGKGLEWVGLIDPYYGGTSYAQKFQGRATLTADKSTSTAYMELSSLRSEDTAVYYCARSGYYDGAWFAYWGQGTLVTVSS",
+  H9_VL:"DIQMTQSPSSLSASVGDRVTITCRASQSIVHSSGNTYLEWYQQKPGKAPKLLIYKVSNRFSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCFQGSHVPWTFGQGTKLEIK",
+  U1_VH:"QVQLQQSGAELARPGASVKMSCKASGYTFTRYTMHWVKQRPGQGLEWIGYINPSRGYTNGSQKFKDKATLTTDKSSSTAYMQLSSLTSEDSAVYYCARYYDDHYSLDYWGQGTTLTVSS",
+  U1_VL:"DIQMTQTTSSLSASLGDRVTISCRASQDIRNYLNWYQQKPDQTVKLLIYYTSRLHSGVPSKFSGSGSGTDYSLTISNSEQEDIATYFCQQGNTLPWTFAGGTKLEIK"
 };
 
-const F = {  // reusable findings
+/* Scaffold parts, per scaffold (invented placeholders). */
+const PARTS = {
+  snipr: {
+    sp:"MGWSCIILFLVATATGVHS",
+    core:"PLGSQSVTNAQEVLRSLGDRVDALEQQVSKLSQGLETRDPQAVLRAQQVLSDLQGRLSALEQRVAELEQGSPAQLLRTLADSVGQLQQRVAELEAGLSPQAVRELSQRLDALSQRVGELSQGLAERLDPQAVRALSQRVGDLEQGLSAQAQRLSELEQRLGALSPQAVRELSQRLDGLSQRVAELAQGLSPQAVRALTQRVGDLEQGLSAQAQRLGELEQRLGALSPQAVRELSQRLDALSQRVGELSQGLAERL",
+    tmd:"GVLLLVLLGVGLGLGLLLL",
+    coreName:"core",
+    coreWhat:"Converts ligand binding into a cut."
+  },
+  synnotch: {
+    sp:"MALPVTALLLPLVLLLHAARS",
+    core:"EPCQNQATCLDRIGGFTCLCPEGFTGRLCEVDIDECQSSPCANGGTCTDLENSFSCLCPPGFAGSRCERDVDECLSQPCQHGGTCLDLPGSYRCRCPPGYTGRHCELETDECASQPCLHGGRCEDLVGGYRCVCPPGYAGRRCEVEIDECASSPCQHGARCHDRVAGYTCECAPGYTGRRCESLIDACQSQPCAHGGTCLDLGDSFRCLCPPGYAGLRCEVDVDECSSQPCLHGGSCQDGVGSYRCLCPPGYTGSRCQTLVDLCARSPCAHGGSCLERSGGYSCLCPPGYAGSHCEVQADPCASQPCLHGGRCESRPGGYVCHCPPGYAGPRCQIEVSPCLSQPCLHGGTCQPTGASFRCSCPPGYTGSRCEIDVNECLSQPCQNGGTCQDLVNGFRCTCPPGYTGLRCEADIDECRSQPCLHGGTCQDGVGSYSCSCPPGYTGLNCQTQVDPCASSPCLHGGSCRPSPQGPVCLCPPGFAGPRCEIQ",
+    tmd:"AWAAILLLPLLLLLLLAGLGLLLW",
+    coreName:"core (force-sensitive catch)",
+    coreWhat:"Holds the catch. Pulling on the binder opens it and exposes the cut site."
+  },
+  output:"KLLSSIEQACDICRLKKLKCSKEKPKCAKCLKNNWECRYSPKTKRSPLTRAHLTEVESRLERLEQLFLLIFPREDLDMILKMDSLQDIKALLTGLFVQDNVNKDAVTDRLASVETDMPLTLRQHRISATSSSEESSNKGQRQLTVSDALHYALHDAPRAADLDDVYTHVQQQGSLDLLTQLLQAPPQ"
+};
+
+/* Findings shared across candidates. The modality finding depends on the
+   target/scaffold pair and is generated separately. */
+const F = {
   provOk: { rule:"provenance.present", sev:"pass", title:"Every part of this design can be traced to a source.",
             detail:"The binder, the linker and each scaffold part carry a citation you can open and check." },
   speciesOk: { rule:"species.match", sev:"pass", title:"This binder was raised against the human protein — the one you selected.",
                detail:"A binder raised against the mouse version would express perfectly and simply never see your ligand." },
-  modalityOk: { rule:"modality.compatible", sev:"pass", title:"SNIPR can respond to a secreted ligand like TGF-β1.",
-                detail:"Unlike synNotch, it does not depend on physical force transmitted from a neighbouring cell.",
-                caution:"How well it responds depends on the configuration, and this is less well established than its response to ligands held on a cell. Plan to test more than one arrangement." },
   singleChainOk: { rule:"format.single_chain", sev:"pass", title:"The binder is one continuous chain, so it can be fused straight into the receptor.",
-                   detail:"Anything held together by two separate chains, such as a whole antibody, cannot be used here." }
+                   detail:"Anything held together by two separate chains, such as a whole antibody, cannot be used here." },
+  isoOk: { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" }
 };
 
-const CANDIDATES = [
-  {
-    id:"tb1_7_vhvl", name:"TB1-7", orientation:"VH–VL", rank:1, score:0.90,
-    format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
-    binder: SEQ.VH + SEQ.LINKER + SEQ.VL, binderLen:239, evidence:"Co-crystal with TGF-β1",
-    summary:"Humanized, structure-backed, one minor flag",
-    rationale:"TB1-7 is the only humanized binder available for TGF-β1 that also has a published structure solved in complex with the target — so we know where it binds, not just that it binds. It is a single chain, it targets the human protein you selected, and it carries one developability flag worth checking: a sugar-attachment site sitting in one of its binding loops. That is a reason to keep an eye on it, not a reason to reject it. This VH–VL arrangement is listed first only because it is the more commonly reported one for this class of binder; the reversed build below is an equally valid candidate.",
-    caveats:[
-      "SNIPR's response to secreted ligands depends on the configuration and is less firmly established than its response to ligands held on a neighbouring cell.",
-      "TGF-β1 is released in an inactive, latent form. A receptor built against it may report that TGF-β1 is <em>present</em> rather than that it is <em>active</em> — which are different questions.",
-      "TGF-β1 is a dimer, so one ligand can engage two receptors at once. That affects switching behaviour in ways this sequence-level check does not model.",
-      "Binding strength is not predicted here. Stronger is not better: a binder that holds on too tightly can switch the receptor on with no ligand present at all."
-    ],
-    findings:[
-      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
-      { rule:"format.length", sev:"pass", title:"239 amino acids — an ordinary size for this kind of binder.",
-        detail:"SNIPR has no published hard size limit, and nothing about this length is unusual." },
-      { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.",
-        detail:"Consistent with the two internal bonds this format normally forms. An odd count would suggest one is left without a partner, which can cause clumping." },
-      { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S), at position 55 of the binder.",
-        detail:"It falls inside a binding loop, so a sugar added there could physically block the part that touches the ligand. Common and often harmless — but worth watching if the binder underperforms." },
-      { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.",
-        detail:"This alters the local charge and can gradually reduce binding. It matters for long-term storage more than for a first experiment." },
-      { rule:"liability.isomerization", sev:"pass", title:"No D-G motifs, so no isomerisation-prone sites.", detail:"" },
-      { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.",
-        detail:"Matters here because the engineered cell is displayed to a recipient immune system; a mouse-derived framework would be more visible to it." }
-    ]
-  },
-  {
-    id:"tb1_7_vlvh", name:"TB1-7", orientation:"VL–VH", rank:2, score:0.90,
-    format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
-    binder: SEQ.VL + SEQ.LINKER + SEQ.VH, binderLen:239, evidence:"Co-crystal with TGF-β1",
-    summary:"Same binder, halves joined the other way round",
-    rationale:"Identical parts to the recommendation, joined in the opposite order. Both are built because the two arrangements do not always fold or behave the same way, and there is no reliable way to tell from sequence alone which will be better. If the first one disappoints at the bench, this is the first thing to try.",
-    caveats:["Same caveats as the VH–VL build — identical sequence content, different arrangement."],
-    findings:[
-      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
-      { rule:"format.length", sev:"pass", title:"239 amino acids — identical content to the VH–VL build.", detail:"" },
-      { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
-      { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S) in a binding loop.",
-        detail:"The same site as the VH–VL build; the reordering does not remove it." },
-      { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.", detail:"" },
-      { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" },
-      { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.", detail:"" }
-    ]
-  },
-  {
-    id:"tgfbr2_trap", name:"TGFBR2 ectodomain", orientation:null, rank:3, score:0.80,
-    format:"Natural receptor piece", origin:"Human", prov:"tgfbr2",
-    binder: SEQ.ECTO, binderLen:137, evidence:"Co-crystal with TGF-β1",
-    summary:"Fully human, but the highest off-target risk here",
-    rationale:"This is the outside portion of the body's own receptor for TGF-β1, so it is fully human and binds the real thing by design. The trade-off is specificity: natural receptors evolved surrounded by several binding partners, and their relatives are everywhere. If it engages something on the surface of the cell carrying the receptor, that receptor is switched on permanently and the experiment is dead before it starts. synbind cannot check that yet.",
-    caveats:[
-      "Natural receptor pieces carry substantially higher off-target risk than antibody-derived binders. The screen that would catch this is not built yet.",
-      "One cysteine appears to have lost its partner when the piece was cut from the full receptor, which can cause clumping."
-    ],
-    findings:[
-      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
-      { rule:"format.length", sev:"pass", title:"137 amino acids — compact.", detail:"" },
-      { rule:"liability.unpaired_cys", sev:"warn", title:"Eleven cysteines — an odd number, so one has no partner.",
-        detail:"Expected when a domain is cut out of a larger protein. A leftover unpaired cysteine can link to the wrong place and cause clumping.",
-        caution:"Of the flags on this page, this is the one most likely to cause real trouble at the bench." },
-      { rule:"liability.nglyc_sequon", sev:"warn", title:"Three sugar-attachment sites.",
-        detail:"Normal for a natural cell-surface protein, which is glycosylated in life — but more sites means more variability between preparations." },
-      { rule:"liability.deamidation", sev:"warn", title:"One N-G pair that can chemically change over time.", detail:"" },
-      { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" },
-      { rule:"immunogenicity.origin", sev:"pass", title:"Entirely human sequence.",
-        detail:"The least visible option to a recipient immune system." }
-    ]
-  },
-  {
-    id:"c12_vhh", name:"C12", orientation:null, rank:4, score:0.65,
-    format:"Nanobody (VHH)", origin:"Camelid (llama)", prov:"c12",
-    binder: SEQ.VHH, binderLen:114, evidence:"Sequence only — no structure",
-    summary:"Smallest and cleanest, but non-human and unproven structurally",
-    rationale:"The smallest option, a single compact domain that needs no joining and usually folds well — often an advantage when a binder has to sit correctly on a cell surface. Two things hold it back from the top spot: the framework comes from a llama, which a recipient immune system would notice, and there is no published structure, so the evidence that it binds where the paper says it does is weaker than for TB1-7.",
-    caveats:[
-      "Llama-derived framework. For a transplanted cell, everything on the surface is visible to the recipient's immune system.",
-      "No published structure. The binding site is reported, not directly observed."
-    ],
-    findings:[
-      F.provOk, F.speciesOk, F.modalityOk, F.singleChainOk,
-      { rule:"format.length", sev:"pass", title:"114 amino acids — the smallest candidate here.",
-        detail:"Small single domains often fold well and display cleanly on a surface." },
-      { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
-      { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
-      { rule:"liability.deamidation", sev:"warn", title:"One N-S pair that can chemically change over time.",
-        detail:"It sits in a structural region rather than a binding loop, so the impact is likely smaller than for a site in a loop." },
-      { rule:"liability.isomerization", sev:"pass", title:"No isomerisation-prone sites.", detail:"" },
-      { rule:"immunogenicity.origin", sev:"warn", title:"Llama-derived framework, not human.",
-        detail:"A recipient immune system may react to the binder itself. Humanising it is possible but is extra work, and can cost binding strength.",
-        caution:"This is the reason C12 is not the recommendation, despite being the cleanest sequence on the page." }
-    ]
-  }
-];
+function modalityFinding(target, scaf) {
+  if (target.modality === "membrane_bound" && scaf.id === "synnotch") return {
+    rule:"modality.compatible", sev:"pass",
+    title:`${target.name} is held on the surface of a neighbouring cell — exactly what synNotch is built for.`,
+    detail:"Contact between the two cells provides the pulling force this scaffold needs to switch on. This is the pairing synNotch was designed around, and the best characterised way to use it."
+  };
+  if (target.modality === "membrane_bound") return {
+    rule:"modality.compatible", sev:"pass",
+    title:`SNIPR responds to a ligand held on a neighbouring cell, like ${target.name}.`,
+    detail:"Its response to cell-surface ligands is the better established of its two modes."
+  };
+  return {
+    rule:"modality.compatible", sev:"pass",
+    title:`SNIPR can respond to a secreted ligand like ${target.name}.`,
+    detail:"Unlike synNotch, it does not depend on physical force transmitted from a neighbouring cell.",
+    caution:"How well it responds depends on the configuration, and this is less well established than its response to ligands held on a cell. Plan to test more than one arrangement."
+  };
+}
 
-const REJECTED = [
-  { name:"MT-4", why:"Raised against <b>mouse</b> TGF-β1, not human. It would be made and displayed correctly and simply never meet your ligand.", rule:"species.match" },
-  { name:"BX-201", why:"A whole antibody — two separate chains held together. It cannot be fused into a receptor as one continuous chain.", rule:"format.single_chain" },
-  { name:"L-14 (in-house clone)", why:"No published source. synbind will not recommend a binder you cannot cite or check.", rule:"provenance.present" }
-];
+/* ── Candidates, per target ──────────────────────────────── */
+
+const CANDIDATES = {
+
+  tgfb1: [
+    { id:"tb1_7_vhvl", name:"TB1-7", orientation:"VH–VL", rank:1,
+      format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
+      binder: SEQ.TB_VH + SEQ.LINKER + SEQ.TB_VL, binderLen:239, evidence:"Co-crystal with TGF-β1",
+      rationale:"TB1-7 is the only humanized binder available for TGF-β1 that also has a published structure solved in complex with the target — so we know where it binds, not just that it binds. It is a single chain, it targets the human protein you selected, and it carries one developability flag worth checking: a sugar-attachment site sitting in one of its binding loops. That is a reason to keep an eye on it, not a reason to reject it. This VH–VL arrangement is listed first only because it is the more commonly reported one for this class of binder; the reversed build below is an equally valid candidate.",
+      caveats:[
+        "SNIPR's response to secreted ligands depends on the configuration and is less firmly established than its response to ligands held on a neighbouring cell.",
+        "TGF-β1 is released in an inactive, latent form. A receptor built against it may report that TGF-β1 is <em>present</em> rather than that it is <em>active</em> — which are different questions.",
+        "TGF-β1 is a dimer, so one ligand can engage two receptors at once. That affects switching behaviour in ways this sequence-level check does not model.",
+        "Binding strength is not predicted here. Stronger is not better: a binder that holds on too tightly can switch the receptor on with no ligand present at all."
+      ],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"239 amino acids — an ordinary size for this kind of binder.",
+          detail:"SNIPR has no published hard size limit, and nothing about this length is unusual." },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.",
+          detail:"Consistent with the two internal bonds this format normally forms. An odd count would suggest one is left without a partner, which can cause clumping." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S), at position 55 of the binder.",
+          detail:"It falls inside a binding loop, so a sugar added there could physically block the part that touches the ligand. Common and often harmless — but worth watching if the binder underperforms." },
+        { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.",
+          detail:"This alters the local charge and can gradually reduce binding. It matters for long-term storage more than for a first experiment." },
+        F.isoOk,
+        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.",
+          detail:"Matters here because the engineered cell is displayed to a recipient immune system; a mouse-derived framework would be more visible to it." }
+      ] },
+
+    { id:"tb1_7_vlvh", name:"TB1-7", orientation:"VL–VH", rank:2,
+      format:"scFv (antibody-derived)", origin:"Humanized", prov:"tb1_7",
+      binder: SEQ.TB_VL + SEQ.LINKER + SEQ.TB_VH, binderLen:239, evidence:"Co-crystal with TGF-β1",
+      rationale:"Identical parts to the recommendation, joined in the opposite order. Both are built because the two arrangements do not always fold or behave the same way, and there is no reliable way to tell from sequence alone which will be better. If the first one disappoints at the bench, this is the first thing to try.",
+      caveats:["Same caveats as the VH–VL build — identical sequence content, different arrangement."],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"239 amino acids — identical content to the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S) in a binding loop.",
+          detail:"The same site as the VH–VL build; the reordering does not remove it." },
+        { rule:"liability.deamidation", sev:"warn", title:"The same N-G pair can slowly chemically change over time.", detail:"" },
+        F.isoOk,
+        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.", detail:"" }
+      ] },
+
+    { id:"tgfbr2_trap", name:"TGFBR2 ectodomain", orientation:null, rank:3,
+      format:"Natural receptor piece", origin:"Human", prov:"tgfbr2",
+      binder: SEQ.ECTO, binderLen:137, evidence:"Co-crystal with TGF-β1",
+      rationale:"This is the outside portion of the body's own receptor for TGF-β1, so it is fully human and binds the real thing by design. The trade-off is specificity: natural receptors evolved surrounded by several binding partners, and their relatives are everywhere. If it engages something on the surface of the cell carrying the receptor, that receptor is switched on permanently and the experiment is dead before it starts. synbind cannot check that yet.",
+      caveats:[
+        "Natural receptor pieces carry substantially higher off-target risk than antibody-derived binders. The screen that would catch this is not built yet.",
+        "One cysteine appears to have lost its partner when the piece was cut from the full receptor, which can cause clumping."
+      ],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"137 amino acids — compact.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"warn", title:"Eleven cysteines — an odd number, so one has no partner.",
+          detail:"Expected when a domain is cut out of a larger protein. A leftover unpaired cysteine can link to the wrong place and cause clumping.",
+          caution:"Of the flags on this page, this is the one most likely to cause real trouble at the bench." },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"Three sugar-attachment sites.",
+          detail:"Normal for a natural cell-surface protein, which is glycosylated in life — but more sites means more variability between preparations." },
+        { rule:"liability.deamidation", sev:"warn", title:"One N-G pair that can chemically change over time.", detail:"" },
+        F.isoOk,
+        { rule:"immunogenicity.origin", sev:"pass", title:"Entirely human sequence.",
+          detail:"The least visible option to a recipient immune system." }
+      ] },
+
+    { id:"c12_vhh", name:"C12", orientation:null, rank:4,
+      format:"Nanobody (VHH)", origin:"Camelid (llama)", prov:"c12",
+      binder: SEQ.VHH, binderLen:114, evidence:"Sequence only — no structure",
+      rationale:"The smallest option, a single compact domain that needs no joining and usually folds well — often an advantage when a binder has to sit correctly on a cell surface. Two things hold it back from the top spot: the framework comes from a llama, which a recipient immune system would notice, and there is no published structure, so the evidence that it binds where the paper says it does is weaker than for TB1-7.",
+      caveats:[
+        "Llama-derived framework. For a transplanted cell, everything on the surface is visible to the recipient's immune system.",
+        "No published structure. The binding site is reported, not directly observed."
+      ],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"114 amino acids — the smallest candidate here.",
+          detail:"Small single domains often fold well and display cleanly on a surface." },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Two cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"One N-S pair that can chemically change over time.",
+          detail:"It sits in a structural region rather than a binding loop, so the impact is likely smaller than for a site in a loop." },
+        F.isoOk,
+        { rule:"immunogenicity.origin", sev:"warn", title:"Llama-derived framework, not human.",
+          detail:"A recipient immune system may react to the binder itself. Humanising it is possible but is extra work, and can cost binding strength.",
+          caution:"This is the reason C12 is not the recommendation, despite being the cleanest sequence on the page." }
+      ] }
+  ],
+
+  cd3e: [
+    { id:"h9_vhvl", name:"hCD3-9", orientation:"VH–VL", rank:1,
+      format:"scFv (antibody-derived)", origin:"Humanized", prov:"h9",
+      binder: SEQ.H9_VH + SEQ.LINKER + SEQ.H9_VL, binderLen:247, evidence:"Co-crystal with CD3ε",
+      rationale:"hCD3-9 and UCHT1 recognise the same target, and both have a published structure solved in complex with it. They separate on one point, and it is a point that matters specifically here: hCD3-9's framework is humanized, UCHT1's is mouse-derived. Everything on the surface of a transplanted cell is visible to the recipient's immune system, and the binder sits on the surface. UCHT1 is by far the more widely used antibody, and for a cell-culture experiment that would probably settle it — but these cells are meant to go into a recipient, so it does not.",
+      caveats:[
+        "CD3ε sits on T cells. If this receptor is ever put <em>into</em> a T cell rather than a donor cell, the binder will meet CD3ε on its own surface and the receptor will be switched on permanently. Safe in the donor-cell setting; a hazard if the chassis changes.",
+        "CD3ε is one chain of a larger receptor complex. How reachable it is depends on how that complex is arranged on the T-cell surface, which this sequence-level check does not model.",
+        "Binding strength is not predicted here. Stronger is not better: a binder that holds on too tightly can switch the receptor on with no ligand present at all.",
+        "This design reports <em>contact with a T cell</em>, not whether that T cell is hostile. What the receptor switches on should be chosen with that in mind."
+      ],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — an ordinary size for this kind of binder.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.",
+          detail:"Consistent with the two internal bonds this format normally forms." },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.",
+          detail:"Cleaner on this measure than UCHT1, which has one inside a binding loop." },
+        { rule:"liability.deamidation", sev:"pass", title:"No deamidation-prone pairs.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One isomerisation-prone site (D-G) in the main binding loop.",
+          detail:"The pair can slowly rearrange, which changes the shape of the loop that touches the ligand. This is the only flag on this candidate and it is the mildest of the four we check for." },
+        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.",
+          detail:"The decisive advantage over UCHT1 for a transplant setting." }
+      ] },
+
+    { id:"h9_vlvh", name:"hCD3-9", orientation:"VL–VH", rank:2,
+      format:"scFv (antibody-derived)", origin:"Humanized", prov:"h9",
+      binder: SEQ.H9_VL + SEQ.LINKER + SEQ.H9_VH, binderLen:247, evidence:"Co-crystal with CD3ε",
+      rationale:"Identical parts to the recommendation, joined in the opposite order. Both are built because the two arrangements do not always fold or behave the same way, and sequence alone cannot tell you which will be better. If the first one disappoints at the bench, this is the first thing to try.",
+      caveats:["Same caveats as the VH–VL build — identical sequence content, different arrangement."],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"247 amino acids — identical content to the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"pass", title:"No sugar-attachment sites.", detail:"" },
+        { rule:"liability.deamidation", sev:"pass", title:"No deamidation-prone pairs.", detail:"" },
+        { rule:"liability.isomerization", sev:"warn", title:"One isomerisation-prone site (D-G) in the main binding loop.",
+          detail:"The same site as the VH–VL build; the reordering does not remove it." },
+        { rule:"immunogenicity.origin", sev:"pass", title:"Humanized framework.", detail:"" }
+      ] },
+
+    { id:"ucht1_vhvl", name:"UCHT1", orientation:"VH–VL", rank:3,
+      format:"scFv (antibody-derived)", origin:"Murine", prov:"ucht1",
+      binder: SEQ.U1_VH + SEQ.LINKER + SEQ.U1_VL, binderLen:241, evidence:"Co-crystal with CD3ε",
+      rationale:"The best known anti-CD3ε antibody by a wide margin, with a structure in complex with the target and decades of use behind it. If this were an in-vitro experiment it would be the obvious pick. It is ranked below hCD3-9 for one reason: its framework is mouse-derived, and these cells are intended for a recipient who will see it. It also carries two developability flags that hCD3-9 does not. If familiarity and available reagents matter more to you than the immunogenicity argument, this is a defensible choice — the tool is not hiding it, just ranking it.",
+      caveats:[
+        "Mouse-derived framework on a cell intended for transplantation. This is the reason it is not the recommendation.",
+        "CD3ε sits on T cells. If this receptor is ever put <em>into</em> a T cell rather than a donor cell, the binder will meet CD3ε on its own surface and the receptor will be switched on permanently.",
+        "Humanising the framework is possible and well-trodden for this antibody, but it is a project in itself and can cost binding strength."
+      ],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"241 amino acids — an ordinary size for this kind of binder.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S), at position 59 of the binder.",
+          detail:"It sits in a binding loop, where an added sugar could block contact with the ligand.",
+          caution:"There is a second N-P-S at position 52 that looks similar but is <b>not</b> a sugar-attachment site — a proline in the middle position blocks it. Flagging it would be a false alarm, so it is not flagged." },
+        { rule:"liability.deamidation", sev:"warn", title:"Two sites that can slowly change chemically (one N-G, one N-S).",
+          detail:"Both alter the local charge over time. More relevant to long-term storage than to a first experiment." },
+        F.isoOk,
+        { rule:"immunogenicity.origin", sev:"warn", title:"Mouse-derived framework, not human.",
+          detail:"Everything on the surface of a transplanted cell is visible to the recipient's immune system — including the binder's framework, not just the part that touches the ligand.",
+          caution:"This single finding is what moved UCHT1 below hCD3-9, despite being the better known antibody." }
+      ] },
+
+    { id:"ucht1_vlvh", name:"UCHT1", orientation:"VL–VH", rank:4,
+      format:"scFv (antibody-derived)", origin:"Murine", prov:"ucht1",
+      binder: SEQ.U1_VL + SEQ.LINKER + SEQ.U1_VH, binderLen:241, evidence:"Co-crystal with CD3ε",
+      rationale:"The reversed arrangement of UCHT1. Built for the same reason as every other pair on this page: the two orientations do not always behave alike, and no sequence-level check can predict which is better.",
+      caveats:["Same caveats as the UCHT1 VH–VL build — identical sequence content, different arrangement."],
+      findings:[
+        F.provOk, F.speciesOk, F.singleChainOk,
+        { rule:"format.length", sev:"pass", title:"241 amino acids — identical content to the VH–VL build.", detail:"" },
+        { rule:"liability.unpaired_cys", sev:"pass", title:"Four cysteines, an even number.", detail:"" },
+        { rule:"liability.nglyc_sequon", sev:"warn", title:"One sugar-attachment site (N-G-S) in a binding loop.", detail:"" },
+        { rule:"liability.deamidation", sev:"warn", title:"Two sites that can slowly change chemically (one N-G, one N-S).", detail:"" },
+        F.isoOk,
+        { rule:"immunogenicity.origin", sev:"warn", title:"Mouse-derived framework, not human.", detail:"" }
+      ] }
+  ]
+};
+
+const REJECTED = {
+  tgfb1: [
+    { name:"MT-4", why:"Raised against <b>mouse</b> TGF-β1, not human. It would be made and displayed correctly and simply never meet your ligand.", rule:"species.match" },
+    { name:"BX-201", why:"A whole antibody — two separate chains held together. It cannot be fused into a receptor as one continuous chain.", rule:"format.single_chain" },
+    { name:"L-14 (in-house clone)", why:"No published source. synbind will not recommend a binder you cannot cite or check.", rule:"provenance.present" }
+  ],
+  cd3e: [
+    { name:"MC3-2", why:"Raised against <b>mouse</b> CD3ε, not human. Easy to pick up by mistake — most published anti-CD3 work is done in mice.", rule:"species.match" },
+    { name:"12F (IgG)", why:"A whole antibody — two separate chains held together. It cannot be fused into a receptor as one continuous chain.", rule:"format.single_chain" },
+    { name:"clone 7B (in-house)", why:"No published source. synbind will not recommend a binder you cannot cite or check.", rule:"provenance.present" }
+  ]
+};
 
 /* ═══ State ═══════════════════════════════════════════════════ */
 
-const state = { target:null, scaffold:null, tab:"rec" };
+const state = { target:null, scaffold:null, tab:"rec", open:new Set() };
 
 const $  = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
@@ -796,8 +929,10 @@ const modalityChip = m => m === "soluble"
   ? '<span class="chip soluble">floats freely</span>'
   : '<span class="chip membrane">held on a cell</span>';
 
-const provBtn = (key, label) =>
-  `<button class="prov" data-prov="${key}">${esc(label)}</button>`;
+const provBtn = (key, label) => `<button class="prov" data-prov="${key}">${esc(label)}</button>`;
+
+const candidatesFor = t => CANDIDATES[t.id] || [];
+const rejectedFor   = t => REJECTED[t.id] || [];
 
 /* ═══ Step 1 — target picker ══════════════════════════════════ */
 
@@ -841,6 +976,7 @@ function pickTarget(id) {
   state.target = TARGETS.find(t => t.id === id);
   state.scaffold = null;
   state.tab = "rec";
+  state.open.clear();
   q.value = state.target.name;
   menu.hidden = true;
   renderSelected();
@@ -861,7 +997,7 @@ function renderSelected() {
       <button class="linkish" id="clear">change</button>
     </div>`;
   $("#clear").onclick = () => {
-    state.target = null; state.scaffold = null;
+    state.target = null; state.scaffold = null; state.open.clear();
     q.value = ""; q.focus();
     renderSelected(); $("#step2").hidden = true; renderResult();
   };
@@ -889,11 +1025,10 @@ function renderResult() {
 
   const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
   const compatible = scaf.modalities.includes(state.target.modality);
-  const supported = state.target.ready;
 
-  if (!compatible)      box.innerHTML = blockedView(scaf);
-  else if (!supported)  box.innerHTML = noDataView();
-  else                  box.innerHTML = passView(scaf);
+  if (!compatible)                box.innerHTML = blockedView(scaf);
+  else if (!state.target.ready)   box.innerHTML = noDataView();
+  else                            box.innerHTML = passView(scaf);
 
   box.scrollIntoView({ behavior:"smooth", block:"nearest" });
 }
@@ -901,7 +1036,7 @@ function renderResult() {
 /* ── The block: soluble ligand + force-dependent scaffold ──── */
 
 function blockedView(scaf) {
-  const t = state.target;
+  const t = state.target, n = candidatesFor(t).length;
   return `
   <section class="card verdict blocked">
     <div class="verdict-head">
@@ -922,8 +1057,8 @@ function blockedView(scaf) {
       <p><b>The dangerous part is that nothing looks wrong.</b> The construct assembles, the cells
          express it, it reaches the surface, and it stays silent. This usually surfaces months later,
          as an experiment that quietly produced nothing.</p>
-      <p>All four candidate binders for ${t.name} were excluded for this same reason. The problem is
-         the scaffold, not the binder.</p>
+      ${n ? `<p>All ${n} candidate binders for ${t.name} were excluded for this same reason. The problem
+         is the scaffold, not the binder.</p>` : ""}
     </div>
 
     <div class="fixbar">
@@ -947,7 +1082,8 @@ function noDataView() {
       </div>
     </div>
     <div class="because">
-      <p>In this mock only <b>TGF-β1</b> has candidates attached. Pick it to see the full result.</p>
+      <p>In this mock, <b>TGF-β1</b> and <b>CD3ε</b> have candidates attached. Pick either to see a
+         full result.</p>
     </div>
   </section>`;
 }
@@ -955,25 +1091,35 @@ function noDataView() {
 /* ── The pass: full three-layer result ────────────────────── */
 
 function passView(scaf) {
-  const t = state.target, top = CANDIDATES[0];
-  const panes = { rec: recPane(), cmp: cmpPane(), raw: rawPane(scaf) };
+  const t = state.target;
+  const cands = candidatesFor(t), rej = rejectedFor(t);
+  const panes = { rec: recPane(scaf), cmp: cmpPane(scaf), raw: rawPane(scaf) };
+  const lead = t.modality === "membrane_bound" && scaf.id === "synnotch"
+    ? `${t.name} is held on the surface of a neighbouring cell, which is exactly what synNotch needs.`
+    : `${scaf.name} can respond to ${t.modality === "soluble" ? "a free-floating" : "a cell-surface"} ligand like ${t.name}.`;
   return `
   <section class="card verdict ok">
     <div class="verdict-head">
       <span class="mark">✓</span>
       <div>
         <h2>This combination can work</h2>
-        <p>${scaf.name} can respond to a free-floating ligand like ${t.name}.
-           ${CANDIDATES.length} designs passed every blocking check; ${REJECTED.length} were excluded.</p>
+        <p>${lead} ${cands.length} designs passed every blocking check; ${rej.length} were excluded.</p>
       </div>
     </div>
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-tab="rec" aria-selected="${state.tab==="rec"}">Recommendation</button>
-      <button class="tab" role="tab" data-tab="cmp" aria-selected="${state.tab==="cmp"}">Compare<span class="n">${CANDIDATES.length + REJECTED.length}</span></button>
+      <button class="tab" role="tab" data-tab="cmp" aria-selected="${state.tab==="cmp"}">Compare<span class="n">${cands.length + rej.length}</span></button>
       <button class="tab" role="tab" data-tab="raw" aria-selected="${state.tab==="raw"}">Sequence &amp; sources</button>
     </div>
     <div class="pane">${panes[state.tab]}</div>
   </section>`;
+}
+
+function allFindings(c, scaf) {
+  // provenance, species, modality, format… — modality depends on the pairing.
+  const f = c.findings.slice();
+  f.splice(2, 0, modalityFinding(state.target, scaf));
+  return f;
 }
 
 function findingsHtml(list) {
@@ -989,18 +1135,24 @@ function findingsHtml(list) {
     </div>`).join("");
 }
 
-function recPane() {
-  const c = CANDIDATES[0];
-  const warns = c.findings.filter(f => f.sev === "warn").length;
+function caveatsHtml(c) {
+  return `<ul class="caveats">${c.caveats.map(x => `<li>${x}</li>`).join("")}</ul>`;
+}
+
+function recPane(scaf) {
+  const c = candidatesFor(state.target)[0];
+  const f = allFindings(c, scaf);
+  const warns = f.filter(x => x.sev === "warn").length;
   return `
     <div class="rec-top">
       <div>
-        <div class="rec-name">${c.name} <span style="color:var(--text-3);font-weight:400">· ${c.orientation}</span></div>
+        <div class="rec-name">${c.name}${c.orientation ? ` <span style="color:var(--text-3);font-weight:400">· ${c.orientation}</span>` : ""}</div>
         <div class="rec-meta">${c.format} · ${c.origin} · ${c.binderLen} aa · ${c.evidence} · ${provBtn(c.prov, "source")}</div>
       </div>
       <div class="rec-actions">
         <button class="btn sm ghost" data-copy="binder">Copy binder</button>
-        <button class="btn sm" data-copy="construct">Copy full construct</button>
+        <button class="btn sm ghost" data-download="fasta">Download FASTA</button>
+        <button class="btn sm" data-download="json">Download result</button>
       </div>
     </div>
 
@@ -1010,47 +1162,57 @@ function recPane() {
     </div>
 
     <div class="sub">
-      <h3>WHAT WE CHECKED — everything passed except ${warns} point${warns===1?"":"s"} worth knowing about</h3>
-      ${findingsHtml(c.findings)}
+      <h3>WHAT WE CHECKED — ${warns ? `everything passed except ${warns} point${warns===1?"":"s"} worth knowing about` : "everything passed"}</h3>
+      ${findingsHtml(f)}
     </div>
 
     <div class="sub">
       <h3>BEFORE YOU ORDER ANYTHING</h3>
-      <ul class="caveats">${c.caveats.map(x => `<li>${x}</li>`).join("")}</ul>
+      ${caveatsHtml(c)}
     </div>`;
 }
 
-function cmpPane() {
+function cmpPane(scaf) {
+  const cands = candidatesFor(state.target), rej = rejectedFor(state.target);
+  const rows = cands.map(c => {
+    const f = allFindings(c, scaf);
+    const warns = f.filter(x => x.sev === "warn");
+    const open = state.open.has(c.id);
+    return `
+      <tr class="row ${c.rank === 1 ? "top" : ""}" data-row="${c.id}" aria-expanded="${open}">
+        <td><span class="rank">${c.rank}</span></td>
+        <td><span class="nm">${c.name}</span>${c.orientation ? `<div class="sm">${c.orientation}</div>` : ""}</td>
+        <td>${c.format}</td>
+        <td>${c.origin}</td>
+        <td>${c.binderLen} aa</td>
+        <td>${c.evidence}</td>
+        <td>${warns.length ? warns.map(w => w.title.replace(/\.$/, "")).join("<br>") : "<span class='sm'>none</span>"}</td>
+        <td><span class="chev">▶</span></td>
+      </tr>
+      ${open ? `<tr><td class="detail" colspan="8"><div class="detail-in">
+        <div class="why"><h3>Why this one is ranked ${c.rank}</h3>${c.rationale}</div>
+        <div class="sub"><h3>WHAT WE CHECKED</h3>${findingsHtml(f)}</div>
+        <div class="sub"><h3>BEFORE YOU ORDER ANYTHING</h3>${caveatsHtml(c)}</div>
+      </div></td></tr>` : ""}`;
+  }).join("");
+
   return `
     <div class="tablewrap">
       <table>
         <thead><tr>
           <th></th><th>Binder</th><th>Type</th><th>Origin</th><th>Size</th>
-          <th>Evidence</th><th>Points to watch</th>
+          <th>Evidence</th><th>Points to watch</th><th></th>
         </tr></thead>
-        <tbody>
-        ${CANDIDATES.map(c => {
-          const warns = c.findings.filter(f => f.sev === "warn");
-          return `<tr class="${c.rank === 1 ? "top" : ""}">
-            <td><span class="rank">${c.rank}</span></td>
-            <td><span class="nm">${c.name}</span>${c.orientation ? `<div class="sm">${c.orientation}</div>` : ""}</td>
-            <td>${c.format}</td>
-            <td>${c.origin}</td>
-            <td>${c.binderLen} aa</td>
-            <td>${c.evidence}</td>
-            <td>${warns.length ? warns.map(w => w.title.replace(/\.$/, "")).join("<br>") : "<span class='sm'>none</span>"}</td>
-          </tr>`;
-        }).join("")}
-        </tbody>
+        <tbody>${rows}</tbody>
       </table>
     </div>
-    <p class="note" style="margin-top:12px">Ordered by how many concerns each carries, how directly its
-      binding has been observed, and how human it is — not by any single number. The reasons are in the
-      last column; nothing is hidden behind a score.</p>
+    <p class="note" style="margin-top:12px">Select any row to see the full reasoning for that candidate.
+      Ordered by how many concerns each carries, how directly its binding has been observed, and how
+      human it is — not by any single number. Nothing is hidden behind a score.</p>
 
     <div class="rejected">
       <h3 style="font-size:13px;color:var(--text-2);margin-bottom:10px">EXCLUDED, AND WHY</h3>
-      ${REJECTED.map(r => `
+      ${rej.map(r => `
         <div class="rej">
           <span class="x">✕</span>
           <div>
@@ -1066,17 +1228,20 @@ function cmpPane() {
 
 /* ── Annotated construct ─────────────────────────────────── */
 
-const SEGDEF = [
-  { name:"signal peptide", cls:"sp",     seq:SEQ.SP,     what:"Gets the receptor to the cell surface." },
-  { name:"binder",         cls:"binder", seq:null,       what:"The part that recognises the ligand. This is what synbind designs." },
-  { name:"core",           cls:"core",   seq:SEQ.CORE,   what:"Converts ligand binding into a cut." },
-  { name:"transmembrane",  cls:"tmd",    seq:SEQ.TMD,    what:"Sits in the membrane; the second cut happens here." },
-  { name:"output module",  cls:"output", seq:SEQ.OUTPUT, what:"Released on activation; switches on your gene of interest." }
-];
+function segDef(scafId) {
+  const p = PARTS[scafId];
+  return [
+    { name:"signal peptide", cls:"sp",     seq:p.sp,        what:"Gets the receptor to the cell surface." },
+    { name:"binder",         cls:"binder", seq:null,        what:"The part that recognises the ligand. This is what synbind designs." },
+    { name:p.coreName,       cls:"core",   seq:p.core,      what:p.coreWhat },
+    { name:"transmembrane",  cls:"tmd",    seq:p.tmd,       what:"Sits in the membrane; the second cut happens here." },
+    { name:"output module",  cls:"output", seq:PARTS.output, what:"Released on activation; switches on your gene of interest." }
+  ];
+}
 
-function buildConstruct(binder) {
+function buildConstruct(binder, scafId) {
   let pos = 0;
-  const segs = SEGDEF.map(d => {
+  const segs = segDef(scafId).map(d => {
     const seq = d.seq === null ? binder : d.seq;
     const s = { ...d, seq, start:pos, end:pos + seq.length };
     pos += seq.length;
@@ -1101,28 +1266,31 @@ function annotate(con) {
   return out.join("\n");
 }
 
-function rawPane(scaf) {
-  const c = CANDIDATES[0];
-  const con = buildConstruct(c.binder);
-  window.__construct = con;
-
-  const designResult = {
-    target: { gene:"TGFB1", accession:"P01137", modality:"soluble" },
-    scaffold: { id:"snipr_v1", compatible_modalities:["membrane_bound","soluble"] },
+function designResultJson(scaf) {
+  const t = state.target, c = candidatesFor(t)[0];
+  const con = buildConstruct(c.binder, scaf.id);
+  return {
+    target: { gene:t.gene, accession:t.acc, modality:t.modality },
+    scaffold: { id:`${scaf.id}_v1`, compatible_modalities:scaf.modalities },
     recommended: {
-      construct: { id:"tb1_7_vhvl__snipr_v1", binder_id:"tb1_7", scaffold_id:"snipr_v1",
-                   orientation:"VH-VL", length:con.length,
+      construct: { id:`${c.id}__${scaf.id}_v1`, binder_id:c.id, scaffold_id:`${scaf.id}_v1`,
+                   orientation:c.orientation, length:con.length,
                    segments: con.segs.map(s => ({ name:s.name, start:s.start, end:s.end,
                      kind: s.cls === "binder" ? "binder" : "scaffold_part" })) },
-      score: c.score,
       caveats: c.caveats.length
     },
-    alternatives: CANDIDATES.length - 1,
-    rejected: REJECTED.map(r => ({ binder_id:r.name, reason:r.rule })),
+    alternatives: candidatesFor(t).length - 1,
+    rejected: rejectedFor(t).map(r => ({ binder_id:r.name, reason:r.rule })),
     generated_at: "2026-07-27T10:14:00Z",
-    synbind_version: "0.0.0-mock",
+    synbind_version: `0.0.0-${BUILD.tag}`,
     data_version: "MOCK — no real data version"
   };
+}
+
+function rawPane(scaf) {
+  const c = candidatesFor(state.target)[0];
+  const con = buildConstruct(c.binder, scaf.id);
+  window.__construct = con;
 
   return `
     <div class="legend">
@@ -1146,19 +1314,19 @@ function rawPane(scaf) {
           <td class="sm">${s.start + 1}–${s.end}</td>
           <td>${s.end - s.start} aa</td>
           <td>${s.what}</td>
-          <td>${provBtn(s.cls === "binder" ? c.prov : scaf.prov, s.cls === "binder" ? "TB1-7" : scaf.name)}</td>
+          <td>${provBtn(s.cls === "binder" ? c.prov : scaf.prov, s.cls === "binder" ? c.name : scaf.name)}</td>
         </tr>`).join("")}
-        <tr>
-          <td colspan="4" class="sm">Inside the binder: VH — (G4S)₃ linker — VL</td>
+        ${c.orientation ? `<tr>
+          <td colspan="4" class="sm">Inside the binder: ${c.orientation.split("–")[0]} — (G4S)₃ linker — ${c.orientation.split("–")[1]}</td>
           <td>${provBtn("linker", "linker")}</td>
-        </tr>
+        </tr>` : ""}
         </tbody>
       </table>
     </div>
 
     <details class="raw">
       <summary>Machine-readable result</summary>
-      <pre class="json">${esc(JSON.stringify(designResult, null, 2))}</pre>
+      <pre class="json">${esc(JSON.stringify(designResultJson(scaf), null, 2))}</pre>
     </details>`;
 }
 
@@ -1180,17 +1348,37 @@ function openPop(btn) {
   pop.style.left = Math.max(12, Math.min(window.scrollX + r.left, window.scrollX + window.innerWidth - w - 12)) + "px";
 }
 
-/* ═══ Copy, with a warning line attached ═════════════════════ */
+/* ═══ Copy and download, with a warning line attached ════════ */
 
-function copy(what) {
-  const c = CANDIDATES[0];
-  const con = window.__construct || buildConstruct(c.binder);
-  const seq = what === "binder" ? c.binder : con.sequence;
-  const text = `# MOCK DATA — invented, not a real sequence. Do not order or synthesise.\n` +
-               `>${what === "binder" ? "TB1-7_scFv_VH-VL" : "TB1-7_scFv_VH-VL__SNIPR"}_MOCK\n` +
-               (seq.match(/.{1,60}/g) || []).join("\n");
+const MOCKLINE = "# MOCK DATA — invented, not a real sequence. Do not order or synthesise.";
 
-  const done = () => toast(`Copied — with a "MOCK DATA" line attached`);
+function currentPieces() {
+  const scaf = SCAFFOLDS.find(s => s.id === state.scaffold);
+  const c = candidatesFor(state.target)[0];
+  const con = buildConstruct(c.binder, scaf.id);
+  const tag = `${c.name}${c.orientation ? "_" + c.orientation.replace("–", "-") : ""}`.replace(/\s+/g, "");
+  return { scaf, c, con, tag };
+}
+
+function fastaText() {
+  const { scaf, c, con, tag } = currentPieces();
+  const wrap = s => (s.match(/.{1,60}/g) || []).join("\n");
+  return [
+    MOCKLINE,
+    `>${tag}_binder_MOCK  ${c.format}, ${c.binderLen} aa, anti-${state.target.name}`,
+    wrap(c.binder),
+    `>${tag}__${scaf.name}_construct_MOCK  ${con.length} aa`,
+    wrap(con.sequence)
+  ].join("\n") + "\n";
+}
+
+function copyBinder() {
+  const { c, tag } = currentPieces();
+  const text = `${MOCKLINE}\n>${tag}_binder_MOCK\n` + (c.binder.match(/.{1,60}/g) || []).join("\n");
+  writeClipboard(text, () => toast(`Copied — with a "MOCK DATA" line attached`));
+}
+
+function writeClipboard(text, done) {
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text).then(done, () => fallback(text, done));
   } else fallback(text, done);
@@ -1203,6 +1391,21 @@ function fallback(text, done) {
   try { document.execCommand("copy"); done(); }
   catch (e) { toast("Copy blocked by the browser — select the sequence manually"); }
   ta.remove();
+}
+
+function download(kind) {
+  const { scaf, tag } = currentPieces();
+  const isFasta = kind === "fasta";
+  const name = `${tag}__${scaf.name}_MOCK.${isFasta ? "fasta" : "json"}`;
+  const body = isFasta
+    ? fastaText()
+    : JSON.stringify({ _warning: MOCKLINE.slice(2), ...designResultJson(scaf) }, null, 2);
+  const url = URL.createObjectURL(new Blob([body], { type: isFasta ? "text/plain" : "application/json" }));
+  const a = document.createElement("a");
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(`Saved ${name}`);
 }
 
 let toastTimer;
@@ -1221,28 +1424,37 @@ q.addEventListener("focus", renderMenu);
 document.addEventListener("click", e => {
   const t = e.target;
 
+  const pv = t.closest("[data-prov]");
+  if (pv) { openPop(pv); e.stopPropagation(); return; }
+
   const opt = t.closest("[data-target]");
   if (opt) { pickTarget(opt.dataset.target); return; }
 
   const scaf = t.closest("[data-scaffold]");
   if (scaf) {
-    state.scaffold = scaf.dataset.scaffold; state.tab = "rec";
+    state.scaffold = scaf.dataset.scaffold; state.tab = "rec"; state.open.clear();
     renderScaffolds(); renderResult(); return;
   }
 
   if (t.closest("#switch")) {
-    state.scaffold = "snipr"; state.tab = "rec";
+    state.scaffold = "snipr"; state.tab = "rec"; state.open.clear();
     renderScaffolds(); renderResult(); return;
   }
 
   const tab = t.closest("[data-tab]");
   if (tab) { state.tab = tab.dataset.tab; renderResult(); return; }
 
-  const cp = t.closest("[data-copy]");
-  if (cp) { copy(cp.dataset.copy); return; }
+  const row = t.closest("[data-row]");
+  if (row) {
+    const id = row.dataset.row;
+    state.open.has(id) ? state.open.delete(id) : state.open.add(id);
+    renderResult(); return;
+  }
 
-  const pv = t.closest("[data-prov]");
-  if (pv) { openPop(pv); e.stopPropagation(); return; }
+  if (t.closest("[data-copy]")) { copyBinder(); return; }
+
+  const dl = t.closest("[data-download]");
+  if (dl) { download(dl.dataset.download); return; }
 
   if (!t.closest("#pop")) pop.style.display = "none";
   if (!t.closest(".picker")) menu.hidden = true;
@@ -1252,6 +1464,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") { pop.style.display = "none"; menu.hidden = true; }
 });
 
+$("#build").textContent = `${BUILD.tag} · ${BUILD.date}`;
 renderScaffolds();
 </script>
 </body>
